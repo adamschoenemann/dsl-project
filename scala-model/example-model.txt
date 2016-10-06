@@ -1,0 +1,63 @@
+
+model ComputerConfigurator
+
+  type Monitor has inches:num, description:text, price:num
+  type Motherboard has brand:string, sli:bool = false
+  type CPU has hertz:text, model:text, brand:text
+  type GPU has brand:text, model:text
+  type Arc has bits:num
+  type RAM has gigs:num
+  type Mouse has brand:text
+
+  product Computer
+    parameter "Architecture" of Arc
+      32
+      64
+    end parameter
+
+    parameter "RAM" of num
+      1..4 if Architecture is 32
+      1..* else
+    end parameter
+
+    parameter "RAM" of RAM
+      1
+      2
+      4
+      8 if Architecture is 64
+    end parameter
+
+    parameter "Motherboard" of Motherboard count 1
+      ASUS
+      Intel
+      Gigabit sli
+    end parameter
+
+    parameter "Monitor" of Monitor count 1..10
+      22 Asus 1000
+      19 Asus 800
+      19 "Asus Widescreen" 1000
+      23 "HP curved" 2000
+    end parameter
+
+    parameter "CPU" of CPU count 1
+      "2.3 Ghz" i5 Intel
+      "2.2 Ghz" i7 Intel
+      "2.8 Ghz" "Athlon X4" AMD
+    end parameter
+
+    parameter GPU of GPU count (if "Motherboard" has sli then 1..6 else 1)
+      Asus "Geforce GTX 970"
+      MSI  "Geforce GTX 980"
+      Sapphire "Radeon RX 480 NITRO+"
+    end parameter
+
+    parameter optional Mouse count 1
+      Razor
+      Logitech
+      Microsoft
+    end parameter
+
+  end product
+
+end model
