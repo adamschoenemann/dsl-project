@@ -1,1 +1,6 @@
 *.class
+scala-model/target
+scala-model/project
+
+
+**/*-gen
