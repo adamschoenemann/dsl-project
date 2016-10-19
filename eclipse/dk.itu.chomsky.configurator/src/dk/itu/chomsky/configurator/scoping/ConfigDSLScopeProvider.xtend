@@ -3,7 +3,6 @@
  */
 package dk.itu.chomsky.configurator.scoping
 
-
 /**
  * This class contains custom scoping description.
  * 
@@ -12,4 +11,20 @@ package dk.itu.chomsky.configurator.scoping
  */
 class ConfigDSLScopeProvider extends AbstractConfigDSLScopeProvider {
 
+//	override getScope(EObject context, EReference reference) {
+//		//System.out.println("context: " + context.getClass().getSimpleName() + ", reference: " + reference.toString())
+//		if (context instanceof Param && 
+//			reference == ConfiguratorPackage.Literals.PARAM__TYPE
+//		) {
+//			System.out.println("getScope works")
+//			val rootElement = EcoreUtil2.getRootContainer(context)
+//			val candidates = EcoreUtil2.getAllContentsOfType(rootElement, ParamType)
+//			val intPrim = (new ConfiguratorFactoryImpl()).createPrimitive()
+//			intPrim.setType(PrimitiveType.INT_TY)
+//			intPrim.setName("int")
+//			candidates.add(intPrim)
+//			return Scopes.scopeFor(candidates)
+//		}
+//		super.getScope(context, reference)
+//	}
 }

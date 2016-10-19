@@ -28,22 +28,24 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamGroup/children"/>
     </genClasses>
     <genClasses ecoreClass="configurator.ecore#//Param">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//Param/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//Param/optional"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="configurator.ecore#//ParamType"/>
     <genClasses image="false" ecoreClass="configurator.ecore#//EnumType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//EnumType/values"/>
     </genClasses>
     <genClasses ecoreClass="configurator.ecore#//EnumVal"/>
-    <genClasses image="false" ecoreClass="configurator.ecore#//IDElem">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//IDElem/ID"/>
+    <genClasses image="false" ecoreClass="configurator.ecore#//NamedElem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//NamedElem/name"/>
     </genClasses>
     <genClasses image="false" ecoreClass="configurator.ecore#//LabeledElem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//LabeledElem/label"/>
     </genClasses>
     <genClasses image="false" ecoreClass="configurator.ecore#//ModelELem"/>
-    <genClasses ecoreClass="configurator.ecore#//Primitive">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//Primitive/type"/>
+    <genClasses ecoreClass="configurator.ecore#//PrimParam">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//PrimParam/type"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//EnumParam">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//EnumParam/type"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

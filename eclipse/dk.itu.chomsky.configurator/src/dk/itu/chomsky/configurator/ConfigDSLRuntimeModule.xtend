@@ -3,9 +3,23 @@
  */
 package dk.itu.chomsky.configurator
 
+import org.eclipse.xtext.linking.lazy.LazyLinkingResource
+import org.eclipse.xtext.linking.lazy.LazyLinker
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 class ConfigDSLRuntimeModule extends AbstractConfigDSLRuntimeModule {
+	
+	override bindILinker() {
+		return typeof(ConfiguratorLinker)
+	}
+	
+	
+	
 }
+
+class ConfiguratorLinker extends LazyLinker {
+	
+	
+} 

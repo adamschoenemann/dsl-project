@@ -2,5 +2,6 @@
 scala-model/target
 scala-model/project
 
+runtime-EclipseApplication
 
 **/*-gen
