@@ -36,6 +36,9 @@ ProductGroup:
 Product:
 	"product" name=ID label=STRING "{"
 		(children+=ProductChild)*
+		("constraints" "{"
+			(constraints+=Constraint)*
+		"}")?
 	"}"
 ;
 
@@ -69,5 +72,35 @@ enum PrimitiveType:
 	TextTy = "Text"
 ;
 
+Constraint:
+	label=STRING expr=Expr
+;
 
+Expr:
+	IntExpr 
+;
+
+IntExpr returns Expr:
+	Term ({Plus.left=current} "+" right=Term)*
+;
+
+Term returns Expr:
+	ConstInt | "(" IntExpr ")"
+;
+
+ConstInt:
+	value=INT
+;
+
+BoolExpr returns Expr:
+	ConstBool | {Leq} left=IntExpr "<=" right=IntExpr
+;
+
+ConstBool:
+	value=BOOL
+;
+
+BOOL returns ecore::EBoolean:
+	"false" | "true"
+;
 
