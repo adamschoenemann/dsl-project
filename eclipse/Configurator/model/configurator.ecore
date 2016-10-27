@@ -51,91 +51,31 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//EnumType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//LabeledElem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" lowerBound="1" eType="#//Expr"
+        containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Expr" abstract="true">
-    <eTypeParameters name="T"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ConstInt">
+  <eClassifiers xsi:type="ecore:EClass" name="Expr" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstInt" eSuperTypes="#//Expr">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Plus">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-    </eGenericSuperTypes>
+  <eClassifiers xsi:type="ecore:EClass" name="Plus" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Minus" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Leq" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Geq" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Eq" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Var" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//Param"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Minus">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Leq">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" containment="true">
-      <eGenericType eClassifier="#//Expr">
-        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IntObject"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Geq">
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Eq">
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Var"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Lt">
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Gt">
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ConstBool">
+  <eClassifiers xsi:type="ecore:EClass" name="Lt" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gt" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstBool" eSuperTypes="#//Expr">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eGenericSuperTypes eClassifier="#//Expr">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//BooleanObject"/>
-    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mult" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinOp" abstract="true" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Expr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Expr"
+        containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

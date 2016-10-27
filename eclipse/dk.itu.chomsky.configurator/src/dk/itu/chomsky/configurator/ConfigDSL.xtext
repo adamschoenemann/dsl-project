@@ -6,9 +6,9 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Model:
 	"model" name=ID label=STRING "{"
-		"types" "{"
+		("types" "{"
 			(types+=EnumType)*
-		"}"
+		"}")?
 		(children+=ModelChild)*
 	"}"
 ;
@@ -64,7 +64,6 @@ EnumParam:
 	"param" name=ID label=STRING type=[EnumType] (optional?= "optional")?
 ;
  
-
 enum PrimitiveType:
 	IntTy = "Int" |
 	BoolTy = "Bool" |
@@ -77,15 +76,25 @@ Constraint:
 ;
 
 Expr:
-	IntExpr 
+    => BoolExpr ({Eq.left=current} "==" right=BoolExpr)? | 
+	IntExpr ({Eq.left=current} "==" right=IntExpr)? 
 ;
 
 IntExpr returns Expr:
-	Term ({Plus.left=current} "+" right=Term)*
+	Term ({Plus.left=current} "+" right=Term)* |
+	Term ({Minus.left=current} "-" right=Term)*
 ;
 
 Term returns Expr:
-	ConstInt | "(" IntExpr ")"
+	Primary ({Mult.left=current} "*" right=Primary)*
+;
+
+Primary returns Expr:
+	ConstInt | Var | "(" IntExpr ")"
+;
+
+Var:
+	param=[Param]
 ;
 
 ConstInt:
@@ -93,7 +102,12 @@ ConstInt:
 ;
 
 BoolExpr returns Expr:
-	ConstBool | {Leq} left=IntExpr "<=" right=IntExpr
+	{Leq} left=IntExpr  "<=" right=IntExpr |
+	{Geq} left=IntExpr  ">=" right=IntExpr |
+	{Lt}  left=IntExpr  "<"  right=IntExpr |
+	{Gt}  left=IntExpr  ">"  right=IntExpr |
+	ConstBool |
+	Var
 ;
 
 ConstBool:

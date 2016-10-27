@@ -33,7 +33,14 @@ Workflow {
 			fileExtensions = "cnfgdsl"
 			referencedResource = "platform:/resource/Configurator/model/configurator.genmodel"
 			
-			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
+			parserGenerator = {
+				options = {
+					backtrack = true
+				}
+			}
+			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {
+
+			}
 
 			fragment = org.eclipse.xtext.generator.adapter.FragmentAdapter {
 				fragment = org.eclipse.xtext.generator.ecore2xtext.FormatterFragment {}
