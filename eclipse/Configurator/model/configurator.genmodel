@@ -73,5 +73,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//BinOp/left"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//BinOp/right"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//Div"/>
+    <genClasses ecoreClass="configurator.ecore#//And"/>
+    <genClasses ecoreClass="configurator.ecore#//Or"/>
   </genPackages>
 </genmodel:GenModel>

@@ -76,17 +76,15 @@ Constraint:
 ;
 
 Expr:
-    => BoolExpr ({Eq.left=current} "==" right=BoolExpr)? | 
-	IntExpr ({Eq.left=current} "==" right=IntExpr)? 
+    BoolExpr | IntExpr 
 ;
 
 IntExpr returns Expr:
-	Term ({Plus.left=current} "+" right=Term)* |
-	Term ({Minus.left=current} "-" right=Term)*
+	Term ({Plus.left=current} "+" right=Term | {Minus.left=current} "-" right=Term)* 
 ;
 
 Term returns Expr:
-	Primary ({Mult.left=current} "*" right=Primary)*
+	Primary ({Mult.left=current} "*" right=Primary | {Div.left=current} "/" right=Term)*
 ;
 
 Primary returns Expr:
@@ -102,12 +100,24 @@ ConstInt:
 ;
 
 BoolExpr returns Expr:
+	BoolEq ({Eq.left=current} "==" right=BoolEq)? 
+;
+
+BoolEq returns Expr:
+	BoolTerm ({And.left=current} "&&" right=BoolTerm)* 
+;
+
+BoolTerm returns Expr:
+	BoolPrimary ({Or.left=current} "||" right=BoolPrimary)*
+;
+
+BoolPrimary returns Expr:
 	{Leq} left=IntExpr  "<=" right=IntExpr |
 	{Geq} left=IntExpr  ">=" right=IntExpr |
 	{Lt}  left=IntExpr  "<"  right=IntExpr |
 	{Gt}  left=IntExpr  ">"  right=IntExpr |
-	ConstBool |
-	Var
+	{Eq}  left=IntExpr  "==" right=IntExpr |
+	ConstBool | "(" BoolExpr ")" | Var
 ;
 
 ConstBool:

@@ -78,4 +78,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Expr"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Div" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinOp"/>
 </ecore:EPackage>
