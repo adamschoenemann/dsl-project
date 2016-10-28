@@ -4,7 +4,7 @@
 package dk.itu.chomsky.configurator.tests
 
 import com.google.inject.Inject
-import configurator.Model
+import dk.itu.chomsky.configurator.model.Model
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper

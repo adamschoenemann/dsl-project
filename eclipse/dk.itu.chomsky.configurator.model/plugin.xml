@@ -9,9 +9,9 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated configurator -->
       <package
-            uri="http://www.example.org/configurator"
-            class="configurator.ConfiguratorPackage"
-            genModel="model/configurator.genmodel"/>
+            uri="http://www.example.org/dk.itu.chomsky.configurator.model"
+            class="dk.itu.chomsky.configurator.model.ModelPackage"
+            genModel="configurator.genmodel"/>
    </extension>
 
 </plugin>

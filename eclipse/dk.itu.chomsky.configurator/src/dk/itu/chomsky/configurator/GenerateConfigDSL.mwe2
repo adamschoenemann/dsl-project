@@ -31,7 +31,7 @@ Workflow {
 		language = StandardLanguage {
 			name = "dk.itu.chomsky.configurator.ConfigDSL"
 			fileExtensions = "cnfgdsl"
-			referencedResource = "platform:/resource/Configurator/model/configurator.genmodel"
+			referencedResource = "platform:/resource/dk.itu.chomsky.configurator.model/configurator.genmodel"
 			
 			parserGenerator = {
 				options = {

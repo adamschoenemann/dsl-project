@@ -5,7 +5,7 @@ Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: dk.itu.chomsky.configurator; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: Configurator,
+Require-Bundle: dk.itu.chomsky.configurator.model,
  org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.5.0",

@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: dk.itu.chomsky.configurator.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: dk.itu.chomsky.configurator,
- Configurator,
+ dk.itu.chomsky.configurator.model,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
