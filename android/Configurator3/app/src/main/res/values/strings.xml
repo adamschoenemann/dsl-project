@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Configurator</string>
+    <string name="monitor">Monitor</string>
+    <string name="_23_hp_curved_2000">23 HP curved2000</string>
+    <string name="textviewTitle">Configure your computer</string>
+    <string name="_22_asus_1000">22 Asus 1000</string>
+    <string name="_19_asus_widescreen_1000">19 Asus Widescreen1000</string>
+    <string name="_19_asus_800">19 Asus 800</string>
+    <string name="motherboard">Motherboard</string>
+    <string name="asus">ASUS</string>
+    <string name="intel">Intel</string>
+    <string name="gigabit_slim">Gigabit slim</string>
+    <string name="_2_2_ghz_i7_intel">2.2 Ghz i7 Intel</string>
+    <string name="_2_3_ghz_i5_intel">2.3 Ghz i5 Intel</string>
+    <string name="cpu">CPU</string>
+    <string name="_2_8_ghz_athlon_x4_amd">2.8 Ghz Athlon X4 AMD</string>
+    <string name="_4_ghz">4 Ghz</string>
+    <string name="_1_ghz">1 Ghz</string>
+    <string name="_2_ghz">2 Ghz</string>
+    <string name="ram">RAM</string>
+    <string name="_16_ghz">16 Ghz</string>
+    <string name="_8_ghz">8 Ghz</string>
+</resources>
