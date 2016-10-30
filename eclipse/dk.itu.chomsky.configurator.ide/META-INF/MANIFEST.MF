@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: dk.itu.chomsky.configurator.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: dk.itu.chomsky.configurator.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: dk.itu.chomsky.configurator,
+ dk.itu.chomsky.configurator.model,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: dk.itu.chomsky.configurator.ide.contentassist.antlr.internal,
+ dk.itu.chomsky.configurator.ide.contentassist.antlr
+
