@@ -28,16 +28,4 @@ object Main  {
   // register the package magic (impure)
   // ModelPackage.eINSTANCE.eClass
 
-  // load the XMI file
-  // val uri: URI = URI.createURI ("../dk.itu.chomsky.configurator/test-files/test-02.xmi") // <-- change file name here
-  // val resource: Resource = (new ResourceSetImpl).getResource (uri, true)
-
-  // http://download.eclipse.org/modeling/emf/emf/javadoc/2.11/org/eclipse/emf/ecore/util/EcoreUtil.html#getAllProperContents%28org.eclipse.emf.ecore.resource.Resource,%20boolean%29
-  // val content :Iterator[EObject] =
-    // EcoreUtil.getAllProperContents[EObject] (resource, false)
-
-  // if (content.forall { eo => Constraints.invariants.forall (_ check eo) })
-  //   println ("All constraints are satisfied!")
-  // else
-  //   println ("Some constraint is violated!")
 }

@@ -1,0 +1,26 @@
+digraph "CoffeeMachine" {
+  _init -> "initial";
+  "initial" -> "selection"
+      [label="coin / what drink do you want?"];
+  "initial" -> "broken"
+      [label="break / machine is broken"];
+  "selection" -> "brewTea"
+      [label="tea / serving tea"];
+  "selection" -> "brewCoffee"
+      [label="coffee / serving coffee"];
+  "selection" -> "initial"
+      [label="timeout / coin returned; insert coin"];
+  "selection" -> "broken"
+      [label="break / machine is broken!"];
+  "brewCoffee" -> "initial"
+      [label="done / coffee served. Enjoy!"];
+  "brewCoffee" -> "broken"
+      [label="break / machine is broken!"];
+  "brewTea" -> "initial"
+      [label="done / tea served. Enjoy!"];
+  "brewTea" -> "broken"
+      [label="break / machine is broken!"];
+
+  initial [shape=doublecircle];
+  _init [shape=point];
+}

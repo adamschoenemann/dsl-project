@@ -28,9 +28,5 @@ lazy val root = (project in file(".")).settings (
 
   libraryDependencies += "org.eclipse.xtext" % "org.eclipse.xtext" % "2.10.0",
   libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test",
-  libraryDependencies += "org.bitbucket.inkytonik.kiama" %% "kiama" % "2.0.0",
 
-  assemblyMergeStrategy in assembly := {
-    case _ => MergeStrategy.first
-  }
 )
