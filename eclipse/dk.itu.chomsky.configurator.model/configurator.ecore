@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.example.org/dk.itu.chomsky.configurator.model"
     nsPrefix="dk.itu.chomsky.configurator.model">
-  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//ModelELem">
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//ModelElem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ModelChild" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
@@ -13,7 +13,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ModelChild" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//ModelChild #//ModelELem">
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//ModelChild #//ModelElem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ProductChild" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
@@ -24,21 +24,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ProductChild" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Param" abstract="true" eSuperTypes="#//ProductChild #//ModelELem">
+  <eClassifiers xsi:type="ecore:EClass" name="Param" abstract="true" eSuperTypes="#//ProductChild #//ModelElem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EnumType" eSuperTypes="#//ModelELem">
+  <eClassifiers xsi:type="ecore:EClass" name="EnumType" eSuperTypes="#//ModelElem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
         eType="#//EnumVal" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EnumVal" eSuperTypes="#//ModelELem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumVal" eSuperTypes="#//ModelElem"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElem" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LabeledElem" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ModelELem" abstract="true" eSuperTypes="#//LabeledElem #//NamedElem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElem" abstract="true" eSuperTypes="#//LabeledElem #//NamedElem"/>
   <eClassifiers xsi:type="ecore:EEnum" name="PrimitiveType">
     <eLiterals name="IntTy"/>
     <eLiterals name="BoolTy" value="1"/>

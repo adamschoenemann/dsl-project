@@ -8,7 +8,8 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: dk.itu.chomsky.configurator,
  dk.itu.chomsky.configurator.model,
  org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.xbase.ide,
+ org.scala-lang.scala-library
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: dk.itu.chomsky.configurator.ide.contentassist.antlr.internal,
  dk.itu.chomsky.configurator.ide.contentassist.antlr

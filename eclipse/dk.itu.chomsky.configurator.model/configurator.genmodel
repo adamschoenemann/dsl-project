@@ -42,7 +42,7 @@
     <genClasses image="false" ecoreClass="configurator.ecore#//LabeledElem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//LabeledElem/label"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="configurator.ecore#//ModelELem"/>
+    <genClasses image="false" ecoreClass="configurator.ecore#//ModelElem"/>
     <genClasses ecoreClass="configurator.ecore#//PrimParam">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//PrimParam/type"/>
     </genClasses>

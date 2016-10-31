@@ -50,3 +50,7 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+**/.cache-main
+xtextEclipsePlugin/
+2016-dospl-code-examples

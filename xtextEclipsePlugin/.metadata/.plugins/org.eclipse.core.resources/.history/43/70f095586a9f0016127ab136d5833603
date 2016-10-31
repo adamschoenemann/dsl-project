@@ -1,0 +1,63 @@
+model computer_model "Customize Your Computer" {
+  types {
+    arch "Architecture" {
+      x64 "64 bit"
+      x86 "32 bit"
+    }
+    gpu "GPU" {
+      gtx970 "Asus Geforce GTX 970"
+      gtx980 "MSI Geforce GTX 980"
+      rx480 "Sapphire Radeon RX 840 NITRO+"
+    }
+    cpu "CPU" {
+    	i5 "Intel 2.3 GHz i5"
+    	i7 "Intel 2.2 GHz i7"
+    	x4 "AMD 2.8 GHz Athlon X4"
+    }
+    mouse "Mouse" {
+    	razor "Razord"
+    	logitech "Logitech"
+    	microsoft "Microsft"
+    }
+    keyboard "Keyboard" {
+    	ltkb "Logitech"
+    	mskb "Microsoft"
+    }
+  }
+  product computer "Computer" {
+    param arch "Architecture" arch
+    param cpu "CPU" cpu
+    param gpu "GPU" gpu
+    param ram "RAM" Int
+    param engraving "Engraving" Text
+    param deliver "Deliver" Bool
+    param ghz "GHz" Double
+    
+    
+    group "Peripherals" {
+    	param keyboard "Keyboard" keyboard optional
+    	param mouse "Mouse" mouse optional
+    }
+    constraints {
+    	"Ram" ram > 0
+    	"ram positive" 20 * 10 + 10 - 2 == ram - 10 / 5
+    	"nonsense" (true && false || true == ((20 > 0) == false)) == true
+    	"nonsense2" 20 > 30 == false
+    	/*"ram 64-bit "if (arch == x86) then ram <= 4 else ram <= 16*/
+    }
+  }
+  
+  group "Peripherals" {
+  	
+  	group "Inner group" {
+  		
+  	}
+  	product mouse "Mouse" {
+  		
+  	}
+  	
+  	product keyboard "Keyboard" {
+  		
+  	}
+  }
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="F:\Dropbox\Programs\Java\jdk-8u66" version="1.8.0_66">
+<bootpath>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\resources.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\rt.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\sunrsasign.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\jsse.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\jce.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\charsets.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\jfr.jar"/>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="F:\Dropbox\Programs\Java\jdk-8u66\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

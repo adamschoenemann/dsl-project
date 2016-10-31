@@ -12,15 +12,19 @@ Require-Bundle: dk.itu.chomsky.configurator.model,
  org.eclipse.xtext.xbase.lib,
  org.antlr.runtime,
  org.eclipse.xtext.util,
- org.eclipse.xtend.lib
+ org.eclipse.xtend.lib,
+ SomeJava;bundle-version="1.0.0",
+ org.scala-lang.scala-library
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: dk.itu.chomsky.configurator.parser.antlr.internal,
+Export-Package: dk.itu.chomsky.configurator,
+ dk.itu.chomsky.configurator.formatting,
  dk.itu.chomsky.configurator.generator,
  dk.itu.chomsky.configurator.parser.antlr,
- dk.itu.chomsky.configurator.services,
+ dk.itu.chomsky.configurator.parser.antlr.internal,
+ dk.itu.chomsky.configurator.scala,
  dk.itu.chomsky.configurator.scoping,
- dk.itu.chomsky.configurator,
- dk.itu.chomsky.configurator.validation,
- dk.itu.chomsky.configurator.formatting,
- dk.itu.chomsky.configurator.serializer
+ dk.itu.chomsky.configurator.serializer,
+ dk.itu.chomsky.configurator.services,
+ dk.itu.chomsky.configurator.validation
 Import-Package: org.apache.log4j
+Bundle-ClassPath: .
