@@ -4,14 +4,15 @@
 package dk.itu.chomsky.configurator.tests;
 
 import com.google.inject.Inject;
-import dk.itu.chomsky.configurator.model.Model;
+import dk.itu.chomsky.configurator.model.*;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import dk.itu.chomsky.configurator.scala.Chomsky;
+import dk.itu.chomsky.configurator.scala.*;
 import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.emf.common.util.*;
 
 @RunWith(XtextRunner.class)
 @InjectWith(ConfigDSLInjectorProvider.class)
@@ -19,6 +20,39 @@ public class ConfigDSLParsingTest {
 
 	@Inject	ParseHelper<Model> parser;
 
+	@Test
+	public void testJSExprGen() {
+		String input =
+			  "model foo \"foo\" {"
+			+ "   types {"
+			+ "      t1 \"Type 1\" {"
+			+ "          v1 \"Val1\""
+			+ "          v2 \"Val2\""
+			+ "      }"
+			+ "   }"
+			+ "	  product bar \"bar\" {"
+			+ "      param baz \"baz\" Int"
+			+ "      param p2 \"Param 2\" t1"
+			+ "      constraints {"
+			+ "         \"fooconstraint\" baz > 0"
+			+ "         \"c1\" baz == 0"
+			+ "         \"c2\" p2 == ((52 / 42 * 10) > 0)"
+			+ "      }"
+			+ "   }"
+			+ "}";
+		
+		try {
+			Model model = parser.parse(input);
+			EList<Constraint> constrs = ((Product)model.getChildren().get(0)).getConstraints();
+			for (Constraint cons : constrs) {
+				Expr expr = cons.getExpr();
+				String generated = Chomsky.genJSExpr(expr);
+				System.out.println(generated);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	@Test 
 	public void loadModel() {
 		try {
@@ -86,7 +120,9 @@ public class ConfigDSLParsingTest {
 				+ "  }"
 				+ "}";
 			Model model = parser.parse(input);
-			System.out.println(Chomsky.generateJson(model));
+			String json = Chomsky.generateJson(model);
+			assertTrue(json.contains("Cozmputer"));
+			System.out.println();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

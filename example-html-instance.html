@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="stylesheet" href="">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <style>
+    .invalid {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <form class="model">
+    <div class="product">
+      <h2>Computer</h2>
+      <div class="param" id="arch">
+        <label>Architecture</label>
+        <select name="arch">
+          <option value="x64">64 bit</option>
+          <option value="x86">32 bit</option>
+        </select>
+      </div>
+      <div class="param" id="gpu">
+        <label>GPU</label>
+        <select name="gpu">
+          <option value="gtx970">Asus Geforce GTX 970</option>
+          <option value="gtx980">MSI Geforce GTX 980</option>
+          <option value="rx480">Sapphire Radeon RX 840 NITRO+</option>
+        </select>
+      </div>
+      <div class="param" id="cpu">
+        <label>CPU</label>
+        <select name="cpu">
+          <option value="i5">Intel 2.3 GHz i5</option>
+          <option value="i7">Intel 2.2 GHz i7</option>
+          <option value="x4">AMD 2.8 GHz Athlon X4</option>
+        </select>
+      </div>
+      <div class="param" id="ram">
+        <label>RAM</label>
+        <input name="ram" type="number" />
+      </div>
+      <div class="param" id="engraving">
+        <label>Engraving</label>
+        <input name="engraving" type="text" />
+      </div>
+      <div class="param" id="deliver">
+        <label>Deliver</label>
+        <input name="deliver" type="checkbox" />
+      </div>
+      <div class="param" id="ghz">
+        <label>GHz</label>
+        <input name="ghz" type="number" step="0.01"/>
+      </div>
+      <fieldset>
+        <legend>Peripherals</legend>
+        <div class="param" id="keyboard">
+          <label>Keyboard</label>
+          <select name="keyboard">
+            <option value="ltkb">Logitech</option>
+            <option value="mskb">Microsoft</option>
+          </select>
+        </div>
+        <div class="param" id="mouse">
+          <label>Mouse</label>
+          <select name="mouse">
+            <option value="razor">Razord</option>
+            <option value="logitech">Logitech</option>
+            <option value="microsoft">Microsft</option>
+          </select>
+        </div>
+      </fieldset>
+    </div>
+    <input id="submit" type="submit" value="Submit"/>
+  </form>
+  <script>
+    $(document).ready(function() {
+      // constraint 1
+      $("#ram input").on("input change", function (evt) {
+        $this = $(this);
+        var value = $this.val();
+        if (value > 0) {
+          $this.removeClass("invalid");
+        } else {
+          $this.addClass("invalid");
+        }
+      });
+      // constraint 2
+      // cpu == i5
+      $("#cpu select").on("change change", function(evt) {
+        var $this = $(this);
+        if ($this.val() == "i5") {
+          $this.removeClass("invalid");
+        } else {
+          $this.addClass("invalid");
+        }
+      });
+
+      // submit logic
+      $("form").submit(function (evt) {
+        evt.preventDefault();
+        $("#ram input").change();
+        $("#cpu select").change();
+        return false;
+      });
+    });
+
+
+  </script>
+</body>
+</html>

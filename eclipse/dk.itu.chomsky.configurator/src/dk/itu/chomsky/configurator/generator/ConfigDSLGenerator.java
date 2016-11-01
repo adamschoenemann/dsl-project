@@ -30,7 +30,6 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 
 		String contents = Chomsky.generateJson((Model)input.getAllContents().next());
 		fsa.generateFile("output.json", contents);
-		// TODO Auto-generated method stub
 		System.out.println("doGenerate");
 	}
 }

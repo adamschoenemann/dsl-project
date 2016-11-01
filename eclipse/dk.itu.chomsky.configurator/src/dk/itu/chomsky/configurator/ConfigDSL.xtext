@@ -84,19 +84,19 @@ IntExpr returns Expr:
 ;
 
 Term returns Expr:
-	Primary ({Mult.left=current} "*" right=Primary | {Div.left=current} "/" right=Term)*
+	Primary ({Mult.left=current} "*" right=Primary | {Div.left=current} "/" right=Primary)*
 ;
 
 Primary returns Expr:
 	ConstInt | Var | "(" IntExpr ")"
 ;
 
-Var:
-	param=[Param]
-;
-
 ConstInt:
 	value=INT
+;
+
+Var:
+	param=[Param]
 ;
 
 BoolExpr returns Expr:

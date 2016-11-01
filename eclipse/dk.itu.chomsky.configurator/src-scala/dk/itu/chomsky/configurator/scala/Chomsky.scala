@@ -165,6 +165,34 @@ object Chomsky {
     else throw new NotImplementedError("not implemented") // TODO: This should obviously be implemented
   }
 
+  // def genJSConstraint(constraint:Constraint):String = {
+
+  //   val comment = "// " + constraint.getLabel
+
+
+  // }
+
+  def genJSExpr(expr:Expr):String = expr match {
+    case ConstInt(x)   => x.toString
+    case ConstBool(x)  => x.toString
+    case Var(param)    => param match {
+      case PrimParam(name,label,ty) => "$(\"#" + name + " input\").val()"
+      case EnumParam(name,label,EnumType(ename,elabel,_))  =>
+        "$(\"#" + name + " select\").val()"
+    }
+    case Plus(l,r)  => genJSExpr(l) + " + "  + genJSExpr(r)
+    case Minus(l,r) => genJSExpr(l) + " - "  + genJSExpr(r)
+    case Mult(l,r)  => genJSExpr(l) + " * "  + genJSExpr(r)
+    case Div(l,r)   => genJSExpr(l) + " / "  + genJSExpr(r)
+    case Eq(l,r)    => genJSExpr(l) + " == " + genJSExpr(r)
+    case And(l,r)   => genJSExpr(l) + " && " + genJSExpr(r)
+    case Or(l,r)    => genJSExpr(l) + " || " + genJSExpr(r)
+    case Leq(l,r)   => genJSExpr(l) + " <= " + genJSExpr(r)
+    case Lt(l,r)    => genJSExpr(l) + " < "  + genJSExpr(r)
+    case Geq(l,r)   => genJSExpr(l) + " >= " + genJSExpr(r)
+    case Gt(l,r)    => genJSExpr(l) + " > "  + genJSExpr(r)
+  }
+
 
   def checkExpr(expr:Expr):Option[ExprTy] = expr match {
     case ConstInt(_)   => Some(TyInt)
@@ -238,25 +266,9 @@ object Chomsky {
       case c:Product => productToJson(c)
     }
 
-    // types.serialize(0)
     val children:JArray = model.getChildren.map(modelChildrenToJson(_))
 
     val json = JObject("types" -> types, "children" -> children)
     json.serialize(0)
-    // val types = eListToList(model.getTypes).map({
-    //   case EnumType(name,label,values) => {
-    //     val valueObjs =
-    //       values.map({case EnumVal(name,label) => s"""{"name":"$name","label":"$label"}"""})
-    //             .mkString(",")
-    //     s"""{"name":"$name","label":"$label","values":[$valueObjs]}"""
-    //   }
-    // }).mkString(",\n")
-
-    // val children = ""
-
-    // s"""{
-    //   "types": [$types],
-    //   "children": [$children]
-    // }"""
   }
 }
