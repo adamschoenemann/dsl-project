@@ -28,84 +28,107 @@ case object TyBool extends ExprTy
 
 object ConstInt {
   def unapply(expr:Expr):Option[Int] =
-    instanceOf[ConstInt](expr).map(_.getValue)
+    if (expr.isInstanceOf[ConstInt])
+      Some(expr.asInstanceOf[ConstInt]).map(_.getValue)
+    else None
 }
 object ConstBool {
   def unapply(expr:Expr):Option[Boolean] =
-    instanceOf[ConstBool](expr).map(_.isValue)
+    if (expr.isInstanceOf[ConstBool])
+      Some(expr.asInstanceOf[ConstBool]).map(_.isValue)
+    else None
 }
 object Plus {
   def unapply(expr:Expr):Option[(Expr,Expr)] =
-    instanceOf[Plus](expr).map(p => (p.getLeft, p.getRight))
+    if (expr.isInstanceOf[Plus])
+      Some(expr.asInstanceOf[Plus]).map(p => (p.getLeft, p.getRight))
+    else None
 }
 object Minus {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Minus](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Minus])
+      Some(expr.asInstanceOf[Minus]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Mult {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Mult](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Mult])
+      Some(expr.asInstanceOf[Mult]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Div {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Div](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Div])
+      Some(expr.asInstanceOf[Div]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Eq {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Eq](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Eq])
+      Some(expr.asInstanceOf[Eq]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object And {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[And](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[And])
+      Some(expr.asInstanceOf[And]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Or {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Or](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Or])
+      Some(expr.asInstanceOf[Or]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Leq {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Leq](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Leq])
+      Some(expr.asInstanceOf[Leq]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Lt {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Lt](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Lt])
+      Some(expr.asInstanceOf[Lt]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Geq {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Geq](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Geq])
+      Some(expr.asInstanceOf[Geq]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Gt {
   def unapply(expr:Expr):Option[(Expr, Expr)] =
-    instanceOf[Gt](expr).map(op => (op.getLeft, op.getRight))
+    if (expr.isInstanceOf[Gt])
+      Some(expr.asInstanceOf[Gt]).map(op => (op.getLeft, op.getRight))
+    else None
 }
 object Var {
   def unapply(expr:Expr):Option[Param] =
-    instanceOf[Var](expr).map(_.getParam)
+    if (expr.isInstanceOf[Var])
+      Some(expr.asInstanceOf[Var]).map(_.getParam)
+    else None
 }
 
 object ParamGroup {
   def unapply(pc:ProductChild):Option[String] =
-    instanceOf[ParamGroup](pc).map(_.getLabel)
+    if (pc.isInstanceOf[ParamGroup])
+      Some(pc.asInstanceOf[ParamGroup]).map(_.getLabel)
+    else None
 }
 
 object PrimParam {
-  // cannot use Util.instanceOf here for some reason - it makes an incorrect cast
-  // swapping the cases in paramToJson makes the EnumParam extractor behave the
-  // same way... very strange
-  def unapply(param:Param):Option[(String,String,PrimitiveType)] = {
-    if (param.isInstanceOf[PrimParam]) {
-      val p = param.asInstanceOf[PrimParam]
-      Some((p.getName, p.getLabel, p.getType))
-    }
+  def unapply(param:Param):Option[(String,String,PrimitiveType)] =
+    if (param.isInstanceOf[PrimParam])
+      Some(param.asInstanceOf[PrimParam]).map(p => (p.getName, p.getLabel, p.getType))
     else None
-  }
 }
 object EnumParam {
-  def unapply(param:Param):Option[(String,String,EnumType)] = {
-    instanceOf[EnumParam](param).map(p =>
-      (p.getName, p.getLabel, p.getType)
-    )
-  }
+  def unapply(param:Param):Option[(String,String,EnumType)] =
+    if (param.isInstanceOf[EnumParam])
+      Some(param.asInstanceOf[EnumParam]).map(p => (p.getName, p.getLabel, p.getType))
+    else None
 }
 object EnumType {
   def unapply(t:EnumType):Option[(String,String,List[EnumVal])] = {

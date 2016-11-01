@@ -13,7 +13,6 @@ Require-Bundle: dk.itu.chomsky.configurator.model,
  org.antlr.runtime,
  org.eclipse.xtext.util,
  org.eclipse.xtend.lib,
- SomeJava;bundle-version="1.0.0",
  org.scala-lang.scala-library
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: dk.itu.chomsky.configurator,

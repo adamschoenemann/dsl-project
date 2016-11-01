@@ -1,8 +1,0 @@
-{
-      types: [{name:arch,label:Architecture,values:[List(dk.itu.chomsky.configurator.model.impl.EnumValImpl@673067ab (label: 64 bit) (name: x64), dk.itu.chomsky.configurator.model.impl.EnumValImpl@7c8f9757 (label: 32 bit) (name: x86))]},
-{name:gpu,label:GPU,values:[List(dk.itu.chomsky.configurator.model.impl.EnumValImpl@39eb9f3c (label: Asus Geforce GTX 970) (name: gtx970), dk.itu.chomsky.configurator.model.impl.EnumValImpl@5d02ba95 (label: MSI Geforce GTX 980) (name: gtx980), dk.itu.chomsky.configurator.model.impl.EnumValImpl@5d37ab4d (label: Sapphire Radeon RX 840 NITRO+) (name: rx480))]},
-{name:cpu,label:CPU,values:[List(dk.itu.chomsky.configurator.model.impl.EnumValImpl@77960d1c (label: Intel 2.3 GHz i5) (name: i5), dk.itu.chomsky.configurator.model.impl.EnumValImpl@3f08d769 (label: Intel 2.2 GHz i7) (name: i7), dk.itu.chomsky.configurator.model.impl.EnumValImpl@5f856e06 (label: AMD 2.8 GHz Athlon X4) (name: x4))]},
-{name:mouse,label:Mouse,values:[List(dk.itu.chomsky.configurator.model.impl.EnumValImpl@154f533 (label: Razord) (name: razor), dk.itu.chomsky.configurator.model.impl.EnumValImpl@781ed9ef (label: Logitech) (name: logitech), dk.itu.chomsky.configurator.model.impl.EnumValImpl@c9f6db4 (label: Microsft) (name: microsoft))]},
-{name:keyboard,label:Keyboard,values:[List(dk.itu.chomsky.configurator.model.impl.EnumValImpl@37073d5 (label: Logitech) (name: ltkb), dk.itu.chomsky.configurator.model.impl.EnumValImpl@daf03f5 (label: Microsoft) (name: mskb))]}],
-      children: []
-    }

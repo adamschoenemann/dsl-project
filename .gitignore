@@ -3,5 +3,6 @@ scala-model/target
 scala-model/project
 
 runtime-EclipseApplication
+xtextEclipsePlugin
 
 **/*-gen

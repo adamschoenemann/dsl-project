@@ -6,7 +6,7 @@ package dk.itu.chomsky.configurator.generator;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import dk.itu.chomsky.configurator.model.Model;
-import dk.itu.chomsky.configurator.model.ModelELem;
+import dk.itu.chomsky.configurator.model.ModelElem;
 import dk.itu.chomsky.configurator.scala.*;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
