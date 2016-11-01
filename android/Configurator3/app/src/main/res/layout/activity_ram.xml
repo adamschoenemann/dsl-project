@@ -19,24 +19,6 @@
         android:layout_marginTop="14dp"
         tools:ignore="NotSibling,UselessParent">
 
-        <RadioButton
-            android:text="@string/_2_ghz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton11"
-            android:layout_below="@+id/radioButton10"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <RadioButton
-            android:text="@string/_4_ghz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton12"
-            android:layout_below="@+id/radioButton11"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
         <TextView
             android:text="@string/ram"
             android:layout_width="wrap_content"
@@ -49,34 +31,61 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <RadioButton
-            android:text="@string/_1_ghz"
-            android:layout_width="match_parent"
+        <Button
+            android:text="@string/cpu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:id="@+id/radioButton10"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="19dp"
+            android:id="@+id/buttonRamCpu"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="86dp"
             android:layout_below="@+id/textViewLabel4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/buttonRamCpu"
+            android:layout_alignStart="@+id/buttonRamCpu">
 
-        <RadioButton
-            android:text="@string/_8_ghz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/relativeLayout2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="178dp"
-            android:id="@+id/radioButton13"
-            tools:ignore="UnknownId" />
+            <RadioButton
+                android:text="@string/_1_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton10"
+                android:layout_weight="1" />
 
-        <RadioButton
-            android:text="@string/_16_ghz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton14"
-            android:layout_below="@+id/radioButton13"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            <RadioButton
+                android:text="@string/_2_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton11"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_4_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton12"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_8_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton13"
+                tools:ignore="UnknownId"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_16_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton14"
+                android:layout_weight="1" />
+        </RadioGroup>
     </RelativeLayout>
 </RelativeLayout>

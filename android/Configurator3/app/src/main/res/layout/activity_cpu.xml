@@ -30,36 +30,64 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="31dp">
 
-        <RadioButton
-            android:text="@string/_2_3_ghz_i5_intel"
-            android:layout_width="match_parent"
+        <Button
+            android:text="@string/ram"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton8"
-            android:layout_alignParentTop="true"
+            android:layout_marginBottom="41dp"
+            android:id="@+id/buttonCpuRam"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="51dp"
+            android:layout_marginEnd="51dp"
+            tools:ignore="RelativeOverlap" />
+
+        <Button
+            android:text="@string/motherboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="39dp"
+            android:layout_marginStart="39dp"
+            android:id="@+id/buttonCpuMb"
+            android:layout_alignBaseline="@+id/buttonCpuRam"
+            android:layout_alignBottom="@+id/buttonCpuRam"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <RadioButton
-            android:text="@string/_2_2_ghz_i7_intel"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/relativeLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="33dp"
-            android:id="@+id/radioButton9"
-            tools:ignore="UnknownId" />
+            android:layout_marginLeft="57dp"
+            android:layout_marginStart="57dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/buttonCpuMb"
+            android:layout_alignStart="@+id/buttonCpuMb"
+            android:layout_marginTop="114dp">
 
-        <RadioButton
-            android:text="@string/_2_8_ghz_athlon_x4_amd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/relativeLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="66dp"
-            android:id="@+id/radioButton10"
-            tools:ignore="UnknownId" />
+            <RadioButton
+                android:text="@string/_2_3_ghz_i5_intel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton8"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_2_2_ghz_i7_intel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton9"
+                tools:ignore="UnknownId"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_2_8_ghz_athlon_x4_amd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton10"
+                tools:ignore="UnknownId"
+                android:layout_weight="1" />
+        </RadioGroup>
 
     </RelativeLayout>
 </RelativeLayout>

@@ -20,4 +20,7 @@
     <string name="ram">RAM</string>
     <string name="_16_ghz">16 Ghz</string>
     <string name="_8_ghz">8 Ghz</string>
+    <string name="architecture">Architecture</string>
+    <string name="_32_bits">32 bits</string>
+    <string name="_64_bits">64 bits</string>
 </resources>
