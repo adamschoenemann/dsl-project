@@ -88,15 +88,23 @@ Term returns Expr:
 ;
 
 Primary returns Expr:
-	ConstInt | Var | "(" IntExpr ")"
+	ConstNum | Var | "(" IntExpr ")"
 ;
 
-ConstInt:
-	value=INT
+ConstNum:
+	value=NUM
 ;
 
-Var:
-	param=[Param]
+Var returns Expr:
+	ValueRef | ParamValueRef
+;
+
+ValueRef:
+	enumVal=[EnumVal]
+;
+
+ParamValueRef:
+	"value(" param=[Param] ")"
 ;
 
 BoolExpr returns Expr:
@@ -127,4 +135,9 @@ ConstBool:
 BOOL returns ecore::EBoolean:
 	"false" | "true"
 ;
+
+NUM returns ecore::EDouble:
+	INT ("." INT)?
+;
+
 

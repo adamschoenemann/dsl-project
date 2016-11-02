@@ -5,7 +5,7 @@ import dk.itu.chomsky.configurator.model._
 import org.eclipse.emf.common.util.EList
 import scala.collection.mutable.MutableList
 import java.util.function.Consumer
-import Utils.instanceOf
+import Utils._
 
 object implicits {
 
@@ -23,13 +23,14 @@ object implicits {
 import implicits._
 
 sealed trait ExprTy
-case object TyInt extends ExprTy
+case object TyNum extends ExprTy
 case object TyBool extends ExprTy
+case object TyString extends ExprTy
 
-object ConstInt {
-  def unapply(expr:Expr):Option[Int] =
-    if (expr.isInstanceOf[ConstInt])
-      Some(expr.asInstanceOf[ConstInt]).map(_.getValue)
+object ConstNum {
+  def unapply(expr:Expr):Option[Double] =
+    if (expr.isInstanceOf[ConstNum])
+      Some(expr.asInstanceOf[ConstNum]).map(_.getValue)
     else None
 }
 object ConstBool {
@@ -104,10 +105,18 @@ object Gt {
       Some(expr.asInstanceOf[Gt]).map(op => (op.getLeft, op.getRight))
     else None
 }
-object Var {
+
+object ParamValueRef {
   def unapply(expr:Expr):Option[Param] =
-    if (expr.isInstanceOf[Var])
-      Some(expr.asInstanceOf[Var]).map(_.getParam)
+    if (expr.isInstanceOf[ParamValueRef])
+      Some(expr.asInstanceOf[ParamValueRef]).map(_.getParam)
+    else None
+}
+
+object ValueRef {
+  def unapply(expr:Expr):Option[EnumVal] =
+    if (expr.isInstanceOf[ValueRef])
+      Some(expr.asInstanceOf[ValueRef]).map(_.getEnumVal)
     else None
 }
 
@@ -158,11 +167,13 @@ object Chomsky {
   }
 
   private def primToTy(t:PrimitiveType):ExprTy = {
-    if (t == PrimitiveType.INT_TY)
-      TyInt
+    if (t == PrimitiveType.INT_TY || t == PrimitiveType.BOOL_TY)
+      TyNum
     else if (t == PrimitiveType.BOOL_TY)
       TyBool
-    else throw new NotImplementedError("not implemented") // TODO: This should obviously be implemented
+    else if (t == PrimitiveType.TEXT_TY)
+      TyString
+    else throw new NotImplementedError("unkown primitive typ")
   }
 
   // def genJSConstraint(constraint:Constraint):String = {
@@ -173,9 +184,10 @@ object Chomsky {
   // }
 
   def genJSExpr(expr:Expr):String = expr match {
-    case ConstInt(x)   => x.toString
+    case ConstNum(x)   => x.toString
     case ConstBool(x)  => x.toString
-    case Var(param)    => param match {
+    case ValueRef(_)   => ???
+    case ParamValueRef(param)    => param match {
       case PrimParam(name,label,ty) => "$(\"#" + name + " input\").val()"
       case EnumParam(name,label,EnumType(ename,elabel,_))  =>
         "$(\"#" + name + " select\").val()"
@@ -195,16 +207,17 @@ object Chomsky {
 
 
   def checkExpr(expr:Expr):Option[ExprTy] = expr match {
-    case ConstInt(_)   => Some(TyInt)
+    case ConstNum(_)   => Some(TyNum)
     case ConstBool(_)  => Some(TyBool)
-    case Var(param)    => param match {
+    case ParamValueRef(param)    => param match {
       case PrimParam(_,_,ty) => Some(primToTy(ty))
-      case EnumParam(_)  => Some(TyInt)
+      case EnumParam(_)  => Some(TyString)
     }
-    case op:Plus  => checkOpOfTy(TyInt, op, TyInt)
-    case op:Minus => checkOpOfTy(TyInt, op, TyInt)
-    case op:Mult  => checkOpOfTy(TyInt, op, TyInt)
-    case op:Div   => checkOpOfTy(TyInt, op, TyInt)
+    case ValueRef(enumVal) => Some(TyString)
+    case op:Plus  => checkOpOfTy(TyNum, op, TyNum)
+    case op:Minus => checkOpOfTy(TyNum, op, TyNum)
+    case op:Mult  => checkOpOfTy(TyNum, op, TyNum)
+    case op:Div   => checkOpOfTy(TyNum, op, TyNum)
     case op:Eq    =>
       for {
         l <- checkExpr(op.getLeft)
@@ -212,10 +225,10 @@ object Chomsky {
       } yield r
     case op:And   => checkOpOfTy(TyBool, op, TyBool)
     case op:Or    => checkOpOfTy(TyBool, op, TyBool)
-    case op:Leq   => checkOpOfTy(TyInt, op, TyBool)
-    case op:Lt    => checkOpOfTy(TyInt, op, TyBool)
-    case op:Geq   => checkOpOfTy(TyInt, op, TyBool)
-    case op:Gt    => checkOpOfTy(TyInt, op, TyBool)
+    case op:Leq   => checkOpOfTy(TyNum, op, TyBool)
+    case op:Lt    => checkOpOfTy(TyNum, op, TyBool)
+    case op:Geq   => checkOpOfTy(TyNum, op, TyBool)
+    case op:Gt    => checkOpOfTy(TyNum, op, TyBool)
   }
 
   def generateJson(model:Model):String = {
@@ -270,5 +283,29 @@ object Chomsky {
 
     val json = JObject("types" -> types, "children" -> children)
     json.serialize(0)
+  }
+
+  def testTemplates():Unit = {
+    val c1 = """ "c1" p2 > 0"""
+    val out = template(s"""
+     |model computer_model "Computer Model" {
+     |  types {
+     |    t1 "Type 1" {
+     |      v1 "Value 1"
+     |      v2 "Value 2"
+     |    }
+     |  }
+     lines without bars will become newlines or skipped if empty
+     |  product computer "Computer" {
+     |    param p1 "Param 1" t1
+     |    param p2 "Param 2" Int
+     |    constraints {
+     |      $c1
+     |    }
+     |  }
+     |}
+    """)
+
+    println(out)
   }
 }

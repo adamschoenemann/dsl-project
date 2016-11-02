@@ -56,17 +56,14 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expr" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ConstInt" eSuperTypes="#//Expr">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstNum" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Plus" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Minus" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Leq" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Geq" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Eq" eSuperTypes="#//BinOp"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Var" eSuperTypes="#//Expr">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//Param"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Lt" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gt" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConstBool" eSuperTypes="#//Expr">
@@ -82,4 +79,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Div" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//BinOp"/>
   <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinOp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParamValueRef" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//Param"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueRef" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumVal" lowerBound="1"
+        eType="#//EnumVal"/>
+  </eClassifiers>
 </ecore:EPackage>

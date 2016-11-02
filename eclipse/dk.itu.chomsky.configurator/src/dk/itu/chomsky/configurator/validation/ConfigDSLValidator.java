@@ -8,6 +8,7 @@ import dk.itu.chomsky.configurator.model.*;
 import dk.itu.chomsky.configurator.scala.*;
 import scala.Option;
 
+
 /**
  * This class contains custom validation rules. 
  *
@@ -16,10 +17,12 @@ import scala.Option;
 public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 	
 	@Check
-	void checkConstraint(Constraint constraint) {
+	void checkConstraint(Constraint constraint) { 
 		Option<ExprTy> ty = Chomsky.checkExpr(constraint.getExpr());
 		if (ty.isEmpty()) {
-			warning("Expression did not type-check", constraint, null);
+			error("Expression did not type-check", constraint, null);
+		} else if (!ty.get().equals(TyBool$.MODULE$)) {
+			error("Constraint must have a boolean expression", constraint, null);
 		}
 	}
 	

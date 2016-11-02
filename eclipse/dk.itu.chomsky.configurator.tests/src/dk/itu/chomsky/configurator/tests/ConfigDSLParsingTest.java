@@ -19,6 +19,11 @@ import org.eclipse.emf.common.util.*;
 public class ConfigDSLParsingTest {
 
 	@Inject	ParseHelper<Model> parser;
+	
+	@Test
+	public void testTemplate() {
+		Chomsky.testTemplates();
+	}
 
 	@Test
 	public void testJSExprGen() {
@@ -121,7 +126,7 @@ public class ConfigDSLParsingTest {
 				+ "}";
 			Model model = parser.parse(input);
 			String json = Chomsky.generateJson(model);
-			assertTrue(json.contains("Cozmputer"));
+			assertTrue(json.contains("Computer"));
 			System.out.println();
 		} catch (Exception e) {
 			e.printStackTrace();
