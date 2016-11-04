@@ -86,4 +86,24 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="enumVal" lowerBound="1"
         eType="#//EnumVal"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstString" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" lowerBound="1" eType="#//Expr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ITE" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" lowerBound="1" eType="#//Expr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trueBranch" lowerBound="1"
+        eType="#//Expr" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="falseBranch" lowerBound="1"
+        eType="#//Expr" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunApp" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1" eType="#//Expr"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

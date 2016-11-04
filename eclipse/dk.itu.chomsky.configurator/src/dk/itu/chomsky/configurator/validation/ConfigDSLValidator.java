@@ -5,6 +5,7 @@ package dk.itu.chomsky.configurator.validation;
 
 import org.eclipse.xtext.validation.Check;
 import dk.itu.chomsky.configurator.model.*;
+import dk.itu.chomsky.configurator.model.Constraint;
 import dk.itu.chomsky.configurator.scala.*;
 import scala.Option;
 

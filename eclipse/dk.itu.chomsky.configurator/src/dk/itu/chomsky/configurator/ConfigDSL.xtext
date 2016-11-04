@@ -72,11 +72,23 @@ enum PrimitiveType:
 ;
 
 Constraint:
-	label=STRING expr=Expr
+	"constraint" label=STRING expr=Expr
 ;
 
 Expr:
-    BoolExpr | IntExpr 
+    BoolExpr | IntExpr | StringExpr | ITE
+;
+
+ITE:
+	"if" guard=BoolExpr "then" trueBranch=Expr "else" falseBranch=Expr 
+;
+
+StringExpr returns Expr:
+	ConstString
+;
+
+ConstString:
+	value=STRING
 ;
 
 IntExpr returns Expr:
@@ -95,8 +107,14 @@ ConstNum:
 	value=NUM
 ;
 
+FunApp:
+	name=ID "(" args+=Expr? ("," args+=Expr)*")"
+;
+
+
+
 Var returns Expr:
-	ValueRef | ParamValueRef
+	ValueRef | ParamValueRef | FunApp
 ;
 
 ValueRef:
@@ -104,7 +122,7 @@ ValueRef:
 ;
 
 ParamValueRef:
-	"value(" param=[Param] ")"
+	"value" "(" param=[Param] ")"
 ;
 
 BoolExpr returns Expr:
@@ -116,7 +134,11 @@ BoolEq returns Expr:
 ;
 
 BoolTerm returns Expr:
-	BoolPrimary ({Or.left=current} "||" right=BoolPrimary)*
+	BoolNeg ({Or.left=current} "||" right=BoolNeg)*
+;
+
+BoolNeg returns Expr:
+	BoolPrimary | {Not}"!" expr=BoolPrimary 
 ;
 
 BoolPrimary returns Expr:
@@ -125,6 +147,7 @@ BoolPrimary returns Expr:
 	{Lt}  left=IntExpr  "<"  right=IntExpr |
 	{Gt}  left=IntExpr  ">"  right=IntExpr |
 	{Eq}  left=IntExpr  "==" right=IntExpr |
+	{Eq}  left=StringExpr "==" right=StringExpr |
 	ConstBool | "(" BoolExpr ")" | Var
 ;
 

@@ -1,5 +1,8 @@
 
 package dk.itu.chomsky.configurator.scala
+import scala.collection.mutable.MutableList
+import org.eclipse.emf.common.util.EList
+import java.util.function.Consumer
 
 object Utils {
 
@@ -18,5 +21,18 @@ object Utils {
 
   def template(input:String):String = {
     input.split("\n").map(l => safeTail(l.dropWhile(_ != '|'))).mkString("\n")
+  }
+
+  def escapeQuotes(in:String):String =
+    in.replace("\"", "\\\"")
+    
+  def eListToList[A](el:EList[A]) = {
+    val mutlist = MutableList[A]()
+    el.forEach(new Consumer[A] {
+      override def accept(el:A):Unit = {
+        mutlist += el
+      }
+    })
+    mutlist.toList
   }
 }

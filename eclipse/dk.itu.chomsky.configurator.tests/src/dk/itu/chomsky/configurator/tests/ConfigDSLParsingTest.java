@@ -10,7 +10,7 @@ import org.eclipse.xtext.junit4.util.ParseHelper;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import dk.itu.chomsky.configurator.scala.*;
+import dk.itu.chomsky.configurator.scala.Chomsky;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.emf.common.util.*;
 
