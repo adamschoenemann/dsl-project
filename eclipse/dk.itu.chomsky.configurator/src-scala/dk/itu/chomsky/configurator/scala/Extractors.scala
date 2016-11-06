@@ -1,0 +1,178 @@
+
+package dk.itu.chomsky.configurator.scala
+
+import dk.itu.chomsky.configurator.model._
+import dk.itu.chomsky.configurator.scala.Utils._
+
+object Extractors {
+
+  object ConstNum {
+    def unapply(expr:Expr):Option[Double] =
+      if (expr.isInstanceOf[ConstNum])
+        Some(expr.asInstanceOf[ConstNum]).map(_.getValue)
+      else None
+  }
+  object ConstString {
+    def unapply(expr:Expr):Option[String] =
+      if (expr.isInstanceOf[ConstString])
+        Some(expr.asInstanceOf[ConstString]).map(_.getValue)
+      else None
+  }
+  object ConstBool {
+    def unapply(expr:Expr):Option[Boolean] =
+      if (expr.isInstanceOf[ConstBool])
+        Some(expr.asInstanceOf[ConstBool]).map(_.isValue)
+      else None
+
+    def apply(value:Boolean):ConstBool = {
+      val instance = ModelFactory.eINSTANCE.createConstBool()
+      instance.setValue(value)
+      instance
+    }
+  }
+  object Plus {
+    def unapply(expr:Expr):Option[(Expr,Expr)] =
+      if (expr.isInstanceOf[Plus])
+        Some(expr.asInstanceOf[Plus]).map(p => (p.getLeft, p.getRight))
+      else None
+  }
+  object Minus {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Minus])
+        Some(expr.asInstanceOf[Minus]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Mult {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Mult])
+        Some(expr.asInstanceOf[Mult]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Div {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Div])
+        Some(expr.asInstanceOf[Div]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Eq {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Eq])
+        Some(expr.asInstanceOf[Eq]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object And {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[And])
+        Some(expr.asInstanceOf[And]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Or {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Or])
+        Some(expr.asInstanceOf[Or]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Leq {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Leq])
+        Some(expr.asInstanceOf[Leq]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Lt {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Lt])
+        Some(expr.asInstanceOf[Lt]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Geq {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Geq])
+        Some(expr.asInstanceOf[Geq]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+  object Gt {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Gt])
+        Some(expr.asInstanceOf[Gt]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
+
+  object ITE {
+    def unapply(expr:Expr):Option[(Expr,Expr,Expr)] =
+      if (expr.isInstanceOf[ITE])
+        Some(expr.asInstanceOf[ITE])
+          .map(v => (v.getGuard, v.getTrueBranch, v.getFalseBranch))
+      else None
+
+  }
+
+  object Not {
+    def unapply(expr:Expr):Option[Expr] =
+      if (expr.isInstanceOf[Not])
+        Some(expr.asInstanceOf[Not]).map(_.getExpr)
+      else None
+
+  }
+
+  object FunApp {
+    def unapply(expr:Expr):Option[(String, List[Expr])] =
+      if (expr.isInstanceOf[FunApp])
+        Some(expr.asInstanceOf[FunApp])
+          .map(app => (app.getName, eListToList(app.getArgs)))
+      else None
+
+  }
+
+  object ParamValueRef {
+    def unapply(expr:Expr):Option[Param] =
+      if (expr.isInstanceOf[ParamValueRef])
+        Some(expr.asInstanceOf[ParamValueRef]).map(_.getParam)
+      else None
+  }
+
+  object ValueRef {
+    def unapply(expr:Expr):Option[EnumVal] =
+      if (expr.isInstanceOf[ValueRef])
+        Some(expr.asInstanceOf[ValueRef]).map(_.getEnumVal)
+      else None
+  }
+
+  object ParamGroup {
+    def unapply(pc:ProductChild):Option[String] =
+      if (pc.isInstanceOf[ParamGroup])
+        Some(pc.asInstanceOf[ParamGroup]).map(_.getLabel)
+      else None
+  }
+
+  object PrimParam {
+    def unapply(param:Param):Option[(String,String,PrimitiveType)] =
+      if (param.isInstanceOf[PrimParam])
+        Some(param.asInstanceOf[PrimParam]).map(p => (p.getName, p.getLabel, p.getType))
+      else None
+  }
+  object EnumParam {
+    def unapply(param:Param):Option[(String,String,EnumType)] =
+      if (param.isInstanceOf[EnumParam])
+        Some(param.asInstanceOf[EnumParam]).map(p => (p.getName, p.getLabel, p.getType))
+      else None
+  }
+  object EnumType {
+    def unapply(t:EnumType):Option[(String,String,List[EnumVal])] = {
+      Some((t.getName, t.getLabel, eListToList(t.getValues)))
+    }
+  }
+
+  object EnumVal {
+    def unapply(v:EnumVal):Option[(String,String)] = {
+      Some((v.getName, v.getLabel))
+    }
+  }
+
+
+  object Constraint {
+    def unapply(v:Constraint):Option[(String,Expr)] = {
+      Some((v.getLabel, v.getExpr))
+    }
+  }
+
+}

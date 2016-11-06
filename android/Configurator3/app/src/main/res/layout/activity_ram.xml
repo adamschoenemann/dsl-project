@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_ram"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="dk.itu.chomsky.configurator.RamActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewLabel4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp"
+        tools:ignore="NotSibling,UselessParent">
+
+        <TextView
+            android:text="@string/ram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewLabel4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="11dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="@string/cpu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="19dp"
+            android:id="@+id/buttonRamCpu"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="86dp"
+            android:layout_below="@+id/textViewLabel4"
+            android:layout_alignLeft="@+id/buttonRamCpu"
+            android:layout_alignStart="@+id/buttonRamCpu">
+
+            <RadioButton
+                android:text="@string/_1_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton10"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_2_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton11"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_4_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton12"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_8_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton13"
+                tools:ignore="UnknownId"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/_16_ghz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton14"
+                android:layout_weight="1" />
+        </RadioGroup>
+    </RelativeLayout>
+</RelativeLayout>

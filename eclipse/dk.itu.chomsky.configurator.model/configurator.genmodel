@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/dk.itu.chomsky.configurator.model/src" modelPluginID="dk.itu.chomsky.configurator.model"
+    modelName="Model" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>configurator.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="dk.itu.chomsky.configurator" disposableProviderFactory="true"
+      ecorePackage="configurator.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="configurator.ecore#//PrimitiveType">
+      <genEnumLiterals ecoreEnumLiteral="configurator.ecore#//PrimitiveType/IntTy"/>
+      <genEnumLiterals ecoreEnumLiteral="configurator.ecore#//PrimitiveType/BoolTy"/>
+      <genEnumLiterals ecoreEnumLiteral="configurator.ecore#//PrimitiveType/DoubleTy"/>
+      <genEnumLiterals ecoreEnumLiteral="configurator.ecore#//PrimitiveType/TextTy"/>
+    </genEnums>
+    <genClasses ecoreClass="configurator.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Model/children"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Model/types"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//ModelChild"/>
+    <genClasses ecoreClass="configurator.ecore#//ProductGroup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ProductGroup/children"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Product">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Product/children"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Product/constraints"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//ProductChild"/>
+    <genClasses ecoreClass="configurator.ecore#//ParamGroup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamGroup/children"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//Param">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//Param/optional"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//EnumType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//EnumType/values"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//EnumVal"/>
+    <genClasses image="false" ecoreClass="configurator.ecore#//NamedElem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//NamedElem/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//LabeledElem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//LabeledElem/label"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//ModelElem"/>
+    <genClasses ecoreClass="configurator.ecore#//PrimParam">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//PrimParam/type"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//EnumParam">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//EnumParam/type"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Constraint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Constraint/expr"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="configurator.ecore#//Expr"/>
+    <genClasses ecoreClass="configurator.ecore#//ConstNum">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//ConstNum/value"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Plus"/>
+    <genClasses ecoreClass="configurator.ecore#//Minus"/>
+    <genClasses ecoreClass="configurator.ecore#//Leq"/>
+    <genClasses ecoreClass="configurator.ecore#//Geq"/>
+    <genClasses ecoreClass="configurator.ecore#//Eq"/>
+    <genClasses ecoreClass="configurator.ecore#//Lt"/>
+    <genClasses ecoreClass="configurator.ecore#//Gt"/>
+    <genClasses ecoreClass="configurator.ecore#//ConstBool">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//ConstBool/value"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Mult"/>
+    <genClasses image="false" ecoreClass="configurator.ecore#//BinOp">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//BinOp/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//BinOp/right"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Div"/>
+    <genClasses ecoreClass="configurator.ecore#//And"/>
+    <genClasses ecoreClass="configurator.ecore#//Or"/>
+    <genClasses ecoreClass="configurator.ecore#//ParamValueRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamValueRef/param"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//ValueRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ValueRef/enumVal"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//ConstString">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//ConstString/value"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Not">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Not/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//ITE">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ITE/guard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ITE/trueBranch"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//ITE/falseBranch"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//FunApp">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//FunApp/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//FunApp/args"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

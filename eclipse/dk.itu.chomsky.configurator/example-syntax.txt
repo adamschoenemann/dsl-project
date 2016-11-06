@@ -1,0 +1,17 @@
+
+model computer_model "Customize Your Computer" {
+  types {
+    arch "Architecture" {
+      x64 "64 bit"
+      x86 "32 bit"
+    }
+    gpu "GPU" {
+      gtx970 "Asus Geforce GTX 970"
+      gtx980 "MSI Geforce GTX 980"
+      rx480 "Sapphire Radeon RX 840 NITRO+"
+    }
+  }
+  product computer "Computer" {
+    param arch "Architecture" arch
+  }
+}

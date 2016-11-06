@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: dk.itu.chomsky.configurator
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: dk.itu.chomsky.configurator; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: dk.itu.chomsky.configurator.model,
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.util,
+ org.eclipse.xtend.lib,
+ org.scala-lang.scala-library
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: dk.itu.chomsky.configurator,
+ dk.itu.chomsky.configurator.formatting,
+ dk.itu.chomsky.configurator.generator,
+ dk.itu.chomsky.configurator.parser.antlr,
+ dk.itu.chomsky.configurator.parser.antlr.internal,
+ dk.itu.chomsky.configurator.scala,
+ dk.itu.chomsky.configurator.scoping,
+ dk.itu.chomsky.configurator.serializer,
+ dk.itu.chomsky.configurator.services,
+ dk.itu.chomsky.configurator.validation
+Import-Package: org.apache.log4j
+Bundle-ClassPath: .

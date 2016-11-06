@@ -1,5 +1,6 @@
 
 model ComputerConfigurator
+  name "Customize your Computer"
 
   type Monitor has inches:num, description:text, price:num
   type Motherboard has brand:string, sli:bool = false
@@ -10,9 +11,11 @@ model ComputerConfigurator
   type Mouse has brand:text
 
   product Computer
-    parameter "Architecture" of Arc
-      32
-      64
+    parameter "arch" of Arc
+      label: "Choose architecture"
+      values:
+        32
+        64
     end parameter
 
     parameter "RAM" of num
@@ -20,6 +23,9 @@ model ComputerConfigurator
       1..* else
     end parameter
 
+    constraints
+      If RAM > 4 then Architecture is 64
+    end constraints
     parameter "RAM" of RAM
       1
       2
