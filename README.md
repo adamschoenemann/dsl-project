@@ -35,8 +35,9 @@ To build, do this:
 
 It will open up a new eclipse workspace with our DSL plugin loaded.
 Create a new Java project - call it whatever you want.
-Create a new file in `src` and call it something, but its file
-extension **must end be cnfgdsl**.
+Create a new file in `src` or whatever and call it something, but its file
+extension **must end be cnfgdsl**. It will maybe ask you if you want to
+convert the project to an XText project - you do!
 
 Create a model by hand or copy one from `example-syntax.txt` and watch the
 magic.
