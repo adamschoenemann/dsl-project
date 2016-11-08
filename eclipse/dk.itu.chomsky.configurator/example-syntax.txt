@@ -1,4 +1,3 @@
-
 model computer_model "Customize Your Computer" {
   types {
     arch "Architecture" {
@@ -10,8 +9,59 @@ model computer_model "Customize Your Computer" {
       gtx980 "MSI Geforce GTX 980"
       rx480 "Sapphire Radeon RX 840 NITRO+"
     }
+    cpu "CPU" {
+      i5 "Intel 2.3 GHz i5"
+      i7 "Intel 2.2 GHz i7"
+      x4 "AMD 2.8 GHz Athlon X4"
+    }
+    mouse "Mouse" {
+      razor "Razord"
+      logitech "Logitech"
+      microsoft "Microsft"
+    }
+    keyboard "Keyboard" {
+      ltkb "Logitech"
+      mskb "Microsoft"
+    }
   }
   product computer "Computer" {
     param arch "Architecture" arch
+    param cpu "CPU" cpu
+    param gpu "GPU" gpu
+    param ram "RAM" Int
+    param engraving "Engraving" Text
+    param deliver "Deliver" Bool
+    param ghz "GHz" Double
+
+    group "Peripherals" {
+      param keyboard "Keyboard" keyboard optional
+      param mouse "Mouse" mouse optional
+    }
+    constraints {
+      constraint "Ram" 10 > 10
+      constraint "ram positive" value(ram) / 2 > 2
+      constraint "very stupid" value(mouse) == value(keyboard)
+      constraint "nonsense" (true && false || true == ((20 > 0) == false)) == true
+      constraint "nonsense2" (20 > 30) == false
+      constraint "not" !(20 > 300)
+      constraint "asdwd" "foo" == "foo"
+      constraint "alal" value(gpu) == gtx970
+      constraint "contains" contains(value(gpu), "geforce")
+      constraint "ram 64-bit" if value(arch) == x86 then value(ram) <= 4 else value(ram) <= 16
+    }
+  }
+
+  group "Peripherals" {
+
+    group "Inner group" {
+
+    }
+    product mouse "Mouse" {
+
+    }
+
+    product keyboard "Keyboard" {
+
+    }
   }
 }
