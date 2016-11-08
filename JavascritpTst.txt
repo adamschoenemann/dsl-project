@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>What do you want?</p>
+
+<form action="form_action.asp">
+  <div id="whichDrink">
+    <input type="radio" name="coffee" value="coffee">Coffee<br>
+    <input type="radio" name="coffee" value="tea">Tea<br>
+    <input type="radio" name="coffee" value="hot chocolate">Hot chocolate<br>
+    <input type="radio" name="coffee" value="cold">Cold drinks<br>
+  </div>
+  <div id="coldDrinks">
+    <input type="radio" name="coffee" value="cola">Coca Cola Zero<br>
+    <input type="radio" name="coffee" value="iced tea">Iced tea<br>
+    <input type="radio" name="coffee" value="cold chocolate">Cold chocolate<br>
+    <input type="radio" name="coffee" value="warm">Warm drinks<br>
+  </div>
+  <br>
+  <input type="button" onclick="myFunction()" value="Send order">
+  <br><br>
+  <input type="text" id="order" size="50">
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+var radioButtonContainer1 = document.getElementById('whichDrink');
+radioButtonContainer1.style.display = 'block';
+var radioButtonContainer2 = document.getElementById('coldDrinks');
+radioButtonContainer2.style.display = 'none';
+
+function myFunction() {
+    var radioButtonContainer = document.getElementById('coldDrinks');
+    var coffee = document.forms[0];
+    var txt = "";
+    var i;
+    for (i = 0; i < coffee.length; i++) {
+        if (coffee[i].value == "") {
+            txt = "Please decide";
+            break;
+        }
+
+        if (coffee[i].value == "colds" && coffee[i].checked) {
+            txt = "cold"; 
+            break;
+        }
+        else if (coffee[i].checked) {
+            txt = coffee[i].value; 
+            break;
+        }
+    }
+    if (txt == "cold") {
+        radioButtonContainer2.style.display = 'block';
+        radioButtonContainer1.style.display = 'none';
+    }
+    if (txt == "warm") {
+        radioButtonContainer2.style.display = 'none';
+        radioButtonContainer1.style.display = 'block';
+    }
+
+    document.getElementById("order").value = "You ordered a " + txt;
+    
+    
+}
+
+</script>
+
+</body>
+</html>
+
