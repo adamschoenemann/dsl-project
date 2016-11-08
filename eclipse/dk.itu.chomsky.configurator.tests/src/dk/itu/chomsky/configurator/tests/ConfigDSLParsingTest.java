@@ -39,18 +39,27 @@ public class ConfigDSLParsingTest {
 			+ "      param baz \"baz\" Int"
 			+ "      param p2 \"Param 2\" t1"
 			+ "      constraints {"
-			+ "         \"fooconstraint\" baz > 0"
-			+ "         \"c1\" baz == 0"
-			+ "         \"c2\" p2 == ((52 / 42 * 10) > 0)"
+			+ "         constraint \"fooconstraint\" !(5 + 10 > 0)"
+			+ "         constraint \"c1\" v1 == 0"
+			+ "         constraint \"c2\" value(p2) == ((52 / 42 * 10) > 0)"
+			+ "         constraint \"c3\" 5 > 5"
+			+ "         constraint \"c4\" if (value(p2) > true) then false else true"
+			+ "         constraint \"c5\" contains(value(p2), \"foo\") == true"
 			+ "      }"
 			+ "   }"
 			+ "}";
 		
 		try {
 			Model model = parser.parse(input);
+			
 			EList<Constraint> constrs = ((Product)model.getChildren().get(0)).getConstraints();
+			System.out.println("Number of constraints: " + constrs.size());
 			for (Constraint cons : constrs) {
 				Expr expr = cons.getExpr();
+				if (expr == null) {
+					System.out.println(cons.getLabel() + "'s expression was null!");
+					continue;
+				}
 				String generated = Chomsky.genJSExpr(expr);
 				System.out.println(generated);
 			}

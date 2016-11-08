@@ -57,7 +57,7 @@ object Chomsky {
   }
 
   private def primToTy(ty:PrimitiveType):ExprTy = {
-    if (ty == PrimitiveType.INT_TY || ty == PrimitiveType.BOOL_TY)
+    if (ty == PrimitiveType.INT_TY || ty == PrimitiveType.DOUBLE_TY)
       TyNum
     else if (ty == PrimitiveType.BOOL_TY)
       TyBool

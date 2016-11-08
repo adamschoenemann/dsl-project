@@ -15,19 +15,23 @@ object JSGenerator {
       case E.EnumParam(name,label,E.EnumType(ename,elabel,_))  =>
         "$(\"#" + name + " select\").val()"
     }
-    case E.Not(e)  => "!(" + genJSExpr(e) + ")"
+    case E.Not(e)  => "!" + genJSExpr(e)
     case E.ITE(g, t, f) => s"(${genJSExpr(g)} ? (${genJSExpr(t)}) : (${genJSExpr(f)}))"
-    case E.FunApp(name, args) => "a function definition"
-    case E.Plus(l,r)  => genJSExpr(l) + " + "  + genJSExpr(r)
-    case E.Minus(l,r) => genJSExpr(l) + " - "  + genJSExpr(r)
-    case E.Mult(l,r)  => genJSExpr(l) + " * "  + genJSExpr(r)
-    case E.Div(l,r)   => genJSExpr(l) + " / "  + genJSExpr(r)
-    case E.Eq(l,r)    => genJSExpr(l) + " == " + genJSExpr(r)
-    case E.And(l,r)   => genJSExpr(l) + " && " + genJSExpr(r)
-    case E.Or(l,r)    => genJSExpr(l) + " || " + genJSExpr(r)
-    case E.Leq(l,r)   => genJSExpr(l) + " <= " + genJSExpr(r)
-    case E.Lt(l,r)    => genJSExpr(l) + " < "  + genJSExpr(r)
-    case E.Geq(l,r)   => genJSExpr(l) + " >= " + genJSExpr(r)
-    case E.Gt(l,r)    => genJSExpr(l) + " > "  + genJSExpr(r)
+    case E.FunApp(name, args) => {
+      val fnref = s"""funs["$name"]"""
+      val argslist = "[" + args.map(genJSExpr(_)).mkString(", ") + "]"
+      s"$fnref.apply(funs, $argslist)"
+    }
+    case E.Plus(l,r)  => s"(${genJSExpr(l)} + ${genJSExpr(r)})"
+    case E.Minus(l,r) => s"(${genJSExpr(l)} - ${genJSExpr(r)})"
+    case E.Mult(l,r)  => s"(${genJSExpr(l)} * ${genJSExpr(r)})"
+    case E.Div(l,r)   => s"(${genJSExpr(l)} / ${genJSExpr(r)})"
+    case E.Eq(l,r)    => s"(${genJSExpr(l)} == ${genJSExpr(r)})"
+    case E.And(l,r)   => s"(${genJSExpr(l)} && ${genJSExpr(r)})"
+    case E.Or(l,r)    => s"(${genJSExpr(l)} || ${genJSExpr(r)})"
+    case E.Leq(l,r)   => s"(${genJSExpr(l)} <= ${genJSExpr(r)})"
+    case E.Lt(l,r)    => s"(${genJSExpr(l)} < ${genJSExpr(r)})"
+    case E.Geq(l,r)   => s"(${genJSExpr(l)} >= ${genJSExpr(r)})"
+    case E.Gt(l,r)    => s"(${genJSExpr(l)} > ${genJSExpr(r)})"
   }
 }

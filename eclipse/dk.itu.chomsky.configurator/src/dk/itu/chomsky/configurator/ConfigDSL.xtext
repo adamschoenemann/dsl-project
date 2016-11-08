@@ -63,7 +63,7 @@ PrimParam:
 EnumParam:
 	"param" name=ID label=STRING type=[EnumType] (optional?= "optional")?
 ;
- 
+
 enum PrimitiveType:
 	IntTy = "Int" |
 	BoolTy = "Bool" |
@@ -75,33 +75,11 @@ Constraint:
 	"constraint" label=STRING expr=Expr
 ;
 
-Expr:
-    BoolExpr | IntExpr | StringExpr | ITE
-;
-
-ITE:
-	"if" guard=BoolExpr "then" trueBranch=Expr "else" falseBranch=Expr 
-;
-
-StringExpr returns Expr:
-	ConstString
-;
 
 ConstString:
 	value=STRING
 ;
 
-IntExpr returns Expr:
-	Term ({Plus.left=current} "+" right=Term | {Minus.left=current} "-" right=Term)* 
-;
-
-Term returns Expr:
-	Primary ({Mult.left=current} "*" right=Primary | {Div.left=current} "/" right=Primary)*
-;
-
-Primary returns Expr:
-	ConstNum | Var | "(" IntExpr ")"
-;
 
 ConstNum:
 	value=NUM
@@ -112,9 +90,8 @@ FunApp:
 ;
 
 
-
 Var returns Expr:
-	ValueRef | ParamValueRef | FunApp
+	ParamValueRef | FunApp | ValueRef
 ;
 
 ValueRef:
@@ -125,31 +102,6 @@ ParamValueRef:
 	"value" "(" param=[Param] ")"
 ;
 
-BoolExpr returns Expr:
-	BoolEq ({Eq.left=current} "==" right=BoolEq)? 
-;
-
-BoolEq returns Expr:
-	BoolTerm ({And.left=current} "&&" right=BoolTerm)* 
-;
-
-BoolTerm returns Expr:
-	BoolNeg ({Or.left=current} "||" right=BoolNeg)*
-;
-
-BoolNeg returns Expr:
-	BoolPrimary | {Not}"!" expr=BoolPrimary 
-;
-
-BoolPrimary returns Expr:
-	{Leq} left=IntExpr  "<=" right=IntExpr |
-	{Geq} left=IntExpr  ">=" right=IntExpr |
-	{Lt}  left=IntExpr  "<"  right=IntExpr |
-	{Gt}  left=IntExpr  ">"  right=IntExpr |
-	{Eq}  left=IntExpr  "==" right=IntExpr |
-	{Eq}  left=StringExpr "==" right=StringExpr |
-	ConstBool | "(" BoolExpr ")" | Var
-;
 
 ConstBool:
 	value=BOOL
@@ -163,4 +115,43 @@ NUM returns ecore::EDouble:
 	INT ("." INT)?
 ;
 
+ITE:
+  "if" guard=Expr "then" trueBranch=Expr "else" falseBranch=Expr
+;
+
+Expr:
+	Comparison ({And.left=current} "&&" right=Comparison | {Or.left=current} right=Comparison)*
+;
+
+Comparison returns Expr:
+	Equals ({Lt.left=current} "<" right=Equals |
+			{Leq.left=current} "<=" right=Equals |
+			{Gt.left=current} ">" right=Equals |
+			{Geq.left=current} ">=" right=Equals
+	)?
+;
+
+Equals returns Expr:
+	Term ({Eq.left=current} "==" right=Term)?
+;
+
+Term returns Expr:
+	Factor ({Plus.left=current} "+" right=Factor |
+		    {Minus.left=current} "-" right=Factor
+	)*
+;
+
+Factor returns Expr:
+	Prefixed ({Mult.left=current} "*" right=Prefixed |
+		      {Div.left=current}  "/" right=Prefixed		  
+	)*
+;
+
+Prefixed returns Expr:
+	{Not} "!" expr=Prim | Prim
+;
+
+Prim returns Expr:
+	"(" Expr ")" | ITE | ConstNum | ConstBool | ConstString | Var	
+;
 

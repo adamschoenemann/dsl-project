@@ -19,6 +19,9 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 	
 	@Check
 	void checkConstraint(Constraint constraint) { 
+		if (constraint == null || constraint.getExpr() == null)
+			return;
+		
 		Option<ExprTy> ty = Chomsky.checkExpr(constraint.getExpr());
 		if (ty.isEmpty()) {
 			error("Expression did not type-check", constraint, null);
