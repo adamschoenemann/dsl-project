@@ -5,4 +5,4 @@ scala-model/project
 runtime-EclipseApplication
 xtextEclipsePlugin
 
-**/*-gen
+**/*-gen/*
