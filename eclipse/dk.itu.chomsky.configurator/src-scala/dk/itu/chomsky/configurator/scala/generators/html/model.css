@@ -1,0 +1,84 @@
+    body {
+      font-family: 'Nunito', sans-serif;
+      color: #384047;
+    }
+    form {
+      max-width: 300px;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background: #f4f7f8;
+      border-radius: 8px;
+    }
+    .product {
+      padding: 16px 32px;
+      border: 1px;
+    }
+    .product h2 {
+      text-align: center;
+    }
+    label {
+      padding-bottom: 4px;
+    }
+    .param {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .param input[type=checkbox] {
+      margin-left: 4px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 1px 3px #ddd;
+      border-radius: 4px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      color: #8a97a0;
+    }
+    .param select, input[type=number], [type=text] {
+      width: 100%;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-shadow: inset 0 1px 3px #ddd;
+      border-radius: 4px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      color: #8a97a0;
+    }
+    input[type=submit] {
+      padding: 19px 39px 18px 39px;
+      color: #FFF;
+      background-color: #4bc970;
+      font-size: 18px;
+      text-align: center;
+      font-style: normal;
+      border-radius: 5px;
+      width: 100%;
+      border: 1px solid #3ac162;
+      border-width: 1px 1px 3px;
+      box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    fieldset {
+      margin-top: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    legend {
+      font-style: italic;
+    }
+    .invalid {
+      background-color: red;
+    }
+
+    @media screen and (min-width: 480px) {
+    form {
+      max-width: 480px;
+    }
+}
+
