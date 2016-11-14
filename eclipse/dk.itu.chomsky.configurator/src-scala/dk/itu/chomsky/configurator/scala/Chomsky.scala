@@ -2,17 +2,13 @@
 package dk.itu.chomsky.configurator.scala
 
 import dk.itu.chomsky.configurator.model._
-
-
-
 import Utils._
+import dk.itu.chomsky.configurator.scala.generators.html.HTMLGenerator
 import dk.itu.chomsky.configurator.scala.generators.json.JSONGenerator
 import dk.itu.chomsky.configurator.scala.generators.js.JSGenerator
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
 
 object implicits {
-
-
 }
 
 import implicits._
@@ -139,6 +135,7 @@ object Chomsky {
   }
 
  def generateJson(model:Model):String = JSONGenerator.generate(model)
+ def generateHtml(model:Model):String = HTMLGenerator.generate(model)
  def genJSExpr(expr:Expr):String = JSGenerator.genJSExpr(expr)
 
 }
