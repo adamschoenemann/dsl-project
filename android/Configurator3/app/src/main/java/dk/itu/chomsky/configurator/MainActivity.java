@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(arch);
             }
         });
+
     }
 
     public void onRadioButtonClicked(View view) {

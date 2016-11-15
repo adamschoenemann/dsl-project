@@ -56,51 +56,52 @@
             android:layout_alignEnd="@+id/buttonMonitorArch"
             android:layout_marginTop="226dp">
 
-            <RadioButton
-                android:text="@string/_23_hp_curved_2000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton1"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-            <RadioButton
-                android:text="@string/_19_asus_widescreen_1000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton3"
-                android:layout_weight="1"
-                android:layout_below="@+id/radioGroup"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textSize="18sp" />
-
-            <RadioButton
-                android:text="@string/_22_asus_1000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton2"
-                android:layout_below="@+id/radioButton1"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-            <RadioButton
-                android:text="@string/_19_asus_800"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton4"
-                android:layout_below="@+id/radioButton3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
         </RadioGroup>
+
+        <RadioButton
+            android:text="@string/_19_asus_widescreen_1000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton3"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_below="@+id/radioButton1"
+            android:layout_alignLeft="@+id/radioGroup2"
+            android:layout_alignStart="@+id/radioGroup2" />
+
+        <RadioButton
+            android:text="@string/_23_hp_curved_2000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton1"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="114dp" />
+
+        <RadioButton
+            android:text="@string/_22_asus_1000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton2"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_below="@+id/radioButton3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RadioButton
+            android:text="@string/_19_asus_800"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton4"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_below="@+id/radioButton2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

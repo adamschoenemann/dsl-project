@@ -52,26 +52,23 @@
         android:layout_below="@+id/textViewLabel0"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="78dp">
-
-        <RadioButton
-            android:text="@string/_64_bits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButtonA2"
-            android:layout_below="@+id/radioButtonA1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1" />
+        android:layout_marginTop="78dp"
+        android:id="@+id/radioGroupArchitecture">
 
         <RadioButton
             android:text="@string/_32_bits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButtonA1"
-            android:layout_below="@+id/textViewLabel0"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:id="@+id/radioButton32"
             android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/_64_bits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton64"
+            android:layout_weight="1" />
+
     </RadioGroup>
+
 </RelativeLayout>
