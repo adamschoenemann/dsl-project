@@ -170,8 +170,9 @@ object Extractors {
 
 
   object Constraint {
-    def unapply(v:Constraint):Option[(String,Expr)] = {
-      Some((v.getLabel, v.getExpr))
+    def unapply(v:Constraint):Option[(String,Expr,Option[Param])] = {
+      val po = if (v.getParam == null) None else Some(v.getParam)
+      Some((v.getLabel, v.getExpr, po))
     }
   }
 

@@ -2,11 +2,49 @@ package dk.itu.chomsky.configurator.scala.generators.html;
 
 import dk.itu.chomsky.configurator.model._
 import dk.itu.chomsky.configurator.scala.Utils._
+import dk.itu.chomsky.configurator.scala.generators.json._
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
+import dk.itu.chomsky.configurator.scala.generators.js.JSGenerator.{genJSExpr}
 import org.eclipse.emf.common.util.EList
 import scala.collection._
+import java.io.PrintWriter
 
 object HTMLGenerator {
+
+  def test(model:Model):Unit = {
+    val generated = generate(model);
+    new PrintWriter("./test-out.html") { write(generated); close }
+  }
+
+  def genValues(values:List[EnumVal]):String = {
+    val vals:List[(String,JSON)] = values.map({
+      case E.EnumVal(name, lbl) => {
+        import JSON.implicits._
+        val obj = JObject("name" -> JString(name), "label" -> JString(lbl))
+        (name, obj)
+      }
+    })
+    val jo = JObject(vals.toMap)
+    jo.serialize(0)
+  }
+
+  def genConstraints(constraints:List[Constraint]):String = {
+    val constGen = constraints.map({
+      case E.Constraint(l, e, param) => {
+        val pname = param.map(p => "\"" + p.getName + "\"").getOrElse("null")
+        s"""      if (${genJSExpr(e)} == false) { setError("$l", $pname) }"""
+    }}).mkString("\n")
+    s"""
+    function checkErrs(evt) {
+      clearErrors();
+      $constGen
+    }
+    $$(document).ready(function() {
+      $$("input").on("input change", checkErrs);
+      $$("select").on("change", checkErrs);
+    })
+    """
+  }
 
   def generate(model:Model):String = {
     val types = eListToList[EnumType](model.getTypes)
@@ -20,12 +58,15 @@ object HTMLGenerator {
      .filter(_.isInstanceOf[ParamGroup])
      .map { pGroupToHtml(_) }
      .mkString("\n")
+    val enumVals = types.map(t => eListToList(t.getValues)).flatten
+
+    val constraints = genConstraints(eListToList(product.getConstraints))
 
     s"""<html>
 <head>
   <title>${model.getLabel}</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="model.css"> 
+  <link rel="stylesheet" type="text/css" href="model.css">
 </head>
 <body>
   <form class="model">
@@ -34,41 +75,37 @@ object HTMLGenerator {
 $params
     </div>
 $groups
+    <div id="errors">
+    </div>
     <input id="submit" type="submit" value="Submit"/>
   </form>
   <script>
-    $$(document).ready(function() {
-      // constraint 1
-      $$("#ram input").on("input change", function (evt) {
-        $$this = $$(this);
-        var value = $$this.val();
-        if (value > 0) {
-          $$this.removeClass("invalid");
-        } else {
-          $$this.addClass("invalid");
-        }
-      });
-      // constraint 2
-      // cpu == i5
-      $$("#cpu select").on("change change", function(evt) {
-        var $$this = $$(this);
-        if ($$this.val() == "i5") {
-          $$this.removeClass("invalid");
-        } else {
-          $$this.addClass("invalid");
-        }
-      });
-
-      // submit logic
-      $$("form").submit(function (evt) {
-        evt.preventDefault();
-        $$("#ram input").change();
-        $$("#cpu select").change();
-        return false;
-      });
-    });
-
-
+    var funs = {
+      "contains": function(input, query) {
+        return input.indexOf(query) > -1;
+      },
+      "label": function(param) {
+        return $$("#" + param + " select option:selected").text();
+      }
+    };
+    var values = ${genValues(enumVals)};
+    function setError(err, pname /*optional*/) {
+      $$err = $$("<p>").html(err);
+      if (pname !== null) {
+        $$("#" + pname).append($$("<div>").addClass("has-error").append($$err));
+      } else {
+        $$("#errors").append($$err);
+      }
+      $$("#submit").addClass("has-errors");
+      $$("#submit").attr("disabled", "disabled");
+    }
+    function clearErrors() {
+      $$("#errors").empty();
+      $$(".has-error").remove();
+      $$("#submit").removeClass("has-errors");
+      $$("#submit").removeAttr("disabled");
+    }
+    ${constraints}
   </script>
 </body>
 </html>
@@ -78,7 +115,7 @@ $groups
   def pGroupToHtml(c: ProductChild):String = {
     val group = c.asInstanceOf[ParamGroup]
     val children = eListToList(group.getChildren).map(childToHtml _).mkString("\n")
-    
+
     s"""
       <fieldset>
         <legend>${group.getLabel}</legend>
@@ -112,7 +149,7 @@ ${options}
 
   private def childToHtml(c: ProductChild): String =
     if (c.isInstanceOf[Param]) paramToHtml(c) else pGroupToHtml(c.asInstanceOf[ParamGroup])
-  
+
   private def primToType(ty:PrimitiveType):String = {
     if (ty == PrimitiveType.INT_TY || ty == PrimitiveType.DOUBLE_TY)
       "number"

@@ -54,6 +54,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//LabeledElem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="expr" lowerBound="1" eType="#//Expr"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//Param"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expr" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConstNum" eSuperTypes="#//Expr">
