@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="monitor">
+        <item>23 HP curved2000</item>
+        <item>22 Asus 1000</item>
+        <item>19 Asus Widescreen1000</item>
+        <item>19 Asus 800</item>
+    </string-array>
+
+    <string-array name="architecture">
+        <item>32 bits</item>
+        <item>64 bits</item>
+    </string-array>
+    <string-array name="cpu">
+        <item>2.8 Ghz Athlon X4 AMD</item>
+        <item>2.2 Ghz i7 Intel</item>
+        <item>2.3 Ghz i5 Intel</item>
+    </string-array>
+    <string-array name="ram">
+        <item>2 Gb</item>
+        <item>4 Gb</item>
+        <item>8 Gb</item>
+        <item>16 Gb</item>
+        <item>32 Gb</item>
+    </string-array>
+
+</resources>

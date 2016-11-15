@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Configurator4</string>
+    <string name="configure_your_computer">Configure your Computer</string>
+    <string name="monitor">Monitor</string>
+</resources>

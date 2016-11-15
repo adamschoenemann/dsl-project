@@ -48,7 +48,7 @@ public class MotherboardActivity extends AppCompatActivity {
             }
         });
 
-        
+
 
     }
 }
