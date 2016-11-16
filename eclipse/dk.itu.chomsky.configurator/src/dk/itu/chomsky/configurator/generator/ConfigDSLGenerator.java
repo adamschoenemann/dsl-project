@@ -2,6 +2,7 @@ package dk.itu.chomsky.configurator.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -28,7 +29,7 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 //				fsa.generateFile(elem.getName() + ".json", Chomsky.generateJson(elem));
 //			}
 //		});
-		String css = getFile("/model.css");
+		String css = getFile("resources/file/model.css");
 		
 		System.out.println("css:\n" + css);
 		
@@ -48,19 +49,17 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 
 		//Get file from resources folder
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
+		InputStream in = classLoader.getResourceAsStream(fileName);
 
-		try (Scanner scanner = new Scanner(file)) {
-
+		Scanner scanner = new Scanner(in);
+		try {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				result.append(line).append("\n");
 			}
 
+		} finally {
 			scanner.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		return result.toString();
