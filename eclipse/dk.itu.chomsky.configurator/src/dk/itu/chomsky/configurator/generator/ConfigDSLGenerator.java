@@ -46,17 +46,15 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 		//Get file from resources folder
 		ClassLoader classLoader = getClass().getClassLoader();
 
-		try (Scanner scanner = new Scanner(classLoader.getResourceAsStream(fileName))) {
-
+		Scanner scanner = new Scanner(classLoader.getResourceAsStream(fileName));
+		try {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				result.append(line).append("\n");
 			}
 
+		} finally {
 			scanner.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 		return result.toString();
