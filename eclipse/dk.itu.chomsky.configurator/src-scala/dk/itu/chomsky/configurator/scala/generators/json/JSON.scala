@@ -34,9 +34,14 @@ case class JBool(value:Boolean) extends JSON {
   def serialize(indent:Int):String = value.toString
 }
 
+case object JNull extends JSON {
+  def serialize(indent:Int):String = "null"
+}
+
 object JObject {
   def apply(tuples:(String,JSON)*):JObject = JObject(Map(tuples:_*))
 }
+
 
 object JSON {
   object implicits {

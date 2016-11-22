@@ -51,6 +51,7 @@
     </genClasses>
     <genClasses ecoreClass="configurator.ecore#//Constraint">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Constraint/expr"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//Constraint/param"/>
     </genClasses>
     <genClasses image="false" ecoreClass="configurator.ecore#//Expr"/>
     <genClasses ecoreClass="configurator.ecore#//ConstNum">

@@ -37,7 +37,8 @@ object Chomsky {
   }
 
   val stdLib = Map[String, FunDef](
-    "contains" -> FunDef("contains", List(TyString, TyString), TyBool)
+    "contains" -> FunDef("contains", List(TyString, TyString), TyBool),
+    "label"    -> FunDef("label", List(TyString), TyString)
   )
 
 
@@ -137,5 +138,6 @@ object Chomsky {
  def generateJson(model:Model):String = JSONGenerator.generate(model)
  def generateHtml(model:Model):String = HTMLGenerator.generate(model)
  def genJSExpr(expr:Expr):String = JSGenerator.genJSExpr(expr)
+ def testHtmlGen(model:Model):Unit = HTMLGenerator.test(model);
 
 }

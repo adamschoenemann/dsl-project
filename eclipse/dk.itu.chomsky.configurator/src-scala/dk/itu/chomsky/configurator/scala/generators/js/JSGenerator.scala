@@ -9,7 +9,7 @@ object JSGenerator {
     case E.ConstNum(x)    => x.toString
     case E.ConstBool(x)   => x.toString
     case E.ConstString(x) => "\"" + x + "\""
-    case E.ValueRef(E.EnumVal(name,_))    => s"""values["$name"]"""
+    case E.ValueRef(E.EnumVal(name,_))    => s"""values["$name"].name"""
     case E.ParamValueRef(param)    => param match {
       case E.PrimParam(name,label,ty) => "$(\"#" + name + " input\").val()"
       case E.EnumParam(name,label,E.EnumType(ename,elabel,_))  =>

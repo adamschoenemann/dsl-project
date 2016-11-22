@@ -46,8 +46,9 @@ object JSONGenerator {
    }
 
    def constraintToJson(cons:Constraint):JSON = cons match {
-     case E.Constraint(lbl, expr) => JObject(
+     case E.Constraint(lbl, expr, param) => JObject(
        "label" -> lbl,
+       "param" -> param.map((p:Param) => JString(p.getName)).getOrElse(JNull),
        "expr"  -> genJSExpr(expr)
      )
    }
