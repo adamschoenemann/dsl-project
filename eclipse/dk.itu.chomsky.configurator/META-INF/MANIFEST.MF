@@ -26,7 +26,8 @@ Export-Package: dk.itu.chomsky.configurator,
  dk.itu.chomsky.configurator.scoping,
  dk.itu.chomsky.configurator.serializer,
  dk.itu.chomsky.configurator.services,
- dk.itu.chomsky.configurator.validation
+ dk.itu.chomsky.configurator.validation,
+ dk.itu.chomsky.configurator.util
 Import-Package: dk.itu.chomsky.configurator.formatting,
  dk.itu.chomsky.configurator.generator,
  org.apache.log4j

@@ -5,6 +5,7 @@ import java.util.Scanner;
 import org.eclipse.emf.ecore.resource.Resource;
 import dk.itu.chomsky.configurator.model.Model;
 import dk.itu.chomsky.configurator.scala.Chomsky;
+import dk.itu.chomsky.configurator.util.Utils;
 
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -25,7 +26,7 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 //				fsa.generateFile(elem.getName() + ".json", Chomsky.generateJson(elem));
 //			}
 //		});
-		String css = getFile("dk/itu/chomsky/configurator/scala/generators/html/model.css");
+		String css = Utils.getResource(this, "dk/itu/chomsky/configurator/scala/generators/html/model.css");
 		
 		System.out.println("css:\n" + css);
 		
@@ -39,25 +40,5 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 		
 	}
 	
-	private String getFile(String fileName) {
 
-		StringBuilder result = new StringBuilder();
-
-		//Get file from resources folder
-		ClassLoader classLoader = getClass().getClassLoader();
-
-		Scanner scanner = new Scanner(classLoader.getResourceAsStream(fileName));
-		try {
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
-			}
-
-		} finally {
-			scanner.close();
-		}
-
-		return result.toString();
-
-	  }
 }
