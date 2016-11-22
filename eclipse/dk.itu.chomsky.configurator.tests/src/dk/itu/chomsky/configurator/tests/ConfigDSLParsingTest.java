@@ -9,21 +9,18 @@ import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Scanner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import dk.itu.chomsky.configurator.scala.Chomsky;
-import dk.itu.chomsky.configurator.scala.generators.json.JSON;
-import dk.itu.chomsky.configurator.validation.ConfigDSLValidator;
 
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.emf.common.util.*;
-import org.eclipse.emf.ecore.EClass;
 
 @RunWith(XtextRunner.class)
 @InjectWith(ConfigDSLInjectorProvider.class)
@@ -118,6 +115,8 @@ public class ConfigDSLParsingTest {
 
 	@Inject	ParseHelper<Model> parser;
 	@Inject ValidationTestHelper validator;
+
+	public final String fext = ".cnfgdsl"; // get this from configuration somehow
 	
 	@Test
 	public void testTemplate() {
@@ -126,25 +125,37 @@ public class ConfigDSLParsingTest {
 	
 	@Test
 	public void testJsonInputOutput() {
-		ClassLoader loader = getClass().getClassLoader();
-		URL url = loader.getResource("input/");
-		if (url == null) {
-			throw new RuntimeException("url is null :(");
-		}
-		//System.out.println("url: " + url.toString());
 		File inputDir;
 		try {
-			inputDir = new File(url.toURI());
+			inputDir = new File("resources/input/");
 			//System.out.println("inputDir: " + inputDir);
 			for (File f : inputDir.listFiles()) {
+				if (f.getName().indexOf(".gitignore") > -1)
+					continue;
 				String input = readFile(f);
 				Model model = parser.parse(input);
 				if (model == null) {
 					System.err.println("Model is null for " + f.getName());
 					continue;
 				}
+				
 				String json = Chomsky.generateJson(model);
-				System.out.println(json);
+				String expectedPath = "resources/expected/" + f.getName().replace(fext, ".json");
+				File expectedFile = new File(expectedPath);
+				String outputPath = "resources/output/" + f.getName().replace(fext, ".json");
+				
+								
+				writeFile(outputPath, json);
+				 
+				if (expectedFile.exists() == false) {
+					System.out.println("Writing expected file " + expectedPath);
+					writeFile(expectedPath, json);
+				} else {
+					// have to read output file and not use output, since encoding and newline issues whatever
+					String expected = readFile(expectedFile);
+					String output = readFile(new File(outputPath));
+					assertEquals(expected, output);
+				}
 			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -182,7 +193,14 @@ public class ConfigDSLParsingTest {
 	}
 	
 	private void writeFile(String path, String contents) throws IOException {
-		
+		File file = new File(path);
+		if (file.exists() == false) {
+			System.out.println("Creating file " + path);
+			file.createNewFile();
+		}
+		OutputStream os = new FileOutputStream(file);
+		os.write(contents.getBytes());
+		os.close();
 	}
 
 	@Test
@@ -196,8 +214,7 @@ public class ConfigDSLParsingTest {
 
 			validator.assertError(model, null, null, "Type >t2< must have values");
 
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 	}
 	
 	@Test
