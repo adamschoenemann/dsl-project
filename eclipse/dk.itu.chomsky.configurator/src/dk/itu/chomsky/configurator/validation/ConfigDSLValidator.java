@@ -5,6 +5,7 @@ package dk.itu.chomsky.configurator.validation;
 
 import org.eclipse.xtext.validation.Check;
 import dk.itu.chomsky.configurator.model.Constraint;
+import dk.itu.chomsky.configurator.model.EnumType;
 import dk.itu.chomsky.configurator.scala.*;
 import scala.Option;
 
@@ -26,6 +27,18 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 			error("Expression did not type-check", constraint, null);
 		} else if (!ty.get().equals(TyBool$.MODULE$)) {
 			error("Constraint must have a boolean expression", constraint, null);
+		}
+	}
+
+	@Check
+	void checkEmptyTypes(EnumType enumType) { 
+		if (enumType == null)
+			return;
+
+		Integer count = enumType.getValues().size();
+
+		if (count <= 0) {
+			error("Type >" + enumType.getName() + "< must have values", enumType, null);
 		}
 	}
 	

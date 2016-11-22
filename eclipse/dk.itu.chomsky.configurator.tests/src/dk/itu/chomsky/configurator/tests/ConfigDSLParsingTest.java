@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import dk.itu.chomsky.configurator.model.*;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -17,9 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import dk.itu.chomsky.configurator.scala.Chomsky;
 import dk.itu.chomsky.configurator.scala.generators.json.JSON;
+import dk.itu.chomsky.configurator.validation.ConfigDSLValidator;
 
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.emf.common.util.*;
+import org.eclipse.emf.ecore.EClass;
 
 @RunWith(XtextRunner.class)
 @InjectWith(ConfigDSLInjectorProvider.class)
@@ -30,6 +34,8 @@ public class ConfigDSLParsingTest {
 		+ "      t1 \"Type 1\" {"
 		+ "          v1 \"Val1\""
 		+ "          v2 \"Val2\""
+		+ "      }"
+		+ "      t2 \"Type 2\" {"
 		+ "      }"
 		+ "   }"
 		+ "	  product bar \"bar\" {"
@@ -111,6 +117,7 @@ public class ConfigDSLParsingTest {
 		+ "}";
 
 	@Inject	ParseHelper<Model> parser;
+	@Inject ValidationTestHelper validator;
 	
 	@Test
 	public void testTemplate() {
@@ -178,6 +185,21 @@ public class ConfigDSLParsingTest {
 		
 	}
 
+	@Test
+	public void testValidateNoEmptyTypes() {
+
+		try {
+			Model model = parser.parse("model foo \"foo\" {"
+					+ "   types {"
+					+ "      t1 \"Type 1\" {}"
+					+ "   }");
+
+			validator.assertError(model, null, null, "Type >t2< must have values");
+
+		} catch (Exception e) {
+		}
+	}
+	
 	@Test
 	public void testJSExprGen() {
 		
