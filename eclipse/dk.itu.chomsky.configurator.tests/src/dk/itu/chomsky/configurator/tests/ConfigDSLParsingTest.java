@@ -5,9 +5,19 @@ import dk.itu.chomsky.configurator.model.*;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Scanner;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import dk.itu.chomsky.configurator.scala.Chomsky;
+import dk.itu.chomsky.configurator.scala.generators.json.JSON;
+
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.emf.common.util.*;
 
@@ -108,12 +118,64 @@ public class ConfigDSLParsingTest {
 	}
 	
 	@Test
+	public void testJsonInputOutput() {
+		ClassLoader loader = getClass().getClassLoader();
+		URL url = loader.getResource("input/");
+		if (url == null) {
+			throw new RuntimeException("url is null :(");
+		}
+		//System.out.println("url: " + url.toString());
+		File inputDir;
+		try {
+			inputDir = new File(url.toURI());
+			//System.out.println("inputDir: " + inputDir);
+			for (File f : inputDir.listFiles()) {
+				String input = readFile(f);
+				Model model = parser.parse(input);
+				if (model == null) {
+					System.err.println("Model is null for " + f.getName());
+					continue;
+				}
+				String json = Chomsky.generateJson(model);
+				System.out.println(json);
+			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void testHtmlGen() {
 		try {
 			Chomsky.testHtmlGen(parser.parse(input2));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String readFile(File file) throws IOException {
+		Scanner scanner = null;
+		StringBuilder result = new StringBuilder();
+		try {
+			scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				result.append(line).append("\n");
+			}
+			return result.toString();
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			scanner.close();
+		}
+	}
+	
+	private void writeFile(String path, String contents) throws IOException {
+		
 	}
 
 	@Test
