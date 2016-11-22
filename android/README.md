@@ -42,7 +42,7 @@ those elements that have if then else constrains can be translated to radiobutto
 ## Other Possibilities
 
 
-Another possoble solutions :
+Another possible solutions :
   * everything placed in a scroll view
     Configurator4 is a project that explores this approach using also
     a dropdown button (spinner) instead

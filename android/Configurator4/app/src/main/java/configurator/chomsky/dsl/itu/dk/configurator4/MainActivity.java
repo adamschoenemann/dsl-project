@@ -12,14 +12,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+        //Monitor
+        Spinner spinnerMonitor = (Spinner) findViewById(R.id.spinnerMonitor);
         String[] monitorArray = {"23 HP curved2000", "22 Asus 1000", "19 Asus Widescreen1000", "19 Asus 800"};
 
 
         ArrayAdapter<CharSequence> adapterMonitor = new ArrayAdapter (this, R.layout.support_simple_spinner_dropdown_item, monitorArray);
         adapterMonitor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapterMonitor);
+        spinnerMonitor.setAdapter(adapterMonitor);
 
+        //Architecture
+        Spinner spinnerArchitecture = (Spinner) findViewById(R.id.spinnerArchitecture);
+        String[] architectureArray = {"64 bit", "32 bit"};
+        ArrayAdapter<CharSequence> adapterArchitecture = new ArrayAdapter (this, R.layout.support_simple_spinner_dropdown_item, architectureArray);
+        adapterArchitecture.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerArchitecture.setAdapter(adapterArchitecture);
+
+        //CPU
+        Spinner spinnerCpu = (Spinner) findViewById(R.id.spinnerCpu);
+        String[] cpuArray = {"64 bit", "32 bit"};
+        ArrayAdapter<CharSequence> adapterCpu = new ArrayAdapter (this, R.layout.support_simple_spinner_dropdown_item, cpuArray);
+        adapterCpu.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerCpu.setAdapter(adapterCpu);
 
 
     }

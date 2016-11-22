@@ -14,76 +14,209 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginBottom="69dp">
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <RelativeLayout
-                android:layout_width="278dp"
-                android:layout_height="374dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 tools:ignore="UselessParent">
+
+                <TextView
+                    android:text="@string/configure_your_computer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Title"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:text="@string/monitor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/subTitleMonitor"
-                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="26dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_below="@+id/Title"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="65dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <TextView
-                    android:text="@string/configure_your_computer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Title"
-                    android:textAlignment="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/subTitleMonitor"
-                    android:layout_toEndOf="@+id/subTitleMonitor"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginStart="23dp" />
-
-                <TextView
-                    android:text="Architecture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignLeft="@+id/scrollView2"
-                    android:layout_alignStart="@+id/scrollView2"
-                    android:layout_marginTop="141dp"
-                    android:id="@+id/textView6"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:layout_alignParentStart="true" />
 
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="180dp"
-                    android:id="@+id/spinner2" />
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinner1"
-                    android:layout_marginTop="12dp"
+                    android:id="@+id/spinnerMonitor"
                     android:layout_below="@+id/subTitleMonitor"
-                    android:layout_alignLeft="@+id/spinner2"
-                    android:layout_alignStart="@+id/spinner2" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="16dp" />
+
+                <TextView
+                    android:text="@string/architecture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:id="@+id/subTitleArchitecture"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_below="@+id/spinnerMonitor"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerArchitecture"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/subTitleArchitecture"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:text="@string/cpu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/subTitleCpu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_below="@+id/spinnerArchitecture"
+                    android:layout_alignRight="@+id/subTitleGpu"
+                    android:layout_alignEnd="@+id/subTitleGpu"
+                    android:layout_marginTop="11dp" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_below="@+id/subTitleCpu"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/spinnerCpu" />
+
+                <TextView
+                    android:text="@string/gpu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/subTitleGpu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_below="@+id/spinnerCpu"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="25dp" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerGPU"
+                    android:layout_marginTop="13dp"
+                    android:layout_below="@+id/subTitleGpu"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/editTextRam"
+                    android:layout_below="@+id/subTitleRam"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="15dp" />
+
+                <CheckBox
+                    android:text="@string/deliver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkBoxDeliver"
+                    android:layout_below="@+id/editTextRam"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/checkBoxDeliver"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="40dp">
+
+                    <TextView
+                        android:text="@string/mouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewMouse"
+                        android:layout_below="@+id/spinnerKeyboard"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerMouse"
+                        android:layout_below="@+id/textViewMouse"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <TextView
+                        android:text="@string/keyboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewKeyboard"
+                        android:layout_below="@+id/groupTitle"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="25dp" />
+
+                    <TextView
+                        android:text="@string/peripherals"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/groupTitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignRight="@+id/spinnerMouse"
+                        android:layout_alignEnd="@+id/spinnerMouse"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:textAlignment="center" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerKeyboard"
+                        android:layout_below="@+id/textViewKeyboard"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="28dp" />
+
+                    <Button
+                        android:text="Submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/button_submit"
+                        android:textAlignment="center"
+                        android:layout_marginTop="38dp"
+                        android:layout_below="@+id/spinnerMouse"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:text="@string/ram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/subTitleRam"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:layout_below="@+id/spinnerGPU"
+                    android:layout_alignLeft="@+id/subTitleCpu"
+                    android:layout_alignStart="@+id/subTitleCpu"
+                    android:layout_marginTop="17dp" />
 
             </RelativeLayout>
         </LinearLayout>
