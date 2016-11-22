@@ -117,20 +117,21 @@ $groups
     val children = eListToList(group.getChildren).map(childToHtml _).mkString("\n")
 
     s"""
-      <fieldset>
-        <legend>${group.getLabel}</legend>
+    <fieldset>
+      <legend>${group.getLabel}</legend>
 ${children}
-      </fieldset>
+    </fieldset>
 """
   }
 
   def paramToHtml[Param](param:Param):String = param match {
     case E.PrimParam(name, label, t) =>
       val inputType = primToType(t)
+      val step = formatStep(t)
       s"""
       <div class="param" id="${name}">
         <label>${label}</label>
-        <input name="${name}" type="${inputType}" />
+        <input name="${name}" type="${inputType}"${step} />
       </div>
 """
     case E.EnumParam(name, label, E.EnumType(ename,elabel,values)) =>
@@ -150,14 +151,15 @@ ${options}
   private def childToHtml(c: ProductChild): String =
     if (c.isInstanceOf[Param]) paramToHtml(c) else pGroupToHtml(c.asInstanceOf[ParamGroup])
 
-  private def primToType(ty:PrimitiveType):String = {
-    if (ty == PrimitiveType.INT_TY || ty == PrimitiveType.DOUBLE_TY)
-      "number"
-    else if (ty == PrimitiveType.BOOL_TY)
-      "checkbox"
-    else if (ty == PrimitiveType.TEXT_TY)
-      "text"
-    else throw new NotImplementedError("unkown primitive type")
-  }
+  private def primToType(ty:PrimitiveType):String = ty match {
+      case PrimitiveType.INT_TY    => "number"
+      case PrimitiveType.DOUBLE_TY => "number"
+      case PrimitiveType.BOOL_TY   => "checkbox"
+      case PrimitiveType.TEXT_TY   => "text"
+      case _ => throw new NotImplementedError("unkown primitive type")
+    }
+
+  private def formatStep(t: PrimitiveType): String =
+    if (t == PrimitiveType.DOUBLE_TY) " step=\"0.01\"" else ""
 
 }
