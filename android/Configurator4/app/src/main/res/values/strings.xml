@@ -10,4 +10,5 @@
     <string name="mouse">Mouse</string>
     <string name="peripherals">Peripherals</string>
     <string name="ram">RAM</string>
+    <string name="submit">Submit</string>
 </resources>
