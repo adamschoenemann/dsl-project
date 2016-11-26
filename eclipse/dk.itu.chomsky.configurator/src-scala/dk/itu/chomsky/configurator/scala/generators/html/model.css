@@ -72,13 +72,22 @@
     legend {
       font-style: italic;
     }
-    .invalid {
+
+    #errors {
+      color: red;
+    }
+    div.has-error {
+      color: red;
+      font-weight: bold;
+    }
+    input.has-errors {
       background-color: red;
+      border: 1px solid red;
     }
 
     @media screen and (min-width: 480px) {
-    form {
-      max-width: 480px;
+      form {
+        max-width: 480px;
+      }
     }
-}
 
