@@ -16,6 +16,7 @@ object JSGenerator {
         "$(\"#" + name + " select\").val()"
     }
     case E.Not(e)  => "!" + genJSExpr(e)
+    case E.Neg(e)  => "-" + genJSExpr(e)
     case E.ITE(g, t, f) => s"(${genJSExpr(g)} ? (${genJSExpr(t)}) : (${genJSExpr(f)}))"
     case E.FunApp(name, args) => {
       val fnref = s"""funs["$name"]"""

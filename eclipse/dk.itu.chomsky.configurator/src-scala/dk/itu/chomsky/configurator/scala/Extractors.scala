@@ -42,6 +42,12 @@ object Extractors {
         Some(expr.asInstanceOf[Minus]).map(op => (op.getLeft, op.getRight))
       else None
   }
+  object Neg {
+    def unapply(expr:Expr):Option[Expr] =
+      if (expr.isInstanceOf[Neg])
+        Some(expr.asInstanceOf[Neg].getExpr)
+      else None
+  }
   object Mult {
     def unapply(expr:Expr):Option[(Expr, Expr)] =
       if (expr.isInstanceOf[Mult])

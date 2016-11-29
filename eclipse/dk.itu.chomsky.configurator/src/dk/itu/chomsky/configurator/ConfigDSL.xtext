@@ -135,9 +135,13 @@ Equals returns Expr:
 ;
 
 Term returns Expr:
-	Factor ({Plus.left=current} "+" right=Factor |
-		    {Minus.left=current} "-" right=Factor
+	Negated ({Plus.left=current} "+" right=Negated |
+		    {Minus.left=current} "-" right=Negated
 	)*
+;
+
+Negated returns Expr:
+	{Neg} "-" expr=Factor |	Factor 
 ;
 
 Factor returns Expr:

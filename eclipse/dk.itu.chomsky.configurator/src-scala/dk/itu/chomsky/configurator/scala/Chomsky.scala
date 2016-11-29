@@ -84,6 +84,10 @@ object Chomsky {
       for {
         ty <- checkExpr(expr) if ty == TyBool
       } yield TyBool
+    case E.Neg(expr) =>
+      for {
+        ty <- checkExpr(expr) if ty == TyNum
+      } yield TyNum
     case E.ITE(guard, tbranch, fbranch) =>
       for {
         gty <- checkExpr(guard) if gty == TyBool

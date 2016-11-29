@@ -96,5 +96,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configurator.ecore#//FunApp/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//FunApp/args"/>
     </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Neg">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Neg/expr"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
