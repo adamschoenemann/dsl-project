@@ -11,7 +11,7 @@ import org.eclipse.xtext.scoping.Scopes;
 
 import dk.itu.chomsky.configurator.model.EnumVal;
 import dk.itu.chomsky.configurator.model.ModelPackage;
-import dk.itu.chomsky.configurator.scala.Chomsky;
+//import dk.itu.chomsky.configurator.scala.Chomsky;
 
 /**
  * This class contains custom scoping description.

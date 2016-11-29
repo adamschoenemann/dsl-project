@@ -8,22 +8,16 @@ import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Scanner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import dk.itu.chomsky.configurator.scala.Chomsky;
-import dk.itu.chomsky.configurator.scala.generators.json.JSON;
-import dk.itu.chomsky.configurator.util.Utils;
 
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.emf.common.util.*;
@@ -37,6 +31,8 @@ public class ConfigDSLParsingTest {
 		+ "      t1 \"Type 1\" {"
 		+ "          v1 \"Val1\""
 		+ "          v2 \"Val2\""
+		+ "      }"
+		+ "      t2 \"Type 2\" {"
 		+ "      }"
 		+ "   }"
 		+ "	  product bar \"bar\" {"
@@ -119,6 +115,7 @@ public class ConfigDSLParsingTest {
 
 	@Inject	ParseHelper<Model> parser;
 	@Inject ValidationTestHelper validator;
+
 	public final String fext = ".cnfgdsl"; // get this from configuration somehow
 	
 	@Test
@@ -206,6 +203,20 @@ public class ConfigDSLParsingTest {
 		os.close();
 	}
 
+	@Test
+	public void testValidateNoEmptyTypes() {
+
+		try {
+			Model model = parser.parse("model foo \"foo\" {"
+					+ "   types {"
+					+ "      t1 \"Type 1\" {}"
+					+ "   }");
+
+			validator.assertError(model, null, null, "Type >t2< must have values");
+
+		} catch (Exception e) {}
+	}
+	
 	@Test
 	public void testJSExprGen() {
 		

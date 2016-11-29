@@ -6,6 +6,7 @@ import Utils._
 import dk.itu.chomsky.configurator.scala.generators.html.HTMLGenerator
 import dk.itu.chomsky.configurator.scala.generators.json.JSONGenerator
 import dk.itu.chomsky.configurator.scala.generators.js.JSGenerator
+import dk.itu.chomsky.configurator.scala.generators.android.AndroidGenerator 
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
 
 object implicits {
@@ -142,6 +143,9 @@ object Chomsky {
  def generateJson(model:Model):String = JSONGenerator.generate(model)
  def generateHtml(model:Model):String = HTMLGenerator.generate(model)
  def genJSExpr(expr:Expr):String = JSGenerator.genJSExpr(expr)
- def testHtmlGen(model:Model):Unit = HTMLGenerator.test(model);
+ def testHtmlGen(model:Model):Unit = HTMLGenerator.test(model)
+ 
+ //Android
+ def generateAndroidView(model:Model):String = AndroidGenerator.generateView(model)
 
 }
