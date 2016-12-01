@@ -42,11 +42,11 @@ object Chomsky {
     "label"    -> FunDef("label", List(TyString), TyString)
   )
 
-
+/*
   def pleaseWork():Unit = {
     println("Please work")
   }
-
+*/
   private def checkOpOfTy(ty:ExprTy, op:BinOp, result:ExprTy):Option[ExprTy] = {
     for {
       l <- checkExpr(op.getLeft)  if l == ty

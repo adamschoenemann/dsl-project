@@ -126,8 +126,7 @@ ${children}
 
   def paramToHtml[Param](param:Param):String = param match {
     case E.PrimParam(name, label, t) =>
-      val inputType = primToType(t)
-      val step = formatStep(t)
+      val (inputType, step) = primToJSType(t)
       s"""
       <div class="param" id="${name}">
         <label>${label}</label>
@@ -151,15 +150,12 @@ ${options}
   private def childToHtml(c: ProductChild): String =
     if (c.isInstanceOf[Param]) paramToHtml(c) else pGroupToHtml(c.asInstanceOf[ParamGroup])
 
-  private def primToType(ty:PrimitiveType):String = ty match {
-      case PrimitiveType.INT_TY    => "number"
-      case PrimitiveType.DOUBLE_TY => "number"
-      case PrimitiveType.BOOL_TY   => "checkbox"
-      case PrimitiveType.TEXT_TY   => "text"
+  private def primToJSType(ty:PrimitiveType):(String, String) = ty match {
+      case PrimitiveType.INT_TY    => ("number", "")
+      case PrimitiveType.DOUBLE_TY => ("number", " step=\"0.01\"")
+      case PrimitiveType.BOOL_TY   => ("checkbox", "")
+      case PrimitiveType.TEXT_TY   => ("text", "")
       case _ => throw new NotImplementedError("unkown primitive type")
     }
-
-  private def formatStep(t: PrimitiveType): String =
-    if (t == PrimitiveType.DOUBLE_TY) " step=\"0.01\"" else ""
 
 }

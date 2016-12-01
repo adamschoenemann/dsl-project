@@ -128,7 +128,7 @@ public class ConfigDSLParsingTest {
 		File inputDir;
 		try {
 			inputDir = new File("resources/input/");
-			//System.out.println("inputDir: " + inputDir);
+
 			for (File f : inputDir.listFiles()) {
 				if (f.getName().indexOf(".gitignore") > -1)
 					continue;
@@ -143,8 +143,7 @@ public class ConfigDSLParsingTest {
 				String expectedPath = "resources/expected/" + f.getName().replace(fext, ".json");
 				File expectedFile = new File(expectedPath);
 				String outputPath = "resources/output/" + f.getName().replace(fext, ".json");
-				
-								
+												
 				writeFile(outputPath, json);
 				 
 				if (expectedFile.exists() == false) {
@@ -165,7 +164,49 @@ public class ConfigDSLParsingTest {
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Test
+	public void testHtmlInputOutput() {
+		File inputDir;
+		try {
+			inputDir = new File("resources/input/");
+
+			for (File f : inputDir.listFiles()) {
+				if (f.getName().indexOf(".gitignore") > -1)
+					continue;
+				String input = readFile(f);
+				Model model = parser.parse(input);
+				if (model == null) {
+					System.err.println("Model is null for " + f.getName());
+					continue;
+				}
+				
+				String html = Chomsky.generateHtml(model);
+				String expectedPath = "resources/expected/" + f.getName().replace(fext, ".html");
+				File expectedFile = new File(expectedPath);
+				String outputPath = "resources/output/" + f.getName().replace(fext, ".html");
+												
+				writeFile(outputPath, html);
+				 
+				if (expectedFile.exists() == false) {
+					System.out.println("Writing expected file " + expectedPath);
+					writeFile(expectedPath, html);
+				} else {
+					// have to read output file and not use output, since encoding and newline issues whatever
+					String expected = readFile(expectedFile);
+					String output = readFile(new File(outputPath));
+					assertEquals(expected, output);
+				}
+			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Test
 	public void testHtmlGen() {
 		try {
