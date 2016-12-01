@@ -5,7 +5,7 @@ package dk.itu.chomsky.configurator.generator;
 import org.eclipse.emf.ecore.resource.Resource;
 import dk.itu.chomsky.configurator.model.Model;
 import dk.itu.chomsky.configurator.scala.Chomsky;
-//import dk.itu.chomsky.configurator.util.Utils;
+import dk.itu.chomsky.configurator.util.Utils;
 
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -27,7 +27,7 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 //			}
 //		});
 		// The Utils was not pushed or is it the one on scala folder?
-		//String css = Utils.getResource(this, "dk/itu/chomsky/configurator/scala/generators/html/model.css");
+		String css = Utils.getResource(this, "dk/itu/chomsky/configurator/scala/generators/html/model.css");
 		
 		//System.out.println("css:\n" + css);
 		
@@ -36,11 +36,11 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 		String html = Chomsky.generateHtml(model);
         //Android
 		String xml  = Chomsky.generateAndroidView(model);
+		fsa.generateFile(model.getName()+ ".xml", xml);
 		 
 		fsa.generateFile(model.getName() + ".json", json);
 		fsa.generateFile(model.getName() + ".html", html);
-		//fsa.generateFile("model.css", css);
-		fsa.generateFile(model.getName()+ ".xml", xml);
+		fsa.generateFile("model.css", css);
 		
 	}
 	
