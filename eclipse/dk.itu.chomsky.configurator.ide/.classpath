@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-gen"/>
 	<classpathentry kind="src" path="xtend-gen"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dk.itu.chomsky.configurator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dk.itu.chomsky.configurator.model"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
