@@ -3,8 +3,16 @@ package dk.itu.chomsky.configurator.scala
 
 import dk.itu.chomsky.configurator.model._
 import dk.itu.chomsky.configurator.scala.Utils._
+import dk.itu.chomsky.configurator.scala.Utils.implicits._
+
+
 
 object Extractors {
+
+  object Model {
+    def unapply(model:Model):Option[(List[EnumType], List[ModelChild])] =
+      Some((model.getTypes, model.getChildren))
+  }
 
   object ConstNum {
     def unapply(expr:Expr):Option[Double] =
@@ -124,7 +132,7 @@ object Extractors {
     def unapply(expr:Expr):Option[(String, List[Expr])] =
       if (expr.isInstanceOf[FunApp])
         Some(expr.asInstanceOf[FunApp])
-          .map(app => (app.getName, eListToList(app.getArgs)))
+          .map(app => (app.getName, app.getArgs))
       else None
 
   }
@@ -144,9 +152,23 @@ object Extractors {
   }
 
   object ParamGroup {
-    def unapply(pc:ProductChild):Option[String] =
+    def unapply(pc:ProductChild):Option[(String, List[ProductChild])] =
       if (pc.isInstanceOf[ParamGroup])
-        Some(pc.asInstanceOf[ParamGroup]).map(_.getLabel)
+        Some(pc.asInstanceOf[ParamGroup]).map(pg => (pg.getLabel, pg.getChildren))
+      else None
+  }
+
+  object Product {
+    def unapply(mc:ModelChild):Option[(String, String, List[ProductChild], List[Constraint])] =
+      if (mc.isInstanceOf[Product])
+        Some(mc.asInstanceOf[Product]).map(pg => (pg.getName, pg.getLabel, pg.getChildren, pg.getConstraints))
+      else None
+  }
+
+  object ProductGroup {
+    def unapply(mc:ModelChild):Option[(String, List[ModelChild])] =
+      if (mc.isInstanceOf[ProductGroup])
+        Some(mc.asInstanceOf[ProductGroup]).map(pg => (pg.getLabel, pg.getChildren))
       else None
   }
 
@@ -164,7 +186,7 @@ object Extractors {
   }
   object EnumType {
     def unapply(t:EnumType):Option[(String,String,List[EnumVal])] = {
-      Some((t.getName, t.getLabel, eListToList(t.getValues)))
+      Some((t.getName, t.getLabel, t.getValues))
     }
   }
 

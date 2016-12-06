@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Scanner;
+import java.util.function.Function;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -123,88 +124,63 @@ public class ConfigDSLParsingTest {
 		Chomsky.testTemplates();
 	}
 	
-	@Test
-	public void testJsonInputOutput() {
-		File inputDir;
-		try {
-			inputDir = new File("resources/input/");
+	private void testInputOutput(Function<Model, String> generator, String dirName, String ext) throws Exception {
+		File inputDir = new File("resources/input/");
 
-			for (File f : inputDir.listFiles()) {
-				if (f.getName().indexOf(".gitignore") > -1)
-					continue;
-				String input = readFile(f);
-				Model model = parser.parse(input);
-				if (model == null) {
-					System.err.println("Model is null for " + f.getName());
-					continue;
-				}
-				
-				String json = Chomsky.generateJson(model);
-				String expectedPath = "resources/expected/" + f.getName().replace(fext, ".json");
-				File expectedFile = new File(expectedPath);
-				String outputPath = "resources/output/" + f.getName().replace(fext, ".json");
-												
-				writeFile(outputPath, json);
-				 
-				if (expectedFile.exists() == false) {
-					System.out.println("Writing expected file " + expectedPath);
-					writeFile(expectedPath, json);
-				} else {
-					// have to read output file and not use output, since encoding and newline issues whatever
-					String expected = readFile(expectedFile);
-					String output = readFile(new File(outputPath));
-					assertEquals(expected, output);
-				}
+		for (File f : inputDir.listFiles()) {
+			if (f.getName().indexOf(".gitignore") > -1)
+				continue;
+			String fname = f.getName();
+			String input = readFile(f);
+			Model model = parser.parse(input);
+			if (model == null) {
+				System.err.println("Model is null for " + f.getName());
+				assertTrue("model " + fname + " is null", false);
+				continue;
 			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+			String output = generator.apply(model);
+			String expectedDir = "resources/expected/" + dirName + "/";
+			createDir(expectedDir);
+			String expectedPath = expectedDir  + fname.replace(fext, "." + ext);
+			File expectedFile = new File(expectedPath);
+			String outputDir = "resources/output/" + dirName + "/";
+			createDir(outputDir);
+			String outputPath = outputDir + fname.replace(fext, "." + ext);
+											
+			writeFile(outputPath, output);
+			 
+			if (expectedFile.exists() == false) {
+				System.out.println("Writing expected file " + expectedPath);
+				writeFile(expectedPath, output);
+			} else {
+				// have to read output file and not use output, since encoding and newline issues whatever
+				String expectedContents = readFile(expectedFile);
+				String outputContents = readFile(new File(outputPath));
+				assertEquals(fname, expectedContents, outputContents);
+			}
+		}
+	}
+	
+	private void createDir(String path) throws IOException {
+		File dir = new File(path);
+		if (dir.exists()) {
+			if (!dir.isDirectory()) {
+				throw new IllegalArgumentException(path + " exists but is not a directory");
+			}
+			return; // yeah, not necessary but good for documentation imo
+		} else {
+			dir.mkdirs();
 		}
 	}
 
 	@Test
-	public void testHtmlInputOutput() {
-		File inputDir;
-		try {
-			inputDir = new File("resources/input/");
+	public void testJsonInputOutput() throws Exception {
+		testInputOutput(model -> Chomsky.generateJson(model), "json", "json");
+	}
 
-			for (File f : inputDir.listFiles()) {
-				if (f.getName().indexOf(".gitignore") > -1)
-					continue;
-				String input = readFile(f);
-				Model model = parser.parse(input);
-				if (model == null) {
-					System.err.println("Model is null for " + f.getName());
-					continue;
-				}
-				
-				String html = Chomsky.generateHtml(model);
-				String expectedPath = "resources/expected/" + f.getName().replace(fext, ".html");
-				File expectedFile = new File(expectedPath);
-				String outputPath = "resources/output/" + f.getName().replace(fext, ".html");
-												
-				writeFile(outputPath, html);
-				 
-				if (expectedFile.exists() == false) {
-					System.out.println("Writing expected file " + expectedPath);
-					writeFile(expectedPath, html);
-				} else {
-					// have to read output file and not use output, since encoding and newline issues whatever
-					String expected = readFile(expectedFile);
-					String output = readFile(new File(outputPath));
-					assertEquals(expected, output);
-				}
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@Test
+	public void testHtmlInputOutput() throws Exception {
+		testInputOutput(model -> Chomsky.generateHtml(model), "html", "html");
 	}
 
 	@Test

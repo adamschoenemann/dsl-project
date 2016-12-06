@@ -6,6 +6,9 @@ import java.util.function.Consumer
 
 object Utils {
 
+  object implicits {
+    implicit def el2l[A](el:EList[A]):List[A] = eListToList(el)
+  }
   def instanceOf[A](o:Any):Option[A] =
     try Some(o.asInstanceOf[A])
     catch {

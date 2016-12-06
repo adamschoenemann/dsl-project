@@ -46,9 +46,22 @@ object HTMLGenerator {
     """
   }
 
-  def generate(model:Model):String = {
-    val types = eListToList[EnumType](model.getTypes)
-    val product = model.getChildren.get(0).asInstanceOf[Product] // get first modelChild as Product ...
+  def modelChildToHtml(mc:ModelChild):String = mc match {
+    case pg:ProductGroup => productGroupToHtml(pg)
+    case p:Product       => productToHtml(p)
+  }
+
+  def productGroupToHtml(pg:ProductGroup):String = pg match {
+    case E.ProductGroup(label, children) =>
+      s"""
+      <fieldset>
+        <legend>$label</legend>
+        ${children.map(modelChildToHtml(_)).mkString("\n")}
+      </fieldset>
+      """
+  }
+
+  def productToHtml(product:Product):String = {
     val pChildren = eListToList[ProductChild](product.getChildren)
     val params = pChildren
      .filter(_.isInstanceOf[Param])
@@ -58,9 +71,27 @@ object HTMLGenerator {
      .filter(_.isInstanceOf[ParamGroup])
      .map { pGroupToHtml(_) }
      .mkString("\n")
+
+    s"""
+    <div class="product">
+      <h2>${product.getLabel}</h2>
+      $params
+    </div>
+    $groups
+    """
+  }
+
+  def getConstraints(mc:ModelChild):List[Constraint] = mc match {
+    case E.ProductGroup(_, children) => children.map(getConstraints(_)).flatten
+    case E.Product(_,_,_,constraints) => constraints
+  }
+
+  def generate(model:Model):String = {
+    val E.Model(types, children) = model
+    val modelChildrenHtml = children.map(modelChildToHtml(_)).mkString("\n")
     val enumVals = types.map(t => eListToList(t.getValues)).flatten
 
-    val constraints = genConstraints(eListToList(product.getConstraints))
+    val constraints = genConstraints(children.map(c => getConstraints(c)).flatten)
 
     s"""<html>
 <head>
@@ -70,11 +101,7 @@ object HTMLGenerator {
 </head>
 <body>
   <form class="model">
-    <div class="product">
-      <h2>${product.getLabel}</h2>
-$params
-    </div>
-$groups
+    $modelChildrenHtml
     <div id="errors">
     </div>
     <input id="submit" type="submit" value="Submit"/>
