@@ -1,7 +1,6 @@
 package dk.itu.chomsky.configurator.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,10 +24,12 @@ import dk.itu.chomsky.configurator.model.Expr;
 import dk.itu.chomsky.configurator.model.Model;
 import dk.itu.chomsky.configurator.model.Product;
 import dk.itu.chomsky.configurator.scala.Chomsky;
+import dk.itu.chomsky.configurator.validation.ConfigDSLValidator;
 
 @RunWith(XtextRunner.class)
 @InjectWith(ConfigDSLInjectorProvider.class)
 public class ConfigDSLParsingTest {
+
 	final String input1 =
 		  "model foo \"foo\" {"
 		+ "   types {"
@@ -127,8 +128,20 @@ public class ConfigDSLParsingTest {
 		Chomsky.testTemplates();
 	}
 	
-	private void testInputOutput(Function<Model, String> generator, String dirName, String ext) throws Exception {
-		File inputDir = new File("resources/input/");
+	@Test
+	public void testTypeChecker() throws Exception {
+		File inputDir = new File("resources/input/negative/typechecker/");
+		for (File f : inputDir.listFiles()) {
+			String fname = f.getName();
+			String input = readFile(f);
+			Model model = parser.parse(input);
+			assertNotNull(fname, model);
+			validator.assertError(model, null, ConfigDSLValidator.TYPE_ERROR);
+		}
+	}
+	
+	private void testPositiveInputOutput(Function<Model, String> generator, String dirName, String ext) throws Exception {
+		File inputDir = new File("resources/input/positive/");
 
 		for (File f : inputDir.listFiles()) {
 			if (f.getName().indexOf(".gitignore") > -1)
@@ -183,12 +196,12 @@ public class ConfigDSLParsingTest {
 
 	@Test
 	public void testJsonInputOutput() throws Exception {
-		testInputOutput(model -> Chomsky.generateJson(model), "json", "json");
+		testPositiveInputOutput(model -> Chomsky.generateJson(model), "json", "json");
 	}
 
 	@Test
 	public void testHtmlInputOutput() throws Exception {
-		testInputOutput(model -> Chomsky.generateHtml(model), "html", "html");
+		testPositiveInputOutput(model -> Chomsky.generateHtml(model), "html", "html");
 	}
 
 	@Test

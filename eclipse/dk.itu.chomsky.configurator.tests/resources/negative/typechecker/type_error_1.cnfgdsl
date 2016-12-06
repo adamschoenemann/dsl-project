@@ -1,0 +1,21 @@
+model type_error_1 "Type Error 1" {
+   types {
+      t1 "Type 1" {
+          v1 "Val1"
+          v2 "Val2"
+      }
+   }
+   product bar "bar" {
+      param p1 "Param 1" Int
+      param p2 "Param 2" t1
+      param p3 "Param 3" t2
+      
+      constraints {
+         constraint "c1" value(p1) == true 
+         constraint "c2" (value(p2) > v1) == ((52 / 42 * -10) > -0)
+         constraint "c3" true < false
+         constraint "c4" if 5 then 10 else "foo"
+         constraint "c5" contains(value(p2), "foo") == "yes"
+      }
+   }
+}

@@ -21,7 +21,7 @@ model computer_model "Customize Your Computer" {
     }
     keyboard "Keyboard" {
       ltkb "Logitech"
-      i7 "Microsoft"
+      mskb "Microsoft"
     }
   }
   product computer "Computer" {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.Check;
 import dk.itu.chomsky.configurator.model.Constraint;
@@ -28,6 +29,8 @@ import scala.Option;
  */
 public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 	
+	public static final String TYPE_ERROR = "TYPE_ERROR";
+
 	@Check
 	void checkConstraint(Constraint constraint) { 
 		if (constraint == null || constraint.getExpr() == null)
@@ -37,7 +40,7 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 		if (ty.isEmpty()) {
 			error("Expression " + Chomsky.genJSExpr(expr) + " did not type-check", constraint, null);
 		} else if (!ty.get().equals(TyBool$.MODULE$)) {
-			error("Constraint must have a boolean expression", constraint, null);
+			error("Constraint must have a boolean expression", constraint, null, TYPE_ERROR);
 		}
 	}
 

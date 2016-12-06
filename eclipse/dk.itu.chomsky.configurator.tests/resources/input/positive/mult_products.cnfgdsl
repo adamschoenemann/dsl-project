@@ -8,7 +8,7 @@ model mult_products "Multiple Products" {
    product bar "bar" {
       param baz "baz" Int
       param p2 "Param 2" t1
-      param p2 "Param 3" t1
+      param p3 "Param 3" t1
       
       constraints {
       }
