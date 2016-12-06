@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -14,6 +15,7 @@ import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+import org.eclipse.xtext.validation.Issue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -131,12 +133,21 @@ public class ConfigDSLParsingTest {
 	@Test
 	public void testTypeChecker() throws Exception {
 		File inputDir = new File("resources/input/negative/typechecker/");
+		if (inputDir.exists() == false) {
+			inputDir.mkdirs();
+		}
 		for (File f : inputDir.listFiles()) {
 			String fname = f.getName();
 			String input = readFile(f);
 			Model model = parser.parse(input);
 			assertNotNull(fname, model);
-			validator.assertError(model, null, ConfigDSLValidator.TYPE_ERROR);
+			int errors = Integer.parseInt(input.split("[\r\n(\r\n)]")[0].split("errors:")[1]);
+			System.out.println("expect " + errors + " errors");
+			List<Issue> issues = validator.validate(model);
+			for (Issue issue : issues) {
+				assertEquals(issue.getCode(), ConfigDSLValidator.TYPE_ERROR);
+			}
+			//validator.assertError(model, null, ConfigDSLValidator.TYPE_ERROR);
 		}
 	}
 	

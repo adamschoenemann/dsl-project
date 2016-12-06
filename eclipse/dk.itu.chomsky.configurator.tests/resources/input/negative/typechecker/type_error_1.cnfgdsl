@@ -1,3 +1,4 @@
+/* errors: 5 */
 model type_error_1 "Type Error 1" {
    types {
       t1 "Type 1" {
