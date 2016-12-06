@@ -4,7 +4,7 @@ package dk.itu.chomsky.configurator.scala.generators.json;
 import dk.itu.chomsky.configurator.model._
 import dk.itu.chomsky.configurator.scala.Utils._
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
-import dk.itu.chomsky.configurator.scala.generators.js.JSGenerator.genJSExpr
+import dk.itu.chomsky.configurator.scala.generators.common.ExprGen.genExpr
 import org.eclipse.emf.common.util.EList
 
 object JSONGenerator {
@@ -49,7 +49,7 @@ object JSONGenerator {
      case E.Constraint(lbl, expr, param) => JObject(
        "label" -> lbl,
        "param" -> param.map((p:Param) => JString(p.getName)).getOrElse(JNull),
-       "expr"  -> genJSExpr(expr)
+       "expr"  -> genExpr(expr)
      )
    }
 

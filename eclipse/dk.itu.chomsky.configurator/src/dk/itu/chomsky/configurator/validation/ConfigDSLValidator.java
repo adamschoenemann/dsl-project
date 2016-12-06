@@ -3,10 +3,20 @@
  */
 package dk.itu.chomsky.configurator.validation;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.Check;
 import dk.itu.chomsky.configurator.model.Constraint;
 import dk.itu.chomsky.configurator.model.EnumType;
 import dk.itu.chomsky.configurator.model.Expr;
+import dk.itu.chomsky.configurator.model.NamedElem;
+import dk.itu.chomsky.configurator.model.Param;
+import dk.itu.chomsky.configurator.model.Product;
+import dk.itu.chomsky.configurator.model.EnumVal;
 import dk.itu.chomsky.configurator.scala.*;
 
 import scala.Option;
@@ -43,15 +53,35 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 		}
 	}
 	
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					ConfigDSLPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	<T extends NamedElem> void checkUniqueNames(EObject root, Class<T> type) {
+		List<T> vals = EcoreUtil2.getAllContentsOfType(root, type);
+		Set<String> seen = new HashSet<>();
+		// System.out.println("\n---------Checking " + " something " + "-------------");
+		for (T val : vals) {
+			if (seen.contains(val.getName())) {
+				error(val.getName() + " is not unique", val, null);
+			}
+			// System.out.println("Seen " + val.getName());
+			seen.add(val.getName());
+		}
+	}
 	
+	@Check
+	void checkUniqueEnums(EnumType enumType) {
+		EObject root = EcoreUtil2.getRootContainer(enumType);
+		checkUniqueNames(root, EnumVal.class);
+		checkUniqueNames(root, EnumType.class);
+	}
+	
+	@Check
+	void checkUniqueProducts(Product product) {
+		EObject root = EcoreUtil2.getRootContainer(product);
+		checkUniqueNames(root, Product.class);
+	}
+
+	@Check
+	void checkUniqueParams(Param param) {
+		EObject root = EcoreUtil2.getRootContainer(param);
+		checkUniqueNames(root, Param.class);
+	}
 }

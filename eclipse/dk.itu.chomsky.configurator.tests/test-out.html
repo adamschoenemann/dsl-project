@@ -121,6 +121,16 @@
         return $("#" + param + " select option:selected").text();
       }
     };
+
+    function getValue(name) {
+      return values[name].name;
+    }
+    function getPrimParamVal(name) {
+      return $("#" + name + " input").val();
+    }
+    function getEnumParamVal(name) {
+      return $("#" + name + " select").val();
+    }
     var values = {
 	"gtx980": {
 		"name": "gtx980",
@@ -194,10 +204,10 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if (($("#ram input").val() > 0.0) == false) { setError("Ram must be positive", "ram") }
-      if ((($("#arch select").val() == values["x86"].name) ? (($("#ram input").val() <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
-      if ((($("#gpu select").val() == values["gtx970"].name) ? (($("#keyboard select").val() == values["ltkb"].name)) : (true)) == false) { setError("c1", "keyboard") }
-      if ((($("#cpu select").val() == values["i5"].name) ? ((($("#gpu select").val() == values["gtx970"].name) || ($("#gpu select").val() == values["gtx980"].name))) : (true)) == false) { setError("c2", null) }
+            if ((getPrimParamVal("ram") > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if (((getEnumParamVal("arch") == getValue("x86")) ? ((getPrimParamVal("ram") <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+      if (((getEnumParamVal("gpu") == getValue("gtx970")) ? ((getEnumParamVal("keyboard") == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
+      if (((getEnumParamVal("cpu") == getValue("i5")) ? (((getEnumParamVal("gpu") == getValue("gtx970")) || (getEnumParamVal("gpu") == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
       if (funs["contains"].apply(funs, [funs["label"].apply(funs, ["cpu"]), "Intel"]) == false) { setError("CPU must be intel", "cpu") }
     }
     $(document).ready(function() {

@@ -4,7 +4,7 @@ import dk.itu.chomsky.configurator.model._
 import dk.itu.chomsky.configurator.scala.Utils._
 import dk.itu.chomsky.configurator.scala.generators.json._
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
-import dk.itu.chomsky.configurator.scala.generators.js.JSGenerator.{genJSExpr}
+import dk.itu.chomsky.configurator.scala.generators.common.ExprGen.genExpr
 import org.eclipse.emf.common.util.EList
 import scala.collection._
 import java.io.PrintWriter
@@ -32,7 +32,7 @@ object HTMLGenerator {
     val constGen = constraints.map({
       case E.Constraint(l, e, param) => {
         val pname = param.map(p => "\"" + p.getName + "\"").getOrElse("null")
-        s"""      if (${genJSExpr(e)} == false) { setError("$l", $pname) }"""
+        s"""      if (${genExpr(e)} == false) { setError("$l", $pname) }"""
     }}).mkString("\n")
     s"""
     function checkErrs(evt) {
@@ -115,6 +115,16 @@ object HTMLGenerator {
         return $$("#" + param + " select option:selected").text();
       }
     };
+
+    function getValue(name) {
+      return values[name].name;
+    }
+    function getPrimParamVal(name) {
+      return $$("#" + name + " input").val();
+    }
+    function getEnumParamVal(name) {
+      return $$("#" + name + " select").val();
+    }
     var values = ${genValues(enumVals)};
     function setError(err, pname /*optional*/) {
       $$err = $$("<p>").html(err);
