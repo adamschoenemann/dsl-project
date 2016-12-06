@@ -135,13 +135,9 @@ Equals returns Expr:
 ;
 
 Term returns Expr:
-	Negated ({Plus.left=current} "+" right=Negated |
-		    {Minus.left=current} "-" right=Negated
+	Factor ({Plus.left=current} "+" right=Factor |
+		    {Minus.left=current} "-" right=Factor
 	)*
-;
-
-Negated returns Expr:
-	{Neg} "-" expr=Factor |	Factor 
 ;
 
 Factor returns Expr:
@@ -151,7 +147,7 @@ Factor returns Expr:
 ;
 
 Prefixed returns Expr:
-	{Not} "!" expr=Prim | Prim
+	{Not} "!" expr=Prim | {Neg} "-" expr=Prim | Prim
 ;
 
 Prim returns Expr:

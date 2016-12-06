@@ -1,27 +1,30 @@
 package dk.itu.chomsky.configurator.tests;
 
-import com.google.inject.Inject;
-import dk.itu.chomsky.configurator.model.*;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.util.ParseHelper;
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import dk.itu.chomsky.configurator.scala.Chomsky;
 
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.emf.common.util.*;
+import com.google.inject.Inject;
+
+import dk.itu.chomsky.configurator.model.Constraint;
+import dk.itu.chomsky.configurator.model.Expr;
+import dk.itu.chomsky.configurator.model.Model;
+import dk.itu.chomsky.configurator.model.Product;
+import dk.itu.chomsky.configurator.scala.Chomsky;
 
 @RunWith(XtextRunner.class)
 @InjectWith(ConfigDSLInjectorProvider.class)
@@ -137,6 +140,11 @@ public class ConfigDSLParsingTest {
 				System.err.println("Model is null for " + f.getName());
 				assertTrue("model " + fname + " is null", false);
 				continue;
+			}
+			try {
+				validator.assertNoIssues(model);
+			} catch (AssertionError err) {
+				throw new AssertionError(err.getMessage() + " in file " + fname);
 			}
 			String output = generator.apply(model);
 			String expectedDir = "resources/expected/" + dirName + "/";

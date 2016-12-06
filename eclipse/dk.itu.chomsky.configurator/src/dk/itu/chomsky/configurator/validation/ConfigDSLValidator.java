@@ -6,9 +6,10 @@ package dk.itu.chomsky.configurator.validation;
 import org.eclipse.xtext.validation.Check;
 import dk.itu.chomsky.configurator.model.Constraint;
 import dk.itu.chomsky.configurator.model.EnumType;
+import dk.itu.chomsky.configurator.model.Expr;
 import dk.itu.chomsky.configurator.scala.*;
-import scala.Option;
 
+import scala.Option;
 
 /**
  * This class contains custom validation rules. 
@@ -21,10 +22,10 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 	void checkConstraint(Constraint constraint) { 
 		if (constraint == null || constraint.getExpr() == null)
 			return;
-		
-		Option<ExprTy> ty = Chomsky.checkExpr(constraint.getExpr());
+		Expr expr = constraint.getExpr();
+		Option<ExprTy> ty = Chomsky.checkExpr(expr);
 		if (ty.isEmpty()) {
-			error("Expression did not type-check", constraint, null);
+			error("Expression " + Chomsky.genJSExpr(expr) + " did not type-check", constraint, null);
 		} else if (!ty.get().equals(TyBool$.MODULE$)) {
 			error("Constraint must have a boolean expression", constraint, null);
 		}
