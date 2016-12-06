@@ -1,0 +1,21 @@
+model mult_products "Multiple Products" {
+   types {
+      t1 "Type 1" {
+          v1 "Val1"
+          v2 "Val2"
+      }
+   }
+   product bar "bar" {
+      param baz "baz" Int
+      param p2 "Param 2" t1
+      param p2 "Param 3" t1
+      
+      constraints {
+      }
+   }
+   product p2 "Product 2" {
+  	  param par1 "Param 1" Int
+  	  param par2 "Param 2" t1
+  	   
+   }
+}

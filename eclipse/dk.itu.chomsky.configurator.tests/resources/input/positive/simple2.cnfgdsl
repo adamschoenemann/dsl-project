@@ -1,0 +1,62 @@
+model computer_model "Customize Your Computer" {
+  types {
+    arch "Architecture" {
+      x64 "64 bit"
+      x86 "32 bit"
+    }
+    gpu "GPU" {
+      gtx970 "Asus Geforce GTX 970"
+      gtx980 "MSI Geforce GTX 980"
+      rx480 "Sapphire Radeon RX 840 NITRO+"
+    }
+    cpu "CPU" {
+      i5 "Intel 2.3 GHz i5"
+      i7 "Intel 2.2 GHz i7"
+      x4 "AMD 2.8 GHz Athlon X4"
+    }
+    mouse "Mouse" {
+      razor "Razord"
+      logitech "Logitech"
+      microsoft "Microsoft"
+    }
+    keyboard "Keyboard" {
+      ltkb "Logitech"
+      i7 "Microsoft"
+    }
+  }
+  product computer "Computer" {
+    param arch "Architecture" arch
+    param cpu "CPU" cpu
+    param gpu "GPU" gpu
+    param ram "RAM" Int
+    param engraving "Engraving" Text
+    param deliver "Deliver" Bool
+    param ghz "GHz" Double
+ 
+    group "Peripherals" {
+      param keyboard "Keyboard" keyboard optional
+      param mouse "Mouse" mouse optional
+    }
+    constraints {
+      constraint on ram "Ram must be positive" value(ram) > 0
+      constraint on ram "32-bits can at most have 4g ram" if value(arch) == x86 then value(ram) <= 4 else true
+      constraint on keyboard "c1" if value(gpu) == gtx970 then value(keyboard) == ltkb else true
+      constraint "c2" if value(cpu) == i5 then value(gpu) == gtx970 || value(gpu) == gtx980 else true
+      constraint on cpu "CPU must be intel" contains(label("cpu"), "Intel")
+    }
+  }
+ 
+  group "Peripherals" {
+ 
+    group "Inner group" {
+ 
+    }
+    product mouse "Mouse" {
+ 
+    }
+ 
+    product keyboard "Keyboard" {
+ 
+    }
+  }
+}

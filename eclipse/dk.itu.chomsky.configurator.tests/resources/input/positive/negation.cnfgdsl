@@ -1,0 +1,20 @@
+model neg "Negation" {
+   types {
+      t1 "Type 1" {
+          v1 "Val1"
+          v2 "Val2"
+      }
+   }
+   product bar "bar" {
+      param baz "baz" Int
+      param p2 "Param 2" t1
+      constraints {
+         constraint on baz "fooconstraint" !(5 + -10 > 0)
+         constraint "c1" value(baz) == -0
+         constraint "c2" (value(p2) == v1) == ((52 / 42 * -10) > -0)
+         constraint "c3" 5 > -5
+         constraint "c4" if (value(p2) == v2) then (false || true) else (3 == 2)
+         constraint "c5" contains(value(p2), "foo") == true
+      }
+   }
+}
