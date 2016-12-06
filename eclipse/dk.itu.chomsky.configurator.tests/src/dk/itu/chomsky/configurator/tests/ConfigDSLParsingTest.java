@@ -131,6 +131,26 @@ public class ConfigDSLParsingTest {
 	}
 	
 	@Test
+	public void testNegativeUniqueNames() throws Exception {
+		File inputDir = new File("resources/input/negative/unique_names/");
+		if (inputDir.exists() == false) {
+			inputDir.mkdirs();
+		}
+		for (File f : inputDir.listFiles()) {
+			String fname = f.getName();
+			String input = readFile(f);
+			Model model = parser.parse(input);
+			assertNotNull(fname, model);
+			int errors = Integer.parseInt(input.split("[\r\n(\r\n)]")[0].split("errors:")[1].trim());
+			List<Issue> issues = validator.validate(model);
+			assertEquals("expected number of unique-name-errors", errors, issues.size());
+			for (Issue issue : issues) {
+				System.out.println(issue.getCode() + ": " + issue.getMessage());
+				assertEquals(ConfigDSLValidator.UNIQUE_NAME_ERROR, issue.getCode());
+			}
+		}
+	}
+	@Test
 	public void testTypeChecker() throws Exception {
 		File inputDir = new File("resources/input/negative/typechecker/");
 		if (inputDir.exists() == false) {
@@ -141,13 +161,12 @@ public class ConfigDSLParsingTest {
 			String input = readFile(f);
 			Model model = parser.parse(input);
 			assertNotNull(fname, model);
-			int errors = Integer.parseInt(input.split("[\r\n(\r\n)]")[0].split("errors:")[1]);
-			System.out.println("expect " + errors + " errors");
+			int errors = Integer.parseInt(input.split("[\r\n(\r\n)]")[0].split("errors:")[1].trim());
 			List<Issue> issues = validator.validate(model);
+			assertEquals("expected number of type-errors", errors, issues.size());
 			for (Issue issue : issues) {
-				assertEquals(issue.getCode(), ConfigDSLValidator.TYPE_ERROR);
+				assertEquals(ConfigDSLValidator.TYPE_ERROR, issue.getCode());
 			}
-			//validator.assertError(model, null, ConfigDSLValidator.TYPE_ERROR);
 		}
 	}
 	

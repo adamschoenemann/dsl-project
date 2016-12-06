@@ -1,0 +1,26 @@
+// errors: 4 
+model unique_names_error_1 "Unique Names Error 1" {
+   types {
+      t1 "Type 1" {
+          v1 "Val1"
+          v2 "Val2"
+      }
+      t2 "Type 2" {
+      	  val1 "oiqdoijqwd"
+      	  val2 "dpdpqwdpqwdpoqwd"
+      	  v2   "oops"
+      }
+      t1 "Type 1 again!?" {
+      	whatever "whatever"
+      	whatever "wot"
+      }
+   }
+   product bar "bar" {
+      param p1 "Param 1" Int
+      param p2 "Param 2" t1
+      param p1 "P1 Radio" Bool
+      
+      constraints {
+      }
+   }
+}

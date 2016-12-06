@@ -9,10 +9,6 @@ import dk.itu.chomsky.configurator.scala.generators.common.ExprGen.genExpr
 import dk.itu.chomsky.configurator.scala.generators.android.AndroidGenerator 
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
 
-object implicits {
-}
-
-import implicits._
 
 sealed trait ExprTy
 case object TyNum extends ExprTy
