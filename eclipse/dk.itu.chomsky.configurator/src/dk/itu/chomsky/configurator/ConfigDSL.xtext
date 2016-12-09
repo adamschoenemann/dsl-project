@@ -90,15 +90,15 @@ FunApp:
 
 
 Var returns Expr:
-	ParamValueRef | FunApp | ValueRef
+	ParamRef | FunApp | ValueRef
 ;
 
 ValueRef:
 	enumVal=[EnumVal]
 ;
 
-ParamValueRef:
-	"value" "(" param=[Param] ")"
+ParamRef:
+	"$" param=[Param] 
 ;
 
 

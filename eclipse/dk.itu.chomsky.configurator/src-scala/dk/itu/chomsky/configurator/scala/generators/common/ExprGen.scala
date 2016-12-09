@@ -10,10 +10,7 @@ object ExprGen {
     case E.ConstBool(x)   => x.toString
     case E.ConstString(x) => "\"" + x + "\""
     case E.ValueRef(E.EnumVal(name,_))    => s"""getValue("$name")"""
-    case E.ParamValueRef(param)    => param match {
-      case E.PrimParam(name,label,ty) => s"""getPrimParamVal("$name")"""
-      case E.EnumParam(name,label,E.EnumType(ename,elabel,_))  => s"""getEnumParamVal("$name")"""
-    }
+    case E.ParamRef(param)    => s"""getParam("$param")"""
     case E.Not(e)  => "!" + genExpr(e)
     case E.Neg(e)  => "-" + genExpr(e)
     case E.ITE(g, t, f) => s"(${genExpr(g)} ? (${genExpr(t)}) : (${genExpr(f)}))"

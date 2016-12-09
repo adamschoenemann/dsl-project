@@ -6,7 +6,7 @@ import Utils._
 import dk.itu.chomsky.configurator.scala.generators.html.HTMLGenerator
 import dk.itu.chomsky.configurator.scala.generators.json.JSONGenerator
 import dk.itu.chomsky.configurator.scala.generators.common.ExprGen.genExpr
-import dk.itu.chomsky.configurator.scala.generators.android.AndroidGenerator 
+import dk.itu.chomsky.configurator.scala.generators.android.AndroidGenerator
 import dk.itu.chomsky.configurator.scala.{Extractors => E}
 
 
@@ -14,35 +14,47 @@ sealed trait ExprTy
 case object TyNum extends ExprTy
 case object TyBool extends ExprTy
 case object TyString extends ExprTy
+case object TyValueRef extends ExprTy
+case object TyParamRef extends ExprTy
 
 
 
 object Chomsky {
 
 
-  case class FunDef(name:String, argTys:List[ExprTy], retTy:ExprTy) {
+  class FunDef(name:String, paramTys:List[ExprTy], retTy:ExprTy) {
 
     def checkArgs(args:List[Expr]):Boolean = {
-      args.zip(argTys).map({case (expr, expectTy) => {
+      args.zip(paramTys).map({case (expr, expectTy) => {
         for {
           resTy <- checkExpr(expr) if resTy == expectTy
         } yield expectTy
       }}).forall(!_.isEmpty)
     }
 
+    def getRetTy(argTys:List[Expr]):ExprTy = retTy
 
   }
+
+  val valueFunDef =
+    new FunDef("value", List(TyParamRef), TyValueRef) {
+      override def getRetTy(argTys:List[Expr]) = argTys match {
+        case Nil => sys.error("should never happen")
+        case List(E.ParamRef(param)) => param match {
+          case E.PrimParam(_,_,ty) => primToTy(ty)
+          case E.EnumParam(_)  => TyValueRef
+        }
+        case _ => sys.error("should never happen")
+      }
+    }
 
   val stdLib = Map[String, FunDef](
-    "contains" -> FunDef("contains", List(TyString, TyString), TyBool),
-    "label"    -> FunDef("label", List(TyString), TyString)
+    "value"    -> valueFunDef,
+    "contains" -> new FunDef("contains", List(TyString, TyString), TyBool),
+    "label"    -> new FunDef("label", List(TyParamRef), TyString)
   )
 
-/*
-  def pleaseWork():Unit = {
-    println("Please work")
-  }
-*/
+
   private def checkOpOfTy(ty:ExprTy, op:BinOp, result:ExprTy):Option[ExprTy] = {
     for {
       l <- checkExpr(op.getLeft)  if l == ty
@@ -63,7 +75,7 @@ object Chomsky {
   def checkFun(name:String, args:List[Expr]):Option[ExprTy] = {
     stdLib.get(name).flatMap(fundef => {
       if (fundef.checkArgs(args))
-        Some(fundef.retTy)
+        Some(fundef.getRetTy(args))
       else None
     })
   }
@@ -72,11 +84,8 @@ object Chomsky {
     case E.ConstNum(_)   => Some(TyNum)
     case E.ConstBool(_)  => Some(TyBool)
     case E.ConstString(_)  => Some(TyString)
-    case E.ParamValueRef(param)    => param match {
-      case E.PrimParam(_,_,ty) => Some(primToTy(ty))
-      case E.EnumParam(_)  => Some(TyString)
-    }
-    case E.ValueRef(enumVal) => Some(TyString)
+    case E.ParamRef(param)    => Some(TyParamRef)
+    case E.ValueRef(enumVal) => Some(TyValueRef)
     case E.Not(expr) =>
       for {
         ty <- checkExpr(expr) if ty == TyBool
@@ -140,7 +149,7 @@ object Chomsky {
  def generateHtml(model:Model):String = HTMLGenerator.generate(model)
  def genJSExpr(expr:Expr):String = genExpr(expr)
  def testHtmlGen(model:Model):Unit = HTMLGenerator.test(model)
- 
+
  //Android
  def generateAndroidView(model:Model):String = AndroidGenerator.generateView(model)
 

@@ -137,10 +137,10 @@ object Extractors {
 
   }
 
-  object ParamValueRef {
+  object ParamRef {
     def unapply(expr:Expr):Option[Param] =
-      if (expr.isInstanceOf[ParamValueRef])
-        Some(expr.asInstanceOf[ParamValueRef]).map(_.getParam)
+      if (expr.isInstanceOf[ParamRef])
+        Some(expr.asInstanceOf[ParamRef]).map(_.getParam)
       else None
   }
 

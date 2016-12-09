@@ -75,9 +75,6 @@
     <genClasses ecoreClass="configurator.ecore#//Div"/>
     <genClasses ecoreClass="configurator.ecore#//And"/>
     <genClasses ecoreClass="configurator.ecore#//Or"/>
-    <genClasses ecoreClass="configurator.ecore#//ParamValueRef">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamValueRef/param"/>
-    </genClasses>
     <genClasses ecoreClass="configurator.ecore#//ValueRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ValueRef/enumVal"/>
     </genClasses>
@@ -98,6 +95,9 @@
     </genClasses>
     <genClasses ecoreClass="configurator.ecore#//Neg">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configurator.ecore#//Neg/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//ParamRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamRef/param"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

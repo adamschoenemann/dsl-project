@@ -204,10 +204,10 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if ((getPrimParamVal("ram") > 0.0) == false) { setError("Ram must be positive", "ram") }
-      if (((getEnumParamVal("arch") == getValue("x86")) ? ((getPrimParamVal("ram") <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
-      if (((getEnumParamVal("gpu") == getValue("gtx970")) ? ((getEnumParamVal("keyboard") == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
-      if (((getEnumParamVal("cpu") == getValue("i5")) ? (((getEnumParamVal("gpu") == getValue("gtx970")) || (getEnumParamVal("gpu") == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
+            if ((funs["value"].apply(funs, [getValue("null")]) > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("x86")) ? ((funs["value"].apply(funs, [getValue("null")]) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("gtx970")) ? ((funs["value"].apply(funs, [getValue("null")]) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
+      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("i5")) ? (((funs["value"].apply(funs, [getValue("null")]) == getValue("gtx970")) || (funs["value"].apply(funs, [getValue("null")]) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
       if (funs["contains"].apply(funs, [funs["label"].apply(funs, ["cpu"]), "Intel"]) == false) { setError("CPU must be intel", "cpu") }
     }
     $(document).ready(function() {
