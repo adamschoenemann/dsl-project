@@ -13,7 +13,6 @@ model operators "Operators" {
          constraint on baz "fooconstraint" !(5 + -10 > 0)
          constraint "c3" true && false || (true && false)
          constraint "c31" !(!(20 - (-20) == 40))
-         constraint "c5" contains(value(p2), "foo") == true
          constraint "c6" !(50 <= 50)
          constraint "c7" (20 >= 30) && false
       }
