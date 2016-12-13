@@ -112,18 +112,36 @@ object HTMLGenerator {
         return input.indexOf(query) > -1;
       },
       "label": function(param) {
-        return $$("#" + param + " select option:selected").text();
+        return param.label;
+      },
+      "value": function(param) {
+        return param.val;
       }
     };
 
     function getValue(name) {
       return values[name].name;
     }
-    function getPrimParamVal(name) {
-      return $$("#" + name + " input").val();
+    function getEnumParam(name) {
+      var jq = $$("#" + name + " select");
+      var label = $$("#" + name + " select option:selected").text();
+      return {
+        val: jq.val(),
+        label: label
+      };
     }
-    function getEnumParamVal(name) {
-      return $$("#" + name + " select").val();
+    function getPrimParam(name) {
+      var jq = $$("#" + name + " input");
+      return {
+        val: jq.val(),
+        label: jq.val()
+      };
+    }
+
+    function callFun() {
+      var fname = arguments[0];
+      var fargs  = Array.prototype.slice.call(arguments, 1);
+      return funs[fname].apply(funs, fargs);
     }
     var values = ${genValues(enumVals)};
     function setError(err, pname /*optional*/) {

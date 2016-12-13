@@ -10,14 +10,18 @@ object ExprGen {
     case E.ConstBool(x)   => x.toString
     case E.ConstString(x) => "\"" + x + "\""
     case E.ValueRef(E.EnumVal(name,_))    => s"""getValue("$name")"""
-    case E.ParamRef(param)    => s"""getParam("${param.getName}")"""
+    case E.ParamRef(param) => param match {
+      case E.PrimParam(name,_,_) => s"""getPrimParam("$name")"""
+      case E.EnumParam(name,_,_) => s"""getEnumParam("$name")"""
+    }
     case E.Not(e)  => "!" + genExpr(e)
     case E.Neg(e)  => "-" + genExpr(e)
     case E.ITE(g, t, f) => s"(${genExpr(g)} ? (${genExpr(t)}) : (${genExpr(f)}))"
     case E.FunApp(name, args) => {
-      val fnref = s"""funs["$name"]"""
-      val argslist = "[" + args.map(genExpr(_)).mkString(", ") + "]"
-      s"$fnref.apply(funs, $argslist)"
+      val argslist = args.map(genExpr(_)).mkString(", ")
+      s"""callFun("$name", $argslist)"""
+      // val fnref = s"""funs["$name"]"""
+      // s"$fnref.apply(funs, $argslist)"
     }
     case E.Plus(l,r)  => s"(${genExpr(l)} + ${genExpr(r)})"
     case E.Minus(l,r) => s"(${genExpr(l)} - ${genExpr(r)})"

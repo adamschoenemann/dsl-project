@@ -92,6 +92,8 @@
         
       </fieldset>
       
+      </fieldset>
+      
 
     <div class="product">
       <h2>Mouse</h2>
@@ -106,8 +108,6 @@
     </div>
     
     
-      </fieldset>
-      
     <div id="errors">
     </div>
     <input id="submit" type="submit" value="Submit"/>
@@ -118,18 +118,36 @@
         return input.indexOf(query) > -1;
       },
       "label": function(param) {
-        return $("#" + param + " select option:selected").text();
+        return param.label;
+      },
+      "value": function(param) {
+        return param.val;
       }
     };
 
     function getValue(name) {
       return values[name].name;
     }
-    function getPrimParamVal(name) {
-      return $("#" + name + " input").val();
+    function getEnumParam(name) {
+      var jq = $("#" + name + " select");
+      var label = $("#" + name + " select option:selected").text();
+      return {
+        val: jq.val(),
+        label: label
+      };
     }
-    function getEnumParamVal(name) {
-      return $("#" + name + " select").val();
+    function getPrimParam(name) {
+      var jq = $("#" + name + " input");
+      return {
+        val: jq.val(),
+        label: jq.val()
+      };
+    }
+
+    function callFun() {
+      var fname = arguments[0];
+      var fargs  = Array.prototype.slice.call(arguments, 1);
+      return funs[fname].apply(funs, fargs);
     }
     var values = {
 	"gtx980": {
@@ -204,11 +222,11 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if ((funs["value"].apply(funs, [getValue("null")]) > 0.0) == false) { setError("Ram must be positive", "ram") }
-      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("x86")) ? ((funs["value"].apply(funs, [getValue("null")]) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
-      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("gtx970")) ? ((funs["value"].apply(funs, [getValue("null")]) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
-      if (((funs["value"].apply(funs, [getValue("null")]) == getValue("i5")) ? (((funs["value"].apply(funs, [getValue("null")]) == getValue("gtx970")) || (funs["value"].apply(funs, [getValue("null")]) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
-      if (funs["contains"].apply(funs, [funs["label"].apply(funs, ["cpu"]), "Intel"]) == false) { setError("CPU must be intel", "cpu") }
+            if ((callFun("value", getPrimParam("ram")) > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if (((callFun("value", getEnumParam("arch")) == getValue("x86")) ? ((callFun("value", getPrimParam("ram")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+      if (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) ? ((callFun("value", getEnumParam("keyboard")) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
+      if (((callFun("value", getEnumParam("cpu")) == getValue("i5")) ? (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) || (callFun("value", getEnumParam("gpu")) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
+      if (callFun("contains", callFun("label", getEnumParam("cpu")), "Intel") == false) { setError("CPU must be intel", "cpu") }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);
