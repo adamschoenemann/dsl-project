@@ -182,11 +182,11 @@ ${children}
 
   def paramToHtml[Param](param:Param):String = param match {
     case E.PrimParam(name, label, t) =>
-      val (inputType, step) = primToJSType(t)
+      val (inputType, step, defVal) = primToJSType(t)
       s"""
       <div class="param" id="${name}">
         <label>${label}</label>
-        <input name="${name}" type="${inputType}"${step} />
+        <input name="${name}" type="${inputType}"${step} $defVal />
       </div>
 """
     case E.EnumParam(name, label, E.EnumType(ename,elabel,values)) =>
@@ -206,11 +206,11 @@ ${options}
   private def childToHtml(c: ProductChild): String =
     if (c.isInstanceOf[Param]) paramToHtml(c) else pGroupToHtml(c.asInstanceOf[ParamGroup])
 
-  private def primToJSType(ty:PrimitiveType):(String, String) = ty match {
-      case PrimitiveType.INT_TY    => ("number", "")
-      case PrimitiveType.DOUBLE_TY => ("number", " step=\"0.01\"")
-      case PrimitiveType.BOOL_TY   => ("checkbox", "")
-      case PrimitiveType.TEXT_TY   => ("text", "")
+  private def primToJSType(ty:PrimitiveType):(String, String, String) = ty match {
+      case PrimitiveType.INT_TY    => ("number", "", "value=\"0\"")
+      case PrimitiveType.DOUBLE_TY => ("number", " step=\"0.01\"", "value=\"0.0\"")
+      case PrimitiveType.BOOL_TY   => ("checkbox", "", "")
+      case PrimitiveType.TEXT_TY   => ("text", "", "")
       case _ => throw new NotImplementedError("unkown primitive type")
     }
 
