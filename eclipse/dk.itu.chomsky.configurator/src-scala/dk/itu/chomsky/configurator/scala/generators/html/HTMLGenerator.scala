@@ -130,10 +130,11 @@ object HTMLGenerator {
         label: label
       };
     }
-    function getPrimParam(name) {
+    function getPrimParam(name, primTy) {
       var jq = $$("#" + name + " input");
+      var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
-        val: jq.val(),
+        val: val,
         label: jq.val()
       };
     }

@@ -85,29 +85,50 @@
     
 
       <fieldset>
-        <legend>Peripherals</legend>
+        <legend>Displays</legend>
         
       <fieldset>
         <legend>Inner group</legend>
         
-      </fieldset>
+    <div class="product">
+      <h2>Level 2 Product</h2>
       
+      <div class="param" id="lvl2p1">
+        <label>Level 2 Param</label>
+        <input name="lvl2p1" type="checkbox" />
+      </div>
+
+    </div>
+    
+    
       </fieldset>
       
 
     <div class="product">
-      <h2>Mouse</h2>
+      <h2>Monitor 1</h2>
       
+      <div class="param" id="inches1">
+        <label>Inches</label>
+        <input name="inches1" type="number" step="0.01" />
+      </div>
+
     </div>
     
     
 
     <div class="product">
-      <h2>Keyboard</h2>
+      <h2>Monitor 2</h2>
       
+      <div class="param" id="inches2">
+        <label>Inches</label>
+        <input name="inches2" type="number" step="0.01" />
+      </div>
+
     </div>
     
     
+      </fieldset>
+      
     <div id="errors">
     </div>
     <input id="submit" type="submit" value="Submit"/>
@@ -136,10 +157,11 @@
         label: label
       };
     }
-    function getPrimParam(name) {
+    function getPrimParam(name, primTy) {
       var jq = $("#" + name + " input");
+      var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
-        val: jq.val(),
+        val: val,
         label: jq.val()
       };
     }
@@ -222,11 +244,12 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if ((callFun("value", getPrimParam("ram")) > 0.0) == false) { setError("Ram must be positive", "ram") }
-      if (((callFun("value", getEnumParam("arch")) == getValue("x86")) ? ((callFun("value", getPrimParam("ram")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+            if ((callFun("value", getPrimParam("ram", "IntTy")) > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if (((callFun("value", getEnumParam("arch")) == getValue("x86")) ? ((callFun("value", getPrimParam("ram", "IntTy")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
       if (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) ? ((callFun("value", getEnumParam("keyboard")) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
       if (((callFun("value", getEnumParam("cpu")) == getValue("i5")) ? (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) || (callFun("value", getEnumParam("gpu")) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
       if (callFun("contains", callFun("label", getEnumParam("cpu")), "Intel") == false) { setError("CPU must be intel", "cpu") }
+      if ((callFun("value", getPrimParam("lvl2p1", "BoolTy")) == true) == false) { setError("This must be true, thank you", "lvl2p1") }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);
