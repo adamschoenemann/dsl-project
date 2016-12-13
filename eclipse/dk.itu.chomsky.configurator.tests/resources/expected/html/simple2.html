@@ -1,0 +1,239 @@
+<html>
+<head>
+  <title>Customize Your Computer</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="model.css">
+</head>
+<body>
+  <form class="model">
+    
+    <div class="product">
+      <h2>Computer</h2>
+            <div class="param" id="arch">
+        <label>Architecture</label>
+        <select name="arch">
+          <option value="x64">64 bit</option>
+          <option value="x86">32 bit</option>
+        </select>
+      </div>
+
+      <div class="param" id="cpu">
+        <label>CPU</label>
+        <select name="cpu">
+          <option value="i5">Intel 2.3 GHz i5</option>
+          <option value="i7">Intel 2.2 GHz i7</option>
+          <option value="x4">AMD 2.8 GHz Athlon X4</option>
+        </select>
+      </div>
+
+      <div class="param" id="gpu">
+        <label>GPU</label>
+        <select name="gpu">
+          <option value="gtx970">Asus Geforce GTX 970</option>
+          <option value="gtx980">MSI Geforce GTX 980</option>
+          <option value="rx480">Sapphire Radeon RX 840 NITRO+</option>
+        </select>
+      </div>
+
+
+      <div class="param" id="ram">
+        <label>RAM</label>
+        <input name="ram" type="number" value="0" />
+      </div>
+
+
+      <div class="param" id="engraving">
+        <label>Engraving</label>
+        <input name="engraving" type="text"  />
+      </div>
+
+
+      <div class="param" id="deliver">
+        <label>Deliver</label>
+        <input name="deliver" type="checkbox"  />
+      </div>
+
+
+      <div class="param" id="ghz">
+        <label>GHz</label>
+        <input name="ghz" type="number" step="0.01" value="0.0" />
+      </div>
+
+    </div>
+    
+    <fieldset>
+      <legend>Peripherals</legend>
+      <div class="param" id="keyboard">
+        <label>Keyboard</label>
+        <select name="keyboard">
+          <option value="ltkb">Logitech</option>
+          <option value="mskb">Microsoft</option>
+        </select>
+      </div>
+
+      <div class="param" id="mouse">
+        <label>Mouse</label>
+        <select name="mouse">
+          <option value="razor">Razord</option>
+          <option value="logitech">Logitech</option>
+          <option value="microsoft">Microsoft</option>
+        </select>
+      </div>
+
+    </fieldset>
+
+    
+
+      <fieldset>
+        <legend>Peripherals</legend>
+        
+      <fieldset>
+        <legend>Inner group</legend>
+        
+      </fieldset>
+      
+
+    <div class="product">
+      <h2>Mouse</h2>
+      
+    </div>
+    
+    
+
+    <div class="product">
+      <h2>Keyboard</h2>
+      
+    </div>
+    
+    
+      </fieldset>
+      
+    <div id="errors">
+    </div>
+    <input id="submit" type="submit" value="Submit"/>
+  </form>
+  <script>
+    var funs = {
+      "contains": function(input, query) {
+        return input.indexOf(query) > -1;
+      },
+      "label": function(param) {
+        return param.label;
+      },
+      "value": function(param) {
+        return param.val;
+      }
+    };
+
+    function getValue(name) {
+      return values[name].name;
+    }
+    function getEnumParam(name) {
+      var jq = $("#" + name + " select");
+      var label = $("#" + name + " select option:selected").text();
+      return {
+        val: jq.val(),
+        label: label
+      };
+    }
+    function getPrimParam(name, primTy) {
+      var jq = $("#" + name + " input");
+      var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
+      return {
+        val: val,
+        label: jq.val()
+      };
+    }
+
+    function callFun() {
+      var fname = arguments[0];
+      var fargs  = Array.prototype.slice.call(arguments, 1);
+      return funs[fname].apply(funs, fargs);
+    }
+    var values = {
+	"gtx980": {
+		"name": "gtx980",
+		"label": "MSI Geforce GTX 980"
+	},
+	"rx480": {
+		"name": "rx480",
+		"label": "Sapphire Radeon RX 840 NITRO+"
+	},
+	"i5": {
+		"name": "i5",
+		"label": "Intel 2.3 GHz i5"
+	},
+	"ltkb": {
+		"name": "ltkb",
+		"label": "Logitech"
+	},
+	"logitech": {
+		"name": "logitech",
+		"label": "Logitech"
+	},
+	"x86": {
+		"name": "x86",
+		"label": "32 bit"
+	},
+	"i7": {
+		"name": "i7",
+		"label": "Intel 2.2 GHz i7"
+	},
+	"x64": {
+		"name": "x64",
+		"label": "64 bit"
+	},
+	"microsoft": {
+		"name": "microsoft",
+		"label": "Microsoft"
+	},
+	"gtx970": {
+		"name": "gtx970",
+		"label": "Asus Geforce GTX 970"
+	},
+	"razor": {
+		"name": "razor",
+		"label": "Razord"
+	},
+	"x4": {
+		"name": "x4",
+		"label": "AMD 2.8 GHz Athlon X4"
+	},
+	"mskb": {
+		"name": "mskb",
+		"label": "Microsoft"
+	}
+};
+    function setError(err, pname /*optional*/) {
+      $err = $("<p>").html(err);
+      if (pname !== null) {
+        $("#" + pname).append($("<div>").addClass("has-error").append($err));
+      } else {
+        $("#errors").append($err);
+      }
+      $("#submit").addClass("has-errors");
+      $("#submit").attr("disabled", "disabled");
+    }
+    function clearErrors() {
+      $("#errors").empty();
+      $(".has-error").remove();
+      $("#submit").removeClass("has-errors");
+      $("#submit").removeAttr("disabled");
+    }
+    
+    function checkErrs(evt) {
+      clearErrors();
+            if ((callFun("value", getPrimParam("ram", "IntTy")) > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if (((callFun("value", getEnumParam("arch")) == getValue("x86")) ? ((callFun("value", getPrimParam("ram", "IntTy")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+      if (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) ? ((callFun("value", getEnumParam("keyboard")) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
+      if (((callFun("value", getEnumParam("cpu")) == getValue("i5")) ? (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) || (callFun("value", getEnumParam("gpu")) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
+      if (callFun("contains", callFun("label", getEnumParam("cpu")), "Intel") == false) { setError("CPU must be intel", "cpu") }
+    }
+    $(document).ready(function() {
+      $("input").on("input change", checkErrs);
+      $("select").on("change", checkErrs);
+    })
+    
+  </script>
+</body>
+</html>
