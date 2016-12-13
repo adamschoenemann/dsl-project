@@ -99,5 +99,6 @@
     <genClasses ecoreClass="configurator.ecore#//ParamRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configurator.ecore#//ParamRef/param"/>
     </genClasses>
+    <genClasses ecoreClass="configurator.ecore#//Implic"/>
   </genPackages>
 </genmodel:GenModel>

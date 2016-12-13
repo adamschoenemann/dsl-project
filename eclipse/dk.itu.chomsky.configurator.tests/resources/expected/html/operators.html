@@ -102,6 +102,7 @@
       if (!!((20.0 - -20.0) == 40.0) == false) { setError("c31", null) }
       if (!(50.0 <= 50.0) == false) { setError("c6", null) }
       if (((20.0 >= 30.0) && false) == false) { setError("c7", null) }
+      if ((!(callFun("value", getPrimParam("baz", "IntTy")) > 0.0) || (callFun("value", getEnumParam("p2")) == getValue("v2"))) == false) { setError("c8", null) }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);

@@ -27,6 +27,7 @@ object ExprGen {
     case E.Div(l,r)   => s"(${genExpr(l)} / ${genExpr(r)})"
     case E.Eq(l,r)    => s"(${genExpr(l)} == ${genExpr(r)})"
     case E.And(l,r)   => s"(${genExpr(l)} && ${genExpr(r)})"
+    case E.Implic(l,r) => s"(!${genExpr(l)} || ${genExpr(r)})"
     case E.Or(l,r)    => s"(${genExpr(l)} || ${genExpr(r)})"
     case E.Leq(l,r)   => s"(${genExpr(l)} <= ${genExpr(r)})"
     case E.Lt(l,r)    => s"(${genExpr(l)} < ${genExpr(r)})"

@@ -52,6 +52,11 @@
 				"label": "c7",
 				"param": null,
 				"expr": "((20.0 >= 30.0) && false)"
+			},
+			{
+				"label": "c8",
+				"param": null,
+				"expr": "(!(callFun(\"value\", getPrimParam(\"baz\", \"IntTy\")) > 0.0) || (callFun(\"value\", getEnumParam(\"p2\")) == getValue(\"v2\")))"
 			}
 		]
 	}]

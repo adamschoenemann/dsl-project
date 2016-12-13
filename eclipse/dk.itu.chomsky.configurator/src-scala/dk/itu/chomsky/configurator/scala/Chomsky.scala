@@ -112,6 +112,7 @@ object Chomsky {
       } yield TyBool
     case op:And   => checkOpOfTy(TyBool, op, TyBool)
     case op:Or    => checkOpOfTy(TyBool, op, TyBool)
+    case op:Implic => checkOpOfTy(TyBool, op, TyBool)
     case op:Leq   => checkOpOfTy(TyNum, op, TyBool)
     case op:Lt    => checkOpOfTy(TyNum, op, TyBool)
     case op:Geq   => checkOpOfTy(TyNum, op, TyBool)

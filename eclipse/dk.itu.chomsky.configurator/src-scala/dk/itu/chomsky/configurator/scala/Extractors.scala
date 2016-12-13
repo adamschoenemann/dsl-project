@@ -86,6 +86,12 @@ object Extractors {
         Some(expr.asInstanceOf[Or]).map(op => (op.getLeft, op.getRight))
       else None
   }
+  object Implic {
+    def unapply(expr:Expr):Option[(Expr, Expr)] =
+      if (expr.isInstanceOf[Implic])
+        Some(expr.asInstanceOf[Implic]).map(op => (op.getLeft, op.getRight))
+      else None
+  }
   object Leq {
     def unapply(expr:Expr):Option[(Expr, Expr)] =
       if (expr.isInstanceOf[Leq])

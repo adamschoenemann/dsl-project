@@ -111,4 +111,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="ParamRef" eSuperTypes="#//Expr">
     <eStructuralFeatures xsi:type="ecore:EReference" name="param" eType="#//Param"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Implic" eSuperTypes="#//BinOp"/>
 </ecore:EPackage>
