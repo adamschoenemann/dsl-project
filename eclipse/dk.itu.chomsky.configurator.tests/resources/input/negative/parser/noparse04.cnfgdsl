@@ -1,0 +1,15 @@
+// syntax: 2
+// linker: 0
+model noparse04 "No Parse 04" {
+    types {
+        t1 "Type 1" {
+            v1 "Val1"
+            v2 "Val2"
+        }
+    }
+    product bar "bar" {
+        param p1 "Param 1" Bool
+
+        constraint "foo" true
+    }
+}

@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtext.diagnostics.Diagnostic;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
@@ -40,6 +41,38 @@ public class ConfigDSLParsingTest {
 	@Test
 	public void testTemplate() {
 		Chomsky.testTemplates();
+	}
+	
+	@Test
+	public void testParserFails() throws Exception {
+		File inputDir = new File("resources/input/negative/parser/");
+		if (inputDir.exists() == false) {
+			inputDir.mkdirs();
+		}
+		for (File f : inputDir.listFiles()) {
+			String fname = f.getName();
+			String input = readFile(f);
+			Model model = parser.parse(input);
+			//assertNull(fname, model);
+			String[] lines = input.split("[\r\n(\r\n)]");
+			int expSynErrs = Integer.parseInt(lines[0].split("syntax:")[1].trim());
+			int expLnkErrs = Integer.parseInt(lines[1].split("linker:")[1].trim());
+			List<Issue> issues = validator.validate(model);
+			int synErrs = 0;
+			int lnkErrs = 0;
+			//assertEquals("expected number of type-errors", errors, issues.size());
+//			System.out.println(fname);
+			for (Issue issue : issues) {
+				if (issue.isSyntaxError())
+					synErrs++;
+				else if (issue.getCode() == Diagnostic.LINKING_DIAGNOSTIC)
+					lnkErrs++;
+//				System.out.println("\t" + issue.getCode() + ":\n\t\t" + issue.getMessage());
+				//assertEquals(ConfigDSLValidator.TYPE_ERROR, issue.getCode());
+			}
+			assertEquals(fname + " syntax errors", expSynErrs, synErrs);
+			assertEquals(fname + " linker errors", expLnkErrs, lnkErrs);
+		}
 	}
 	
 	@Test

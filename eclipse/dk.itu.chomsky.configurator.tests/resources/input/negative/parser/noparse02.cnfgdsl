@@ -1,0 +1,7 @@
+// syntax: 2
+// linker: 0
+model noparse02 {
+   typez {
+
+   }
+}
