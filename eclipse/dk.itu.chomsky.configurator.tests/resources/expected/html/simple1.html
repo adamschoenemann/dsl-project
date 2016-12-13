@@ -1,0 +1,113 @@
+<html>
+<head>
+  <title>foo</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="model.css">
+</head>
+<body>
+  <form class="model">
+    
+    <div class="product">
+      <h2>bar</h2>
+      
+      <div class="param" id="baz">
+        <label>baz</label>
+        <input name="baz" type="number" />
+      </div>
+
+      <div class="param" id="t1">
+        <label>Type 1</label>
+        <select name="t1">
+          <option value="v1">Val1</option>
+          <option value="v2">Val2</option>
+        </select>
+      </div>
+
+    </div>
+    
+    
+    <div id="errors">
+    </div>
+    <input id="submit" type="submit" value="Submit"/>
+  </form>
+  <script>
+    var funs = {
+      "contains": function(input, query) {
+        return input.indexOf(query) > -1;
+      },
+      "label": function(param) {
+        return param.label;
+      },
+      "value": function(param) {
+        return param.val;
+      }
+    };
+
+    function getValue(name) {
+      return values[name].name;
+    }
+    function getEnumParam(name) {
+      var jq = $("#" + name + " select");
+      var label = $("#" + name + " select option:selected").text();
+      return {
+        val: jq.val(),
+        label: label
+      };
+    }
+    function getPrimParam(name) {
+      var jq = $("#" + name + " input");
+      return {
+        val: jq.val(),
+        label: jq.val()
+      };
+    }
+
+    function callFun() {
+      var fname = arguments[0];
+      var fargs  = Array.prototype.slice.call(arguments, 1);
+      return funs[fname].apply(funs, fargs);
+    }
+    var values = {
+	"v1": {
+		"name": "v1",
+		"label": "Val1"
+	},
+	"v2": {
+		"name": "v2",
+		"label": "Val2"
+	}
+};
+    function setError(err, pname /*optional*/) {
+      $err = $("<p>").html(err);
+      if (pname !== null) {
+        $("#" + pname).append($("<div>").addClass("has-error").append($err));
+      } else {
+        $("#errors").append($err);
+      }
+      $("#submit").addClass("has-errors");
+      $("#submit").attr("disabled", "disabled");
+    }
+    function clearErrors() {
+      $("#errors").empty();
+      $(".has-error").remove();
+      $("#submit").removeClass("has-errors");
+      $("#submit").removeAttr("disabled");
+    }
+    
+    function checkErrs(evt) {
+      clearErrors();
+            if (!((5.0 + 10.0) > 0.0) == false) { setError("fooconstraint", "baz") }
+      if ((callFun("value", getPrimParam("baz")) == 0.0) == false) { setError("c1", null) }
+      if (((callFun("value", getEnumParam("p2")) == getValue("v1")) == (((52.0 / 42.0) * 10.0) > 0.0)) == false) { setError("c2", null) }
+      if ((5.0 > 5.0) == false) { setError("c3", null) }
+      if (((callFun("value", getEnumParam("p2")) == getValue("v1")) ? (false) : (true)) == false) { setError("c4", null) }
+      if ((callFun("contains", callFun("label", getEnumParam("p2")), "foo") == true) == false) { setError("c5", null) }
+    }
+    $(document).ready(function() {
+      $("input").on("input change", checkErrs);
+      $("select").on("change", checkErrs);
+    })
+    
+  </script>
+</body>
+</html>
