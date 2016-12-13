@@ -1,4 +1,5 @@
 *.class
+*.classpath
 scala-model/target
 scala-model/project
 
