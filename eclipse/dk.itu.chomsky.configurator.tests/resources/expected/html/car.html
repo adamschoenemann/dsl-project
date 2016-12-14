@@ -1,0 +1,261 @@
+<html>
+<head>
+  <title>Configure your Car</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="model.css">
+</head>
+<body>
+  <form class="model">
+    
+      <div class="product" id="product-car">
+        <h2>The Car</h2>
+              <div class="param" id="brand">
+        <label>Brand</label>
+        <select name="brand">
+          <option value="toyota">Toyota</option>
+          <option value="opel">Opel</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="ellert">Ellert</option>
+          <option value="tesla">Tesla</option>
+        </select>
+      </div>
+
+      <div class="param" id="drive">
+        <label>Drive</label>
+        <select name="drive">
+          <option value="twowheel">2-Wheel Drive</option>
+          <option value="fourwheel">4-Wheel Drive</option>
+        </select>
+      </div>
+
+
+      <div class="param" id="autogear">
+        <label>Automatic Gear</label>
+        <input name="autogear" type="checkbox"  />
+      </div>
+
+      <div class="param" id="engine">
+        <label>Engine</label>
+        <select name="engine">
+          <option value="combustion">Combustion</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="electrical">Electrical</option>
+        </select>
+      </div>
+
+      <div class="param" id="fuel">
+        <label>Fuel</label>
+        <select name="fuel">
+          <option value="gas">Gas</option>
+          <option value="diesel">Diesel</option>
+          <option value="electricity">Electricity</option>
+        </select>
+      </div>
+
+      <div class="param" id="tires">
+        <label>Tires</label>
+        <select name="tires">
+          <option value="normal">Normal tires</option>
+          <option value="winter">Winter tires</option>
+        </select>
+      </div>
+
+
+      <fieldset>
+        <legend>Registration</legend>
+
+      <div class="param" id="plate">
+        <label>License Plate</label>
+        <input name="plate" type="text"  />
+      </div>
+
+
+      <div class="param" id="name">
+        <label>Your Name</label>
+        <input name="name" type="text"  />
+      </div>
+
+
+      <div class="param" id="alcohol">
+        <label>Average blood-alcohol level</label>
+        <input name="alcohol" type="number" step="0.01" value="0.0" />
+      </div>
+
+      </fieldset>
+      
+      </div>
+      
+
+      <div class="product" id="product-ensurance">
+        <h2>Ensurance</h2>
+              <div class="param" id="company">
+        <label>Company</label>
+        <select name="company">
+          <option value="alka">Alka</option>
+          <option value="topdanmark">TopDanmark</option>
+          <option value="tryg">Tryg</option>
+        </select>
+      </div>
+
+
+      <div class="param" id="number">
+        <label>Ensurance Number</label>
+        <input name="number" type="number" value="0" />
+      </div>
+
+
+      <div class="param" id="age">
+        <label>Your Age</label>
+        <input name="age" type="number" value="0" />
+      </div>
+
+      </div>
+      
+    <div id="errors">
+    </div>
+    <input id="submit" type="submit" value="Submit"/>
+  </form>
+  <script>
+    var funs = {
+      "contains": function(input, query) {
+        return input.indexOf(query) > -1;
+      },
+      "label": function(param) {
+        return param.label;
+      },
+      "value": function(param) {
+        return param.val;
+      }
+    };
+
+    function getValue(name) {
+      return values[name].name;
+    }
+    function getEnumParam(name) {
+      var jq = $("#" + name + " select");
+      var label = $("#" + name + " select option:selected").text();
+      return {
+        val: jq.val(),
+        label: label
+      };
+    }
+    function getPrimParam(name, primTy) {
+      var jq = $("#" + name + " input");
+      var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
+      return {
+        val: val,
+        label: jq.val()
+      };
+    }
+
+    function callFun() {
+      var fname = arguments[0];
+      var fargs  = Array.prototype.slice.call(arguments, 1);
+      return funs[fname].apply(funs, fargs);
+    }
+    var values = {
+	"winter": {
+		"name": "winter",
+		"label": "Winter tires"
+	},
+	"ellert": {
+		"name": "ellert",
+		"label": "Ellert"
+	},
+	"normal": {
+		"name": "normal",
+		"label": "Normal tires"
+	},
+	"mercedes": {
+		"name": "mercedes",
+		"label": "Mercedes"
+	},
+	"combustion": {
+		"name": "combustion",
+		"label": "Combustion"
+	},
+	"electrical": {
+		"name": "electrical",
+		"label": "Electrical"
+	},
+	"gas": {
+		"name": "gas",
+		"label": "Gas"
+	},
+	"fourwheel": {
+		"name": "fourwheel",
+		"label": "4-Wheel Drive"
+	},
+	"diesel": {
+		"name": "diesel",
+		"label": "Diesel"
+	},
+	"twowheel": {
+		"name": "twowheel",
+		"label": "2-Wheel Drive"
+	},
+	"opel": {
+		"name": "opel",
+		"label": "Opel"
+	},
+	"alka": {
+		"name": "alka",
+		"label": "Alka"
+	},
+	"tryg": {
+		"name": "tryg",
+		"label": "Tryg"
+	},
+	"toyota": {
+		"name": "toyota",
+		"label": "Toyota"
+	},
+	"hybrid": {
+		"name": "hybrid",
+		"label": "Hybrid"
+	},
+	"topdanmark": {
+		"name": "topdanmark",
+		"label": "TopDanmark"
+	},
+	"electricity": {
+		"name": "electricity",
+		"label": "Electricity"
+	},
+	"tesla": {
+		"name": "tesla",
+		"label": "Tesla"
+	}
+};
+    function setError(err, pname /*optional*/) {
+      $err = $("<p>").html(err);
+      if (pname !== null) {
+        $("#" + pname).append($("<div>").addClass("has-error").append($err));
+      } else {
+        $("#errors").append($err);
+      }
+      $("#submit").addClass("has-errors");
+      $("#submit").attr("disabled", "disabled");
+    }
+    function clearErrors() {
+      $("#errors").empty();
+      $(".has-error").remove();
+      $("#submit").removeClass("has-errors");
+      $("#submit").removeAttr("disabled");
+    }
+    
+    function checkErrs(evt) {
+      clearErrors();
+            if ((!(callFun("value", getEnumParam("engine")) == getValue("electrical")) || (callFun("value", getEnumParam("fuel")) == getValue("electricity"))) == false) { setError("Electric engines must use electric fuel", "fuel") }
+      if ((!((callFun("value", getEnumParam("brand")) == getValue("ellert")) || (callFun("value", getEnumParam("brand")) == getValue("tesla"))) || (callFun("value", getEnumParam("engine")) == getValue("electrical"))) == false) { setError("Ellert and Tesla only produces electric cars", "engine") }
+      if ((callFun("value", getPrimParam("alcohol", "DoubleTy")) < 0.5) == false) { setError("Are you an alcoholic?", "alcohol") }
+      if ((callFun("value", getPrimParam("age", "IntTy")) > 20.0) == false) { setError("You must be above 20", "age") }
+    }
+    $(document).ready(function() {
+      $("input").on("input change", checkErrs);
+      $("select").on("change", checkErrs);
+    })
+    
+  </script>
+</body>
+</html>

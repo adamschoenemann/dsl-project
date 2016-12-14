@@ -65,11 +65,11 @@ object HTMLGenerator {
     case E.Product(name, label, children, constraints) => {
       val childHtml = children.map({
         case p:Param => paramToHtml(p)
-        case pg:ParamGroup => pGroupToHtml(pg)
+        case pg:ParamGroup => paramGroupToHtml(pg)
       }).mkString("\n")
       s"""
       <div class="product" id="product-$name">
-        <h2>${product.getLabel}</h2>
+        <h2>$label</h2>
         $childHtml
       </div>
       """
@@ -163,16 +163,18 @@ object HTMLGenerator {
 """
   }
 
-  def pGroupToHtml(c: ProductChild):String = {
-    val group = c.asInstanceOf[ParamGroup]
-    val children = eListToList(group.getChildren).map(childToHtml _).mkString("\n")
+  def paramGroupToHtml(pg: ParamGroup):String = pg match{
+    case E.ParamGroup(label, children) => {
+      val childrenHtml = children.map(childToHtml _).mkString("\n")
 
-    s"""
-    <fieldset>
-      <legend>${group.getLabel}</legend>
-${children}
-    </fieldset>
-"""
+      s"""
+      <fieldset>
+        <legend>${label}</legend>
+${childrenHtml}
+      </fieldset>
+      """
+    }
+
   }
 
   def paramToHtml[Param](param:Param):String = param match {
@@ -186,9 +188,9 @@ ${children}
 """
     case E.EnumParam(name, label, E.EnumType(ename,elabel,values)) =>
       val options = values.map(convertOption _).mkString("\n")
-      s"""      <div class="param" id="${ename}">
+      s"""      <div class="param" id="${name}">
         <label>${elabel}</label>
-        <select name="${ename}">
+        <select name="${name}">
 ${options}
         </select>
       </div>
@@ -198,8 +200,10 @@ ${options}
   private def convertOption(v: EnumVal): String =
     s"""          <option value="${v.getName}">${v.getLabel}</option>"""
 
-  private def childToHtml(c: ProductChild): String =
-    if (c.isInstanceOf[Param]) paramToHtml(c) else pGroupToHtml(c.asInstanceOf[ParamGroup])
+  private def childToHtml(c: ProductChild): String = c match {
+    case p:Param => paramToHtml(p)
+    case pg:ParamGroup => paramGroupToHtml(pg)
+  }
 
   private def primToJSType(ty:PrimitiveType):(String, String, String) = ty match {
       case PrimitiveType.INT_TY    => ("number", "", "value=\"0\"")
