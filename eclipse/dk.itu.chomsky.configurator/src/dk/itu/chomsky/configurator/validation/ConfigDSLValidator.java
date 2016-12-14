@@ -27,7 +27,8 @@ import dk.itu.chomsky.configurator.model.NamedElem;
 import dk.itu.chomsky.configurator.model.Param;
 import dk.itu.chomsky.configurator.model.Product;
 import dk.itu.chomsky.configurator.model.EnumVal;
-import dk.itu.chomsky.configurator.scala.*;
+import dk.itu.chomsky.configurator.scala.Chomsky;
+import dk.itu.chomsky.configurator.scala.types.*;
 
 import scala.Option;
 

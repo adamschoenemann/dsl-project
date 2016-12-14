@@ -2,20 +2,20 @@
 # TODO
 
 ## Nice-to-Have
-- generalize expression generator
-    - remove value model and replace with generic function
+- generalize expression generator ✓
+    - remove value meta-model and replace with generic function ✓
 - add implication operator
 
 ## Need-to-have
 - HTMLGenerator
-    - Fix parameter groups and product groups
+    - Fix parameter groups and product groups ✓
 - Car model
 - Unique names constraint ✓✓✓✓✓✓✓✓✓
     - types ✓
     - params ✓
     - values ✓
 - Negative test-cases
-    - type-checker
+    - type-checker ✓
 - The report!!!!!
 - AndroidGenerator
     - Generate UI ✓

@@ -15,6 +15,7 @@ model operators "Operators" {
          constraint "c31" !(!(20 - (-20) == 40))
          constraint "c6" !(50 <= 50)
          constraint "c7" (20 >= 30) && false
+         constraint "c8" value($baz) > 0 => value($p2) == v2
       }
    }
 }

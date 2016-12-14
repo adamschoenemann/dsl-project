@@ -1,0 +1,13 @@
+// syntax: 1
+// linker: 1
+model noparse03 "No Parse 03" {
+    types {
+        t1 "Type 1" {
+            v1 "Val1" True
+            v2 "Val2"
+        }
+    }
+    product bar "bar" {
+        param p1 "Param 1" bool // linker error here (looks for EnumType bool)
+    }
+}

@@ -119,7 +119,13 @@ ITE:
 ;
 
 Expr:
-	Comparison ({And.left=current} "&&" right=Comparison | {Or.left=current} "||" right=Comparison)*
+	ImplOperand ({Implic.left=current} "=>" right=ImplOperand)*	
+;
+
+ImplOperand returns Expr:
+	Comparison ({And.left=current} "&&" right=Comparison |
+				{Or.left=current} "||" right=Comparison
+	)*
 ;
 
 Comparison returns Expr:
