@@ -182,7 +182,7 @@ public class ConfigDSLParsingTest {
 	@Test
 	public void testHtmlGen() {
 		try {
-			String input = readFile(new File("resources/input/positive/computer.cnfgdsl"));
+			String input = readFile(new File("resources/input/positive/car.cnfgdsl"));
 			Chomsky.testHtmlGen(parser.parse(input));
 		} catch (Exception e) {
 			e.printStackTrace();

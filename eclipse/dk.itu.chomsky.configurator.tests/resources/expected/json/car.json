@@ -183,7 +183,7 @@
 			]
 		},
 		{
-			"label": "Ensurance",
+			"label": "Insurance",
 			"params": [
 				{
 					"name": "company",
@@ -192,7 +192,7 @@
 				},
 				{
 					"name": "number",
-					"label": "Ensurance Number",
+					"label": "Insurance Number",
 					"type": "IntTy"
 				},
 				{
