@@ -113,11 +113,6 @@
 					"type": "TextTy"
 				},
 				{
-					"name": "deliver",
-					"label": "Deliver",
-					"type": "BoolTy"
-				},
-				{
 					"name": "ghz",
 					"label": "GHz",
 					"type": "DoubleTy"
@@ -136,6 +131,11 @@
 							"type": "mouse"
 						}
 					]
+				},
+				{
+					"name": "deliver",
+					"label": "Deliver",
+					"type": "BoolTy"
 				}
 			],
 			"constraints": [

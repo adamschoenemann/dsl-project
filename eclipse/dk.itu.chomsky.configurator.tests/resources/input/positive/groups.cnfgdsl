@@ -30,13 +30,15 @@ model computer_model "Customize Your Computer" {
     param gpu "GPU" gpu
     param ram "RAM" Int
     param engraving "Engraving" Text
-    param deliver "Deliver" Bool
     param ghz "GHz" Double
 
     group "Peripherals" {
       param keyboard "Keyboard" keyboard optional
       param mouse "Mouse" mouse optional
     }
+    
+    param deliver "Deliver" Bool
+
     constraints {
       constraint on ram "Ram must be positive" value($ram) > 0
       constraint on ram "32-bits can at most have 4g ram" if value($arch) == x86 then value($ram) <= 4 else true

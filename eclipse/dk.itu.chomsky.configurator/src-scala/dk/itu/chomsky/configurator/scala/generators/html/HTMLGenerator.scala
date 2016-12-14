@@ -61,24 +61,19 @@ object HTMLGenerator {
       """
   }
 
-  def productToHtml(product:Product):String = {
-    val pChildren = eListToList[ProductChild](product.getChildren)
-    val params = pChildren
-     .filter(_.isInstanceOf[Param])
-     .map(paramToHtml _)
-     .mkString("\n")
-    val groups = pChildren
-     .filter(_.isInstanceOf[ParamGroup])
-     .map { pGroupToHtml(_) }
-     .mkString("\n")
-
-    s"""
-    <div class="product">
-      <h2>${product.getLabel}</h2>
-      $params
-    </div>
-    $groups
-    """
+  def productToHtml(product:Product):String = product match {
+    case E.Product(name, label, children, constraints) => {
+      val childHtml = children.map({
+        case p:Param => paramToHtml(p)
+        case pg:ParamGroup => pGroupToHtml(pg)
+      }).mkString("\n")
+      s"""
+      <div class="product" id="product-$name">
+        <h2>${product.getLabel}</h2>
+        $childHtml
+      </div>
+      """
+    }
   }
 
   def getConstraints(mc:ModelChild):List[Constraint] = mc match {
