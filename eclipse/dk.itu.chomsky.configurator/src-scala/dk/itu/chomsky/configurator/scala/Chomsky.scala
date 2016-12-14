@@ -151,6 +151,7 @@ object Chomsky {
  def testHtmlGen(model:Model):Unit = HTMLGenerator.test(model)
 
  //Android
- def generateAndroidView(model:Model):String = AndroidGenerator.generateView(model)
+ def generateAndroidMainView(model: Model) : String  = AndroidGenerator.generateXmlLayout(model)
+ def generateAndroidMainActivity(model:Model):String = AndroidGenerator.generateMainActivity(model)
 
 }
