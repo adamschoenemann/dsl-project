@@ -1,0 +1,211 @@
+{
+	"types": [
+		{
+			"name": "brand",
+			"label": "Brand",
+			"values": [
+				{
+					"name": "toyota",
+					"label": "Toyota"
+				},
+				{
+					"name": "opel",
+					"label": "Opel"
+				},
+				{
+					"name": "mercedes",
+					"label": "Mercedes"
+				},
+				{
+					"name": "ellert",
+					"label": "Ellert"
+				},
+				{
+					"name": "tesla",
+					"label": "Tesla"
+				}
+			]
+		},
+		{
+			"name": "drive",
+			"label": "Drive",
+			"values": [
+				{
+					"name": "twowheel",
+					"label": "2-Wheel Drive"
+				},
+				{
+					"name": "fourwheel",
+					"label": "4-Wheel Drive"
+				}
+			]
+		},
+		{
+			"name": "engine",
+			"label": "Engine",
+			"values": [
+				{
+					"name": "combustion",
+					"label": "Combustion"
+				},
+				{
+					"name": "hybrid",
+					"label": "Hybrid"
+				},
+				{
+					"name": "electrical",
+					"label": "Electrical"
+				}
+			]
+		},
+		{
+			"name": "fuel",
+			"label": "Fuel",
+			"values": [
+				{
+					"name": "gas",
+					"label": "Gas"
+				},
+				{
+					"name": "diesel",
+					"label": "Diesel"
+				},
+				{
+					"name": "electricity",
+					"label": "Electricity"
+				}
+			]
+		},
+		{
+			"name": "tires",
+			"label": "Tires",
+			"values": [
+				{
+					"name": "normal",
+					"label": "Normal tires"
+				},
+				{
+					"name": "winter",
+					"label": "Winter tires"
+				}
+			]
+		},
+		{
+			"name": "company",
+			"label": "Company",
+			"values": [
+				{
+					"name": "alka",
+					"label": "Alka"
+				},
+				{
+					"name": "topdanmark",
+					"label": "TopDanmark"
+				},
+				{
+					"name": "tryg",
+					"label": "Tryg"
+				}
+			]
+		}
+	],
+	"children": [
+		{
+			"label": "The Car",
+			"params": [
+				{
+					"name": "brand",
+					"label": "Brand",
+					"type": "brand"
+				},
+				{
+					"name": "drive",
+					"label": "Drive",
+					"type": "drive"
+				},
+				{
+					"name": "autogear",
+					"label": "Automatic Gear",
+					"type": "BoolTy"
+				},
+				{
+					"name": "engine",
+					"label": "Engine-Type",
+					"type": "engine"
+				},
+				{
+					"name": "fuel",
+					"label": "Fuel-Type",
+					"type": "fuel"
+				},
+				{
+					"name": "tires",
+					"label": "Tire",
+					"type": "tires"
+				},
+				{
+					"label": "Registration",
+					"children": [
+						{
+							"name": "plate",
+							"label": "License Plate",
+							"type": "TextTy"
+						},
+						{
+							"name": "name",
+							"label": "Your Name",
+							"type": "TextTy"
+						},
+						{
+							"name": "alcohol",
+							"label": "Average blood-alcohol level",
+							"type": "DoubleTy"
+						}
+					]
+				}
+			],
+			"constraints": [
+				{
+					"label": "Electric engines must use electric fuel",
+					"param": "fuel",
+					"expr": "(!(callFun(\"value\", getEnumParam(\"engine\")) == getValue(\"electrical\")) || (callFun(\"value\", getEnumParam(\"fuel\")) == getValue(\"electricity\")))"
+				},
+				{
+					"label": "Ellert and Tesla only produces electric cars",
+					"param": "engine",
+					"expr": "(!((callFun(\"value\", getEnumParam(\"brand\")) == getValue(\"ellert\")) || (callFun(\"value\", getEnumParam(\"brand\")) == getValue(\"tesla\"))) || (callFun(\"value\", getEnumParam(\"engine\")) == getValue(\"electrical\")))"
+				},
+				{
+					"label": "Are you an alcoholic?",
+					"param": "alcohol",
+					"expr": "(callFun(\"value\", getPrimParam(\"alcohol\", \"DoubleTy\")) < 0.5)"
+				}
+			]
+		},
+		{
+			"label": "Insurance",
+			"params": [
+				{
+					"name": "company",
+					"label": "Company",
+					"type": "company"
+				},
+				{
+					"name": "number",
+					"label": "Insurance Number",
+					"type": "IntTy"
+				},
+				{
+					"name": "age",
+					"label": "Your Age",
+					"type": "IntTy"
+				}
+			],
+			"constraints": [{
+				"label": "You must be above 20",
+				"param": "age",
+				"expr": "(callFun(\"value\", getPrimParam(\"age\", \"IntTy\")) > 20.0)"
+			}]
+		}
+	]
+}

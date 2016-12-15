@@ -15,9 +15,31 @@
 			]
 		},
 		{
+			"name": "motherboard",
+			"label": "Motherboard",
+			"values": [
+				{
+					"name": "gigabytemb",
+					"label": "Gigabyte SLI"
+				},
+				{
+					"name": "asusmb",
+					"label": "Asus"
+				},
+				{
+					"name": "msimb",
+					"label": "MSI"
+				}
+			]
+		},
+		{
 			"name": "gpu",
 			"label": "GPU",
 			"values": [
+				{
+					"name": "nogpu",
+					"label": "None"
+				},
 				{
 					"name": "gtx970",
 					"label": "Asus Geforce GTX 970"
@@ -56,7 +78,7 @@
 			"values": [
 				{
 					"name": "razor",
-					"label": "Razord"
+					"label": "Razor"
 				},
 				{
 					"name": "logitech",
@@ -72,6 +94,10 @@
 			"name": "keyboard",
 			"label": "Keyboard",
 			"values": [
+				{
+					"name": "nokb",
+					"label": "None"
+				},
 				{
 					"name": "ltkb",
 					"label": "Logitech"
@@ -93,14 +119,29 @@
 					"type": "arch"
 				},
 				{
+					"name": "mb",
+					"label": "Motherboard",
+					"type": "motherboard"
+				},
+				{
 					"name": "cpu",
 					"label": "CPU",
 					"type": "cpu"
 				},
 				{
-					"name": "gpu",
-					"label": "GPU",
-					"type": "gpu"
+					"label": "Graphics",
+					"children": [
+						{
+							"name": "gpu1",
+							"label": "GPU 1",
+							"type": "gpu"
+						},
+						{
+							"name": "gpu2",
+							"label": "GPU 2",
+							"type": "gpu"
+						}
+					]
 				},
 				{
 					"name": "ram",
@@ -116,26 +157,6 @@
 					"name": "ghz",
 					"label": "GHz",
 					"type": "DoubleTy"
-				},
-				{
-					"label": "Peripherals",
-					"children": [
-						{
-							"name": "keyboard",
-							"label": "Keyboard",
-							"type": "keyboard"
-						},
-						{
-							"name": "mouse",
-							"label": "Mouse",
-							"type": "mouse"
-						}
-					]
-				},
-				{
-					"name": "deliver",
-					"label": "Deliver",
-					"type": "BoolTy"
 				}
 			],
 			"constraints": [
@@ -150,58 +171,79 @@
 					"expr": "((callFun(\"value\", getEnumParam(\"arch\")) == getValue(\"x86\")) ? ((callFun(\"value\", getPrimParam(\"ram\", \"IntTy\")) <= 4.0)) : (true))"
 				},
 				{
-					"label": "c1",
-					"param": "keyboard",
-					"expr": "((callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx970\")) ? ((callFun(\"value\", getEnumParam(\"keyboard\")) == getValue(\"ltkb\"))) : (true))"
-				},
-				{
-					"label": "c2",
+					"label": "You must select at least one GPU",
 					"param": null,
-					"expr": "((callFun(\"value\", getEnumParam(\"cpu\")) == getValue(\"i5\")) ? (((callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx970\")) || (callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx980\")))) : (true))"
+					"expr": "!((callFun(\"value\", getEnumParam(\"gpu1\")) == getValue(\"nogpu\")) && (callFun(\"value\", getEnumParam(\"gpu2\")) == getValue(\"nogpu\")))"
 				},
 				{
-					"label": "CPU must be intel",
-					"param": "cpu",
-					"expr": "callFun(\"contains\", callFun(\"label\", getEnumParam(\"cpu\")), \"Intel\")"
+					"label": "Only Gigabyte motherboards support SLI",
+					"param": "gpu2",
+					"expr": "(!!(callFun(\"value\", getEnumParam(\"mb\")) == getValue(\"gigabytemb\")) || (callFun(\"value\", getEnumParam(\"gpu2\")) == getValue(\"nogpu\")))"
+				},
+				{
+					"label": "At least 2Ghz",
+					"param": "ghz",
+					"expr": "(callFun(\"value\", getPrimParam(\"ghz\", \"DoubleTy\")) > 2.0)"
 				}
 			]
 		},
 		{
-			"label": "Displays",
+			"label": "Peripherals",
 			"children": [
 				{
-					"label": "Inner group",
-					"children": [{
-						"label": "Level 2 Product",
-						"params": [{
-							"name": "lvl2p1",
-							"label": "Level 2 Param",
+					"label": "Keyboard",
+					"params": [
+						{
+							"name": "kbbrand",
+							"label": "Brand",
+							"type": "keyboard"
+						},
+						{
+							"name": "kbwireless",
+							"label": "Wireless",
 							"type": "BoolTy"
-						}],
-						"constraints": [{
-							"label": "This must be true, thank you",
-							"param": "lvl2p1",
-							"expr": "(callFun(\"value\", getPrimParam(\"lvl2p1\", \"BoolTy\")) == true)"
-						}]
-					}]
-				},
-				{
-					"label": "Monitor 1",
-					"params": [{
-						"name": "inches1",
-						"label": "Inches",
-						"type": "DoubleTy"
-					}],
+						}
+					],
 					"constraints": []
 				},
 				{
-					"label": "Monitor 2",
-					"params": [{
-						"name": "inches2",
-						"label": "Inches",
-						"type": "DoubleTy"
-					}],
+					"label": "Mouse",
+					"params": [
+						{
+							"name": "mousebrand",
+							"label": "Brand",
+							"type": "mouse"
+						},
+						{
+							"name": "mousewireless",
+							"label": "Wireless",
+							"type": "BoolTy"
+						}
+					],
 					"constraints": []
+				},
+				{
+					"label": "Displays",
+					"children": [
+						{
+							"label": "Monitor 1",
+							"params": [{
+								"name": "inches1",
+								"label": "Inches",
+								"type": "DoubleTy"
+							}],
+							"constraints": []
+						},
+						{
+							"label": "Monitor 2",
+							"params": [{
+								"name": "inches2",
+								"label": "Inches",
+								"type": "DoubleTy"
+							}],
+							"constraints": []
+						}
+					]
 				}
 			]
 		}
