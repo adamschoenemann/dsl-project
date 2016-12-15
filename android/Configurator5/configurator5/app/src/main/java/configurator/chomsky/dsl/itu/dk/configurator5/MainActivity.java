@@ -1,135 +1,190 @@
 package configurator.chomsky.dsl.itu.dk.configurator5;
 
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.InputType;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         ScrollView sv=(ScrollView)  findViewById(R.id.scrollView1);
 
-        LinearLayout l1 = (LinearLayout) findViewById(R.id.linearLayout8);
+        LinearLayout l1 = (LinearLayout) findViewById(R.id.linearLayoutHolder);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
+        List<String[]> values    = new ArrayList<>();
+        List<String> objectTypes = new ArrayList<>() ;
 
-        List<String[]> værdier = new ArrayList<>();
-        List<String> objtype=new ArrayList<>() ;
 
-        //tekstObjects.add(0, "Monitor");
-        værdier.add(0, new String[]{"Monitor"});
-        objtype.add(0,"TextView");
-        værdier.add(1, new String[]{"23 HP curved2000", "22 Asus 1000", "19 Asus Widescreen1000", "19 Asus 800"});
-        objtype.add(1,"Spinner");
-        værdier.add(2, new String[]{"Architecture"});
-        objtype.add(2,"TextView");
-        værdier.add(3, new String[]{"64 bit", "32 bit"});
-        objtype.add(3,"Spinner");
-        værdier.add(4, new String[]{"CPU"});
-        objtype.add(4,"TextView");
-        værdier.add(5, new String[]{"64 bit", "32 bit"});
-        objtype.add(5,"Spinner");
-        værdier.add(6, new String[]{"GPU"});
-        objtype.add(6,"TextView");
-        værdier.add(7, new String[]{"Nvidia", "amd"});
-        objtype.add(7,"Spinner");
-        værdier.add(8, new String[]{"Mouse"});
-        objtype.add(8,"TextView");
-        værdier.add(9, new String[]{"Deathadder", "logitec G19"});
-        objtype.add(9,"Spinner");
-        værdier.add(10, new String[]{"RAM"});
-        objtype.add(10,"TextView");
-        værdier.add(11, new String[]{""});
-        objtype.add(11,"EditText");
-        værdier.add(12, new String[]{"Deliver"});
-        objtype.add(12,"TextView");
-        værdier.add(13, new String[]{""});
-        objtype.add(13,"CheckBox");
+        values.add(0, new String[]{"Architecture"});
+        objectTypes.add(0,"TextView");
+        values.add(1, new String[]{"x64","x86"});
+        objectTypes.add(1,"Spinner");
 
-        // List<TextView> txtViews = new ArrayList<TextView>();
-        //      List<Object> txtViews = new ArrayList<Object>();
+
+        values.add(2, new String[]{"CPU"});
+        objectTypes.add(2,"TextView");
+        values.add(3, new String[]{"i5","i7","x4"});
+        objectTypes.add(3,"Spinner");
+
+
+        values.add(4, new String[]{"GPU"});
+        objectTypes.add(4,"TextView");
+        values.add(5, new String[]{"gtx970","gtx980","rx480"});
+        objectTypes.add(5,"Spinner");
+
+
+        values.add(6, new String[]{"RAM"});
+        objectTypes.add(6,"TextView");
+        values.add(7, new String[]{""});
+        objectTypes.add(7,"EditText");
+
+
+        values.add(8, new String[]{"Engraving"});
+        objectTypes.add(8,"TextView");
+        values.add(9, new String[]{""});
+        objectTypes.add(9,"EditText");
+
+
+        values.add(10, new String[]{"Deliver"});
+        objectTypes.add(10,"TextView");
+        values.add(11, new String[]{""});
+        objectTypes.add(11,"CheckBox");
+
+
+        values.add(12, new String[]{"GHz"});
+        objectTypes.add(12,"TextView");
+        values.add(13, new String[]{""});
+        objectTypes.add(13,"EditText");
+
+        values.add(14,new String[]{"Peripherals"});
+        objectTypes.add(14,"Group");
+
+        values.add(15, new String[]{"CPU2"});
+        objectTypes.add(15,"TextView");
+        values.add(16, new String[]{"i5","i7","x4"});
+        objectTypes.add(16,"Spinner");
+
+        values.add(17, new String[]{"GPU2"});
+        objectTypes.add(17,"TextView");
+        values.add(18, new String[]{"gtx970","gtx980","rx480"});
+        objectTypes.add(18,"Spinner");
+
+        values.add(19,new String[]{"Peripherals"});
+        objectTypes.add(19,"Group");
+
+        values.add(20, new String[]{"CPU2"});
+        objectTypes.add(20,"TextView");
+        values.add(21, new String[]{"i5","i7","x4"});
+        objectTypes.add(21,"Spinner");
+/*
+        values.add(14,new String[]{"Peripherals"});
+        objectTypes.add(14,"Group");
+
+        values.add(15, new String[]{"Keyboard"});
+        objectTypes.add(15,"TextView");
+        values.add(16, new String[]{"Logitec 28364XL","Microsoft Keyboard396","Apple Keyboard rx480"});
+        objectTypes.add(16,"Spinner");
+        /*
+        values.add(17, new String[]{"Mouse"});
+        objectTypes.add(17,"TextView");
+
+        /*
+        values.add(18, new String[]{"Logitec Mousy325465","Microsoft Mousy24","Apple Mouse 33rx480"});
+        objectTypes.add(18,"Spinner");
+*/
         List<Object> _objects = new ArrayList<Object>();
-
-        //List<Spinner> _objects = new ArrayList<Spinner>();
         Map<Integer,ArrayAdapter<CharSequence>>_adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
-       // List<ArrayAdapter<CharSequence>> _adapters = new ArrayList<ArrayAdapter<CharSequence>>();
-        //    String[] strvalues = {"testværdi1", "testværdi2"};
+
+
 
         int i = 0;
 
-        for (String o : objtype) {
+        for (String o : objectTypes) {
 
 
-            if(objtype.get(i) == "TextView"){
+            if(objectTypes.get(i) == "TextView"){
                 _objects.add( new TextView(this));
-                ((TextView)_objects.get(i)).setText(værdier.get(i)[0]); //so it is  a text therefore should be the 0 element of the array
+                ((TextView)_objects.get(i)).setText(values.get(i)[0]); //it is a text, therefore should be the 0 element of the array
                 l1.addView((TextView)_objects.get(i));
 
-            }else if (objtype.get(i)=="Spinner")
+            }else if (objectTypes.get(i)=="Spinner")
             {
 
                 _objects.add(new Spinner(this));
-                _adapters.put(i, new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, værdier.get(i)));
+                _adapters.put(i, new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, values.get(i)));
                 _adapters.get(i).setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                 ((Spinner)_objects.get(i)).setAdapter(_adapters.get(i));
                 l1.addView((Spinner)_objects.get(i),lp);
 
-            } else if (objtype.get(i)=="EditText")
+            } else if (objectTypes.get(i)=="EditText")
             {
                 _objects.add(i, new EditText(this));
                 ((EditText)_objects.get(i)).setInputType(InputType.TYPE_CLASS_NUMBER);
                 l1.addView((EditText)_objects.get(i),lp);
 
-            }else if (objtype.get(i)=="CheckBox")
+            }else if (objectTypes.get(i)=="CheckBox")
             {
                 _objects.add(i,new CheckBox(this));
                 l1.addView((CheckBox)_objects.get(i),lp);
 
+            }else if(objectTypes.get(i) =="Group")
+            {
+                //groups
+                FrameLayout groupFl  = new FrameLayout(this);
 
+                //linear layout
+                LinearLayout groupLl = new LinearLayout(this);
+                groupLl.setOrientation(LinearLayout.VERTICAL);
+                // llgroup.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,50));
+                _objects.add(i,new TextView(this));
+
+                ((TextView) _objects.get(i)).setText(values.get(i)[0]);//
+                ((TextView) _objects.get(i)).setGravity(Gravity.CENTER_HORIZONTAL);
+                ((TextView) _objects.get(i)).setPadding(15,0,0,15);
+                //title of group
+
+
+                groupLl.addView(((TextView) _objects.get(i)));
+                groupFl.addView(groupLl);
+                l1.addView(groupFl);
             }
-
 
             i++;
         }
 
+
+
+        //Button
         Button myButton = new Button(this);
-        myButton.setText("push me");
+        myButton.setText("Submit");
+        //myButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,50));
         l1.addView(myButton, lp);
-
     }
-
-
-
-
 }
+
+   
