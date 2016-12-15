@@ -36,11 +36,14 @@ public class ConfigDSLGenerator extends AbstractGenerator {
 		String html = Chomsky.generateHtml(model);
 		
         //Android
+		String androidManifest = Chomsky.generateAndroidManifest(model);
 		String java  = Chomsky.generateAndroidMainActivity(model);
 		String xml   = Chomsky.generateAndroidMainView(model);
+		//Android
+		fsa.generateFile(model.getName() + "Manifest.xml", androidManifest);
+		fsa.generateFile(model.getName()+ "Activity.java", java);
+		fsa.generateFile(model.getName() + "View.xml", xml); 
 		
-		fsa.generateFile(model.getName()+ ".java", java);
-		fsa.generateFile(model.getName() + ".xml", xml); 
 		fsa.generateFile(model.getName() + ".json", json);
 		fsa.generateFile(model.getName() + ".html", html);
 		fsa.generateFile("model.css", css);

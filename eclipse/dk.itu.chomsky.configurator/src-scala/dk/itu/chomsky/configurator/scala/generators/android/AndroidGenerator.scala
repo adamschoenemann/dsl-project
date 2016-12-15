@@ -12,9 +12,9 @@ object AndroidGenerator {
   //generate layout
   def generateXmlLayout(model: Model): String = {
     
-    s"""   
-     <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    s"""
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -29,9 +29,11 @@ object AndroidGenerator {
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/scrollView1">
+        android:id="@+id/scrollView1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -39,18 +41,16 @@ object AndroidGenerator {
             android:layout_height="match_parent"
             android:id="@+id/linearLayoutHolder">
 
-        </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+    </RelativeLayout>   
     """
   }
   def generateManifest(model: Model) : String ={
-    s"""
-     <?xml version="1.0" encoding="utf-8"?>
+    s"""<?xml version="1.0" encoding="utf-8"?>
     <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="configurator.chomsky.dsl.itu.dk.configurator5">
+    package="configurator.chomsky.dsl.itu.dk.configurator">
 
     <application
         android:allowBackup="true"
@@ -58,7 +58,7 @@ object AndroidGenerator {
         android:label="${model.getLabel}"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".${model.getName}Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,7 +87,7 @@ object AndroidGenerator {
      
     val groups = pChildren
      .filter(_.isInstanceOf[ParamGroup])
-     .map { pGroupToXml(_) }
+     .map { pGroupToJava(_) }
      .mkString("\n")
     val enumVals = types.map(t => eListToList(t.getValues)).flatten
 
@@ -131,6 +131,10 @@ object AndroidGenerator {
           
           $params
           
+          
+          List<Object> _objects = new ArrayList<Object>();
+          Map<Integer,ArrayAdapter<CharSequence>>_adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
+          
           int i = 0;
 
           for (String o : objectTypes) {
@@ -164,7 +168,8 @@ object AndroidGenerator {
               }
   
               i++;
-          }        
+          }     
+          $groups   
   
           Button myButton = new Button(this);
           myButton.setText("Submit");
@@ -190,11 +195,11 @@ object AndroidGenerator {
          (str, i+2)
        }
        case E.EnumParam(name,label, E.EnumType(ename,elabel,values)) => {
-         val list = values.map(v => "\"" + v.getName + "\"").mkString(",")
+         val list = values.map(v => "\""+ v.getName+"\"" ).mkString(",")
          val str = s"""
            values.add(${i}, new String[]{"${label}"});
            objectTypes.add(${i},"TextView");
-           values.add(${i+1}, new String[]{"${list}"});
+           values.add(${i+1}, new String[]{${list}});
            objectTypes.add(${i+1},"Spinner");
          """
          (str, i+2)
@@ -215,18 +220,13 @@ object AndroidGenerator {
       case _ => throw new NotImplementedError("unkown primitive type")
     }
 
-  def paramToXml[Param](param:Param): String = param match{
+  def paramToJava[Param](param:Param): String = param match{
     case E.PrimParam(name,label,t) => //textViews
       val inputType = primToType(t)
    
-      s"""
-           <TextView
-                    android:text="@string/textView$label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/subTitle$label"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:layout_marginTop="16dp" />
+      s"""TextView group1Text = new TextView(this);
+          group1Text.setText("${label}");
+          
     
                 <EditText
                     android:layout_width="match_parent"
@@ -239,14 +239,9 @@ object AndroidGenerator {
     case E.EnumParam(name,label, E.EnumType(ename,elabel,values)) => // 
       val options = values.map(convertOption _).mkString("\n")
       
-      s"""
-          <TextView
-              android:text="@string/textView$elabel"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/subTitle$elabel"
-              android:layout_marginTop="16dp"
-              android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+      s"""TextView group1Text = new TextView(this);
+          group1Text.setText("${elabel}");
+        
     
          <Spinner
               android:layout_width="match_parent"
@@ -262,36 +257,38 @@ object AndroidGenerator {
   //generate Spinners  -done
   //generate groups
   //generate text field
- def pGroupToXml(c: ProductChild):String = {
+ def pGroupToJava(c: ProductChild):String = {
     val group = c.asInstanceOf[ParamGroup]
-    val children = eListToList(group.getChildren).map(childToXml _).mkString("\n")
+    val children = eListToList(group.getChildren).map(childToJava _).mkString("\n")
 
     s"""
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-    
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+       //groups
+        FrameLayout groupFl  = new FrameLayout(this);
+
+        //linear layout
+        LinearLayout groupLl = new LinearLayout(this);
+        groupLl.setOrientation(LinearLayout.VERTICAL);
+       // llgroup.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,50));
+        TextView groupTitle  = new TextView(this);
+
+        //title of group
+        groupTitle.setText("Peripherals");
+        groupTitle.setFocusable(true);
+
+
+        groupTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+        groupTitle.setPadding(15,0,0,15);
+        $children
+       
         
-                    <TextView
-                        android:text="@string/textView$group.getLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/groupTitle"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textAlignment="center" />
-    
-                   $children
-               </LinearLayout>
-        </FrameLayout>
 """
   }
  
- private def childToXml(c: ProductChild): String =
-    if (c.isInstanceOf[Param]) paramToXml(c) else pGroupToXml(c.asInstanceOf[ParamGroup])
+ private def childToJava(c: ProductChild): String =
+   //TODO: FIX PARAMTOXML HERE
+    if (c.isInstanceOf[Param]) paramToJava(c) else pGroupToJava(c.asInstanceOf[ParamGroup])
+    
+    
     
   private def primToType(ty:PrimitiveType):String = ty match {
       case PrimitiveType.INT_TY    => "number"
