@@ -38,10 +38,10 @@ public class ConfigDSLParsingTest {
 
 	public final String fext = ".cnfgdsl"; // get this from configuration somehow
 	
-	@Test
-	public void testTemplate() {
-		Chomsky.testTemplates();
-	}
+//	@Test
+//	public void testTemplate() {
+//		Chomsky.testTemplates();
+//	}
 	
 	@Test
 	public void testParserFails() throws Exception {
@@ -178,16 +178,21 @@ public class ConfigDSLParsingTest {
 	public void testHtmlInputOutput() throws Exception {
 		testPositiveInputOutput(model -> Chomsky.generateHtml(model), "html", "html");
 	}
-
+	
 	@Test
-	public void testHtmlGen() {
-		try {
-			String input = readFile(new File("resources/input/positive/car.cnfgdsl"));
-			Chomsky.testHtmlGen(parser.parse(input));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testAndroidInputOutput() throws Exception {
+		testPositiveInputOutput(model -> Chomsky.generateAndroidMainActivity(model), "android", "android");
 	}
+
+//	@Test
+//	public void testHtmlGen() {
+//		try {
+//			String input = readFile(new File("resources/input/positive/car.cnfgdsl"));
+//			Chomsky.testHtmlGen(parser.parse(input));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	private String readFile(File file) throws IOException {
 		Scanner scanner = null;
@@ -217,20 +222,20 @@ public class ConfigDSLParsingTest {
 		os.close();
 	}
 
-	@Test
-	public void testValidateNoEmptyTypes() {
-
-		try {
-			Model model = parser.parse("model foo \"foo\" {"
-					+ "   types {"
-					+ "      t1 \"Type 1\" {}"
-					+ "   }");
-
-			validator.assertError(model, null, null, "Type >t2< must have values");
-
-		} catch (Exception e) {}
-	}
-	
+//	@Test
+//	public void testValidateNoEmptyTypes() {
+//
+//		try {
+//			Model model = parser.parse("model foo \"foo\" {"
+//					+ "   types {"
+//					+ "      t1 \"Type 1\" {}"
+//					+ "   }");
+//
+//			validator.assertError(model, null, null, "Type >t2< must have values");
+//
+//		} catch (Exception e) {}
+//	}
+//	
 //	@Test
 //	public void testJSExprGen() {
 //		
@@ -252,80 +257,80 @@ public class ConfigDSLParsingTest {
 //			e.printStackTrace();
 //		}
 //	}
-	@Test 
-	public void loadModel() {
-		try {
-			String input = 
-				  "model computer_model \"Customize Your Computer\" {"
-				+ "  types {"
-				+ "    arch \"Architecture\" {"
-				+ "      x64 \"64 bit\""
-				+ "      x86 \"32 bit\""
-				+ "    }"
-				+ "    gpu \"GPU\" {"
-				+ "      gtx970 \"Asus Geforce GTX 970\""
-				+ "      gtx980 \"MSI Geforce GTX 980\""
-				+ "      rx480 \"Sapphire Radeon RX 840 NITRO+\""
-				+ "    }"
-				+ "    cpu \"CPU\" {"
-				+ "      i5 \"Intel 2.3 GHz i5\""
-				+ "      i7 \"Intel 2.2 GHz i7\""
-				+ "      x4 \"AMD 2.8 GHz Athlon X4\""
-				+ "    }"
-				+ "    mouse \"Mouse\" {"
-				+ "      razor \"Razord\""
-				+ "      logitech \"Logitech\""
-				+ "      microsoft \"Microsft\""
-				+ "    }"
-				+ "    keyboard \"Keyboard\" {"
-				+ "      ltkb \"Logitech\""
-				+ "      mskb \"Microsoft\""
-				+ "    }"
-				+ "  }"
-				+ "  product computer \"Computer\" {"
-				+ "    param arch \"Architecture\" arch"
-				+ "    param cpu \"CPU\" cpu"
-				+ "    param gpu \"GPU\" gpu"
-				+ "    param ram \"RAM\" Int"
-				+ "    param engraving \"Engraving\" Text"
-				+ "    param deliver \"Deliver\" Bool"
-				+ "    param ghz \"GHz\" Double"
-				+ "    "
-				+ "    group \"Peripherals\" {"
-				+ "      param keyboard \"Keyboard\" keyboard optional"
-				+ "      param mouse \"Mouse\" mouse optional"
-				+ "    }"
-				+ "    constraints {"
-				+ "      \"Ram\" ram > 0"
-				+ "      \"ram positive\" 20 * 10 + 10 - 2 == ram - 10 / 5"
-				+ "      \"nonsense\" (true && false || true == ((20 > 0) == false)) == true"
-				+ "      \"nonsense2\" 20 > 30 == false"
-				+ "      /*\"ram 64-bit \"if (arch == x86) then ram <= 4 else ram <= 16*/"
-				+ "    }"
-				+ "  }"
-				+ "  "
-				+ "  group \"Peripherals\" {"
-				+ "    "
-				+ "    group \"Inner group\" {"
-				+ "      "
-				+ "    }"
-				+ "    product mouse \"Mouse\" {"
-				+ "      "
-				+ "    }"
-				+ "    "
-				+ "    product keyboard \"Keyboard\" {"
-				+ "      "
-				+ "    }"
-				+ "  }"
-				+ "}";
-			Model model = parser.parse(input);
-			String json = Chomsky.generateJson(model);
-			assertTrue(json.contains("Computer"));
-			System.out.println();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+//	@Test 
+//	public void loadModel() {
+//		try {
+//			String input = 
+//				  "model computer_model \"Customize Your Computer\" {"
+//				+ "  types {"
+//				+ "    arch \"Architecture\" {"
+//				+ "      x64 \"64 bit\""
+//				+ "      x86 \"32 bit\""
+//				+ "    }"
+//				+ "    gpu \"GPU\" {"
+//				+ "      gtx970 \"Asus Geforce GTX 970\""
+//				+ "      gtx980 \"MSI Geforce GTX 980\""
+//				+ "      rx480 \"Sapphire Radeon RX 840 NITRO+\""
+//				+ "    }"
+//				+ "    cpu \"CPU\" {"
+//				+ "      i5 \"Intel 2.3 GHz i5\""
+//				+ "      i7 \"Intel 2.2 GHz i7\""
+//				+ "      x4 \"AMD 2.8 GHz Athlon X4\""
+//				+ "    }"
+//				+ "    mouse \"Mouse\" {"
+//				+ "      razor \"Razord\""
+//				+ "      logitech \"Logitech\""
+//				+ "      microsoft \"Microsft\""
+//				+ "    }"
+//				+ "    keyboard \"Keyboard\" {"
+//				+ "      ltkb \"Logitech\""
+//				+ "      mskb \"Microsoft\""
+//				+ "    }"
+//				+ "  }"
+//				+ "  product computer \"Computer\" {"
+//				+ "    param arch \"Architecture\" arch"
+//				+ "    param cpu \"CPU\" cpu"
+//				+ "    param gpu \"GPU\" gpu"
+//				+ "    param ram \"RAM\" Int"
+//				+ "    param engraving \"Engraving\" Text"
+//				+ "    param deliver \"Deliver\" Bool"
+//				+ "    param ghz \"GHz\" Double"
+//				+ "    "
+//				+ "    group \"Peripherals\" {"
+//				+ "      param keyboard \"Keyboard\" keyboard optional"
+//				+ "      param mouse \"Mouse\" mouse optional"
+//				+ "    }"
+//				+ "    constraints {"
+//				+ "      \"Ram\" ram > 0"
+//				+ "      \"ram positive\" 20 * 10 + 10 - 2 == ram - 10 / 5"
+//				+ "      \"nonsense\" (true && false || true == ((20 > 0) == false)) == true"
+//				+ "      \"nonsense2\" 20 > 30 == false"
+//				+ "      /*\"ram 64-bit \"if (arch == x86) then ram <= 4 else ram <= 16*/"
+//				+ "    }"
+//				+ "  }"
+//				+ "  "
+//				+ "  group \"Peripherals\" {"
+//				+ "    "
+//				+ "    group \"Inner group\" {"
+//				+ "      "
+//				+ "    }"
+//				+ "    product mouse \"Mouse\" {"
+//				+ "      "
+//				+ "    }"
+//				+ "    "
+//				+ "    product keyboard \"Keyboard\" {"
+//				+ "      "
+//				+ "    }"
+//				+ "  }"
+//				+ "}";
+//			Model model = parser.parse(input);
+//			String json = Chomsky.generateJson(model);
+//			assertTrue(json.contains("Computer"));
+//			System.out.println();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 
 }

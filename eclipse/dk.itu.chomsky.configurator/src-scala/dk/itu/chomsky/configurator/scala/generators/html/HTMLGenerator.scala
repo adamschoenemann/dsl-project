@@ -49,6 +49,7 @@ object HTMLGenerator {
   def modelChildToHtml(mc:ModelChild):String = mc match {
     case pg:ProductGroup => productGroupToHtml(pg)
     case p:Product       => productToHtml(p)
+    case _ => sys.error("should never happen")
   }
 
   def productGroupToHtml(pg:ProductGroup):String = pg match {
@@ -178,15 +179,16 @@ ${childrenHtml}
   }
 
   def paramToHtml[Param](param:Param):String = param match {
-    case E.PrimParam(name, label, t) =>
+    case E.PrimParam(name, label, t) => {
       val (inputType, step, defVal) = primToJSType(t)
       s"""
       <div class="param" id="${name}">
         <label>${label}</label>
         <input name="${name}" type="${inputType}"${step} $defVal />
       </div>
-"""
-    case E.EnumParam(name, label, E.EnumType(ename,elabel,values)) =>
+      """
+    }
+    case E.EnumParam(name, label, E.EnumType(ename,elabel,values)) => {
       val options = values.map(convertOption _).mkString("\n")
       s"""      <div class="param" id="${name}">
         <label>${elabel}</label>
@@ -194,7 +196,8 @@ ${childrenHtml}
 ${options}
         </select>
       </div>
-"""
+      """
+    }
   }
 
   private def convertOption(v: EnumVal): String =

@@ -1,0 +1,102 @@
+
+     package configurator.chomsky.dsl.itu.dk.configurator5;
+
+     import android.support.v7.app.AppCompatActivity;
+     import android.os.Bundle;
+     import android.text.InputType;
+     import android.widget.ArrayAdapter;
+     import android.widget.Button;
+     import android.widget.CheckBox;
+     import android.widget.EditText;
+     import android.widget.LinearLayout;
+     import android.widget.ScrollView;
+     import android.widget.Spinner;
+     import android.widget.TextView;
+
+
+     import java.util.ArrayList;
+     import java.util.HashMap;
+     import java.util.List;
+     import java.util.Map;
+
+     public class MainActivity extends AppCompatActivity {
+       @Override
+       protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+  
+          ScrollView sv=(ScrollView)  findViewById(R.id.scrollView1);
+  
+          LinearLayout l1 = (LinearLayout) findViewById(R.id.linearLayoutHolder);
+          LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+  
+  
+          List<String[]> values    = new ArrayList<>();
+          List<String> objectTypes = new ArrayList<>() ;
+          
+                
+           values.add(0, new String[]{"baz"});
+           objectTypes.add(0,"TextView");
+           values.add(1, new String[]{""});
+           objectTypes.add(1,"EditText");
+         
+
+           values.add(2, new String[]{"Param 2"});
+           objectTypes.add(2,"TextView");
+           values.add(3, new String[]{"v1","v2"});
+           objectTypes.add(3,"Spinner");
+         
+
+           values.add(4, new String[]{"Param 3"});
+           objectTypes.add(4,"TextView");
+           values.add(5, new String[]{"v1","v2"});
+           objectTypes.add(5,"Spinner");
+         
+          
+          
+          List<Object> _objects = new ArrayList<Object>();
+          Map<Integer,ArrayAdapter<CharSequence>>_adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
+          
+          int i = 0;
+
+          for (String o : objectTypes) {
+  
+  
+              if(objectTypes.get(i) == "TextView"){
+                  _objects.add( new TextView(this));
+                  ((TextView)_objects.get(i)).setText(values.get(i)[0]); //it is a text, therefore should be the 0 element of the array
+                  l1.addView((TextView)_objects.get(i));
+  
+              }else if (objectTypes.get(i)=="Spinner")
+              {
+  
+                  _objects.add(new Spinner(this));
+                  _adapters.put(i, new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, values.get(i)));
+                  _adapters.get(i).setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                  ((Spinner)_objects.get(i)).setAdapter(_adapters.get(i));
+                  l1.addView((Spinner)_objects.get(i),lp);
+  
+              } else if (objectTypes.get(i)=="EditText")
+              {
+                  _objects.add(i, new EditText(this));
+                  ((EditText)_objects.get(i)).setInputType(InputType.TYPE_CLASS_NUMBER);
+                  l1.addView((EditText)_objects.get(i),lp);
+  
+              }else if (objectTypes.get(i)=="CheckBox")
+              {
+                  _objects.add(i,new CheckBox(this));
+                  l1.addView((CheckBox)_objects.get(i),lp);
+  
+              }
+  
+              i++;
+          }     
+             
+  
+          Button myButton = new Button(this);
+          myButton.setText("Submit");
+          l1.addView(myButton, lp);
+      }
+    }
+
+   
