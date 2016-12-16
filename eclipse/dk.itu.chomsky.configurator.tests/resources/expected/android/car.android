@@ -19,96 +19,112 @@
      import java.util.List;
      import java.util.Map;
 
+     // this will be a map from paramName to index in the _objects array
+     Map<String,Integer> parNameToIndex = new HashMap<>();
+
      public class MainActivity extends AppCompatActivity {
        @Override
        protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
-  
-          ScrollView sv=(ScrollView)  findViewById(R.id.scrollView1);
-  
+
+          ScrollView sv = (ScrollView) findViewById(R.id.scrollView1);
+
           LinearLayout l1 = (LinearLayout) findViewById(R.id.linearLayoutHolder);
-          LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-  
-  
+          LinearLayout.LayoutParams lp =
+              new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+              );
+
           List<String[]> values    = new ArrayList<>();
-          List<String> objectTypes = new ArrayList<>() ;
-          
+          List<String> objectTypes = new ArrayList<>();
+
           
            values.add(0, new String[]{"Brand"});
            objectTypes.add(0,"TextView");
            values.add(1, new String[]{"toyota","opel","mercedes","ellert","tesla"});
            objectTypes.add(1,"Spinner");
+           parNameToIndex.put("brand", 1);
          
 
            values.add(2, new String[]{"Drive"});
            objectTypes.add(2,"TextView");
            values.add(3, new String[]{"twowheel","fourwheel"});
            objectTypes.add(3,"Spinner");
+           parNameToIndex.put("drive", 3);
          
-      
+
            values.add(4, new String[]{"Automatic Gear"});
            objectTypes.add(4,"TextView");
            values.add(5, new String[]{""});
            objectTypes.add(5,"CheckBox");
+           parNameToIndex.put("autogear", 5);
          
 
            values.add(6, new String[]{"Engine-Type"});
            objectTypes.add(6,"TextView");
            values.add(7, new String[]{"combustion","hybrid","electrical"});
            objectTypes.add(7,"Spinner");
+           parNameToIndex.put("engine", 7);
          
 
            values.add(8, new String[]{"Fuel-Type"});
            objectTypes.add(8,"TextView");
            values.add(9, new String[]{"gas","diesel","electricity"});
            objectTypes.add(9,"Spinner");
+           parNameToIndex.put("fuel", 9);
          
 
            values.add(10, new String[]{"Tire"});
            objectTypes.add(10,"TextView");
            values.add(11, new String[]{"normal","winter"});
            objectTypes.add(11,"Spinner");
+           parNameToIndex.put("tires", 11);
          
-          
-          
+
           List<Object> _objects = new ArrayList<Object>();
-          Map<Integer,ArrayAdapter<CharSequence>>_adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
-          
+          Map<Integer,ArrayAdapter<CharSequence>> _adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
+
           int i = 0;
 
           for (String o : objectTypes) {
-  
-  
-              if(objectTypes.get(i) == "TextView"){
-                  _objects.add( new TextView(this));
-                  ((TextView)_objects.get(i)).setText(values.get(i)[0]); //it is a text, therefore should be the 0 element of the array
+
+              if (objectTypes.get(i) == "TextView"){
+                  TextView tv = new TextView(this);
+                  tv.setText(values.get(i)[0]); //it is a text, therefore should be the 0 element of the array
+                  objects.add(tv);
                   l1.addView((TextView)_objects.get(i));
-  
-              }else if (objectTypes.get(i)=="Spinner")
+
+              } else if (objectTypes.get(i)=="Spinner")
               {
-  
-                  _objects.add(new Spinner(this));
-                  _adapters.put(i, new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, values.get(i)));
-                  _adapters.get(i).setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                  ((Spinner)_objects.get(i)).setAdapter(_adapters.get(i));
-                  l1.addView((Spinner)_objects.get(i),lp);
-  
+                  Spinner spinner = new Spinner(this);
+                  ArrayAdapter adapter =
+                      new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, values.get(i));
+                  adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                  spinner.setAdapter(adapter);
+
+                  _adapters.put(i, adapter);
+                  _objects.add(spinner);
+                  l1.addView(spinner,lp);
+
               } else if (objectTypes.get(i)=="EditText")
               {
-                  _objects.add(i, new EditText(this));
-                  ((EditText)_objects.get(i)).setInputType(InputType.TYPE_CLASS_NUMBER);
-                  l1.addView((EditText)_objects.get(i),lp);
-  
-              }else if (objectTypes.get(i)=="CheckBox")
+                  EditText et = new EditText(this);
+                  et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                  _objects.add(i, et);
+                  l1.addView(et,lp);
+
+              } else if (objectTypes.get(i)=="CheckBox")
               {
-                  _objects.add(i,new CheckBox(this));
-                  l1.addView((CheckBox)_objects.get(i),lp);
-  
+                  CheckBox cb = new CheckBox(this);
+                  _objects.add(i,cb);
+                  l1.addView(cb,lp);
+
               }
-  
+
               i++;
-          }     
+          }
           
        //groups
         FrameLayout groupFl  = new FrameLayout(this);
@@ -128,8 +144,8 @@
         groupTitle.setPadding(15,0,0,15);
         TextView group1Text = new TextView(this);
           group1Text.setText("License Plate");
-          
-    
+
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,8 +156,8 @@
        
 TextView group1Text = new TextView(this);
           group1Text.setText("Your Name");
-          
-    
+
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,8 +168,8 @@ TextView group1Text = new TextView(this);
        
 TextView group1Text = new TextView(this);
           group1Text.setText("Average blood-alcohol level");
-          
-    
+
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,14 +178,40 @@ TextView group1Text = new TextView(this);
                     android:id="@+id/editTextAverage blood-alcohol level"
                     android:layout_marginTop="16dp" />
        
-       
-        
-   
-  
-          Button myButton = new Button(this);
-          myButton.setText("Submit");
-          l1.addView(myButton, lp);
+
+
+
+
+          Button submitBtn = new Button(this);
+          submitBtn.setText("Submit");
+
+          submitBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+          });
+          l1.addView(submitBtn, lp);
       }
     }
 
+    String getValue(String name) {
+      return name;
+    }
+
+    interface ParamRef {
+      String getValue();
+      Strign getLabel();
+    }
+
+    ParamRef getPrimParam(String name, String ty) {
+
+    }
+
+    ParamRef getEnumParam(String name) {
+
+    }
+
+    void checkConstraints() {
+      ()
+    }
    

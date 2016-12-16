@@ -1,4 +1,4 @@
-model foo "foo" {
+model simple1 "Simple1" {
    types {
       t1 "Type 1" {
           v1 "Val1"

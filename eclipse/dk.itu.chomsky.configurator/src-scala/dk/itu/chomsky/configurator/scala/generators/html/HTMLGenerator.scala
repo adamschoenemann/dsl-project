@@ -103,22 +103,20 @@ object HTMLGenerator {
     <input id="submit" type="submit" value="Submit"/>
   </form>
   <script>
-    var funs = {
-      "contains": function(input, query) {
-        return input.indexOf(query) > -1;
-      },
-      "label": function(param) {
-        return param.label;
-      },
-      "value": function(param) {
-        return param.val;
-      }
-    };
+    function __prim__contains(input, query) {
+      return input.indexOf(query) > -1;
+    }
+    function __prim__label(param) {
+      return param.label;
+    }
+    function __prim__value(param) {
+      return param.val;
+    }
 
-    function getValue(name) {
+    function __prim__value_ref(name) {
       return values[name].name;
     }
-    function getEnumParam(name) {
+    function __prim__enum_param_ref(name) {
       var jq = $$("#" + name + " select");
       var label = $$("#" + name + " select option:selected").text();
       return {
@@ -126,7 +124,24 @@ object HTMLGenerator {
         label: label
       };
     }
-    function getPrimParam(name, primTy) {
+
+    function __prim__IntTy_param_ref(name) {
+      __prim__prim_param_ref(name, "IntTy");
+    }
+
+    function __prim__TextTy_param_ref(name) {
+      __prim__prim_param_ref(name, "TextTy");
+    }
+
+    function __prim__DoubleTy_param_ref(name) {
+      __prim__prim_param_ref(name, "DoubleTy");
+    }
+
+    function __prim__BoolTy_param_ref(name) {
+      __prim__prim_param_ref(name, "BoolTy");
+    }
+
+    function __prim__prim_param_ref(name, primTy) {
       var jq = $$("#" + name + " input");
       var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
@@ -135,11 +150,7 @@ object HTMLGenerator {
       };
     }
 
-    function callFun() {
-      var fname = arguments[0];
-      var fargs  = Array.prototype.slice.call(arguments, 1);
-      return funs[fname].apply(funs, fargs);
-    }
+
     var values = ${genValues(enumVals)};
     function setError(err, pname /*optional*/) {
       $$err = $$("<p>").html(err);
