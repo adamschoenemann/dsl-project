@@ -98,24 +98,25 @@ object AndroidGenerator {
     }).mkString("\n")
   }
 
-  def genParam(p:Param):String = p match {
-    case E.EnumParam(name, label, E.EnumType(ename, _, _)) => {
-      s"""
-      l1.addView(newEnumParam("${name}", "${label}", types.get(${ename})));
-      """
+  def genParam(p:Param):String = {
+    val label = p.getLabel
+    val labelView = s"""l1.addView(newParamLabel("${label}"), lp);"""
+    val paramView = p match {
+      case E.EnumParam(name, label, E.EnumType(ename, _, _)) => {
+        s"""l1.addView(newEnumParam("${name}", "${label}", types.get("${ename}")), lp);"""
+      }
+      case E.PrimParam(name, label, ty) => {
+        s"""l1.addView(new${ty}Param("${name}", "${label}"), lp);"""
+      }
     }
-    case E.PrimParam(name, label, ty) => {
-      s"""
-      l1.addView(new${ty}Param("${name}", "${label}"));
-      """
-    }
+    s"${labelView}\n${paramView}"
   }
 
   def genParamGroup(pg:ParamGroup):String = pg match {
     case E.ParamGroup(label, children) => {
       val childJava = children.map(genProductChild(_)).mkString("\n")
       s"""
-      l1.addView(newGroupHeader("${label}"));
+      l1.addView(newGroupHeader("${label}"), lp);
       ${childJava}
       """
     }
@@ -130,7 +131,7 @@ object AndroidGenerator {
     case E.Product(name, label, children, constraints) => {
       val childJava = children.map(genProductChild(_)).mkString("\n")
       s"""
-      l1.addView(newProductHeader("${label}"));
+      l1.addView(newProductHeader("${label}"), lp);
       ${childJava}
       """
     }
@@ -145,7 +146,7 @@ object AndroidGenerator {
     case E.ProductGroup(label, children) => {
       val childJava = children.map(genModelChild(_)).mkString("\n")
       s"""
-      l1.addView(newGroupHeader("${label}"));
+      l1.addView(newGroupHeader("${label}"), lp);
       ${childJava}
       """
     }
@@ -156,23 +157,8 @@ object AndroidGenerator {
     val product = model.getChildren.get(0).asInstanceOf[Product] // get first modelChild as Product ...
     val pChildren = eListToList[ProductChild](product.getChildren)
 
-    val params = pChildren
-     .filter(_.isInstanceOf[Param])
-     .foldLeft((List[String](),0)) ((acc, p) => {
-       val (str, acc2) = paramToJava(p,acc._2)
-       (acc._1 :+ str, acc2)
-     })
-     ._1
-     .mkString("\n")
-
-    val groups = pChildren
-     .filter(_.isInstanceOf[ParamGroup])
-     .map { pGroupToJava(_) }
-     .mkString("\n")
+    val params = genProduct(product)
     val enumVals = types.map(t => eListToList(t.getValues)).flatten
-    println("model:" + model.getName)
-    println("constraints: " + product.getConstraints.size())
-    println()
     val constraints = genConstraints(eListToList(product.getConstraints))
     val typesJava = genTypes(types)
     s"""
@@ -209,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
   // this will be a map from paramName to index in the _objects array
   Map<String,Integer> parNameToIndex = new HashMap<>();
   Map<String,EnumType> types = new HashMap<>();
-  Map<String,ParamView> paramViews = new HashMap<>();
+  Map<String,View> paramViews = new HashMap<>();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -268,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
 
         i++;
       }
-      $groups
 
       Button submitBtn = new Button(this);
       submitBtn.setText("Submit");
@@ -284,14 +269,49 @@ public class MainActivity extends AppCompatActivity {
 
   // UI helper functions
 
+  private TextView newParamLabel(String label) {
+    TextView tv = new TextView(this);
+    tv.setText(label);
+    return tv;
+  }
+
   private TextView newGroupHeader(String name) {
-    TextView tv = new TextView();
+    TextView tv = new TextView(this);
     tv.setText(name);
     return tv;
   }
 
   private TextView newProductHeader(String name) {
     return newGroupHeader(name);
+  }
+  private View newBoolTyParam(String name, String label) {
+    CheckBox cb = new CheckBox(this);
+    return cb;
+  }
+
+  private View newTextTyParam(String name, String label) {
+    EditText et = new EditText(this);
+    return et;
+  }
+
+  private View newIntTyParam(String name, String label) {
+    EditText et = new EditText(this);
+    et.setInputType(InputType.TYPE_CLASS_NUMBER);
+    return et;
+  }
+
+  private View newDoubleTyParam(String name, String label) {
+    return newIntTyParam(name, label);
+  }
+
+  private View newEnumParam(String name, String label, EnumType type) {
+    Spinner spinner = new Spinner(this);
+    EnumAdapter adapter =
+        new EnumAdapter(this, R.layout.support_simple_spinner_dropdown_item, type.values);
+    adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    spinner.setAdapter(adapter);
+
+    return spinner;
   }
 
   // runtime-system
