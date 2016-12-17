@@ -48,7 +48,7 @@ model car "Configure your Car" {
     constraints {
       constraint on fuel "Electric engines must use electric fuel"
       (value($engine) == electrical) => (value($fuel) == electricity) 
-      constraint on engine "Ellert and Tesla only produces electric cars"
+      constraint on engine "Ellert and Tesla only produce electric cars"
       (value($brand) == ellert || value($brand) == tesla) =>
         value($engine) == electrical  
       constraint on alcohol "Are you an alcoholic?" value($alcohol) < 0.5

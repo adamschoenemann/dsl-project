@@ -9,76 +9,13 @@ import dk.itu.chomsky.configurator.scala.generators.common.ExprGen.genExpr
 
 object AndroidGenerator {
 
-
-  //generate layout
-  def generateXmlLayout(model: Model): String = {
-
-    s"""
-    <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="configurator.chomsky.dsl.itu.dk.configurator5.MainActivity">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent"
-        android:id="@+id/scrollView1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/linearLayoutHolder">
-
-
-        </LinearLayout>
-    </ScrollView>
-    </RelativeLayout>
-    """
-  }
-  def generateManifest(model: Model) : String = {
-    s"""<?xml version="1.0" encoding="utf-8"?>
-    <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="configurator.chomsky.dsl.itu.dk.configurator">
-
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="${model.getLabel}"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".${model.getName}Activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
-
-    </manifest>
-    """
-  }
-
   def genConstraints(constraints:List[Constraint]):String = {
     constraints.map({
       case E.Constraint(label, expr, optParam) => {
         val egen = genExpr(expr)
         s"""
         if (${egen} == false) {
-          // display error
+          errorView.append("${label}\\n");
         }
         """
       }
@@ -152,16 +89,12 @@ object AndroidGenerator {
     }
   }
 
-  def generateMainActivity(model:Model):String = {
-    val types = eListToList[EnumType](model.getTypes)
-    val product = model.getChildren.get(0).asInstanceOf[Product] // get first modelChild as Product ...
-    val pChildren = eListToList[ProductChild](product.getChildren)
-
-    val params = genProduct(product)
-    val enumVals = types.map(t => eListToList(t.getValues)).flatten
-    val constraints = genConstraints(eListToList(product.getConstraints))
-    val typesJava = genTypes(types)
-    s"""
+  def generateMainActivity(model:Model):String = model match {
+    case E.Model(types, children) => {
+      val typesJava = genTypes(types)
+      val childrenJava = children.map(genModelChild(_)).mkString("\n")
+      val constraintsJava = genConstraints(children.map(getConstraints(_)).flatten)
+      s"""
 package configurator.chomsky.dsl.itu.dk.configurator5;
 
 import android.content.Context;
@@ -181,6 +114,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+import android.graphics.Typeface;
 
 
 import java.util.ArrayList;
@@ -188,14 +123,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import configurator.chomsky.dsl.itu.dk.dsl_android.R;
+import configurator5.dk.itu.dsl.chomsky.configurator.configurator.R;
 
 public class MainActivity extends AppCompatActivity {
 
   // this will be a map from paramName to index in the _objects array
-  Map<String,Integer> parNameToIndex = new HashMap<>();
-  Map<String,EnumType> types = new HashMap<>();
-  Map<String,View> paramViews = new HashMap<>();
+  Map<String, EnumType> types = new HashMap<>();
+  Map<String, ParamView> paramViews = new HashMap<>();
+  TextView errorView = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -213,58 +148,22 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams.WRAP_CONTENT
       );
 
-    List<String[]> values    = new ArrayList<>();
-    List<String> objectTypes = new ArrayList<>();
+    ${childrenJava}
 
-    ${params}
+    errorView = new TextView(this);
+    errorView.setTextColor(Color.RED);
+    l1.addView(errorView, lp);
 
-    List<Object> _objects = new ArrayList<Object>();
-    Map<Integer,ArrayAdapter<CharSequence>> _adapters = new HashMap<Integer,ArrayAdapter<CharSequence>>();
+    Button submitBtn = new Button(this);
+    submitBtn.setText("Submit");
 
-    int i = 0;
-
-    for (String o : objectTypes) {
-
-      if (objectTypes.get(i) == "TextView") {
-        TextView tv = new TextView(this);
-        tv.setText(values.get(i)[0]); //it is a text, therefore should be the 0 element of the array
-        _objects.add(tv);
-        l1.addView((TextView)_objects.get(i));
-
-      } else if (objectTypes.get(i) == "Spinner") {
-        Spinner spinner = new Spinner(this);
-        ArrayAdapter adapter =
-            new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, values.get(i));
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        _adapters.put(i, adapter);
-        _objects.add(spinner);
-        l1.addView(spinner,lp);
-
-      } else if (objectTypes.get(i)=="EditText") {
-        EditText et = new EditText(this);
-        et.setInputType(InputType.TYPE_CLASS_NUMBER);
-        _objects.add(i, et);
-        l1.addView(et,lp);
-      } else if (objectTypes.get(i)=="CheckBox") {
-        CheckBox cb = new CheckBox(this);
-        _objects.add(i,cb);
-        l1.addView(cb,lp);
-
-        i++;
+    submitBtn.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        errorView.setText("");
+        checkConstraints();
       }
-
-      Button submitBtn = new Button(this);
-      submitBtn.setText("Submit");
-
-      submitBtn.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-          checkConstraints();
-        }
-      });
-      l1.addView(submitBtn, lp);
-    }
+    });
+    l1.addView(submitBtn, lp);
   }
 
   // UI helper functions
@@ -277,26 +176,35 @@ public class MainActivity extends AppCompatActivity {
 
   private TextView newGroupHeader(String name) {
     TextView tv = new TextView(this);
+    tv.setTextSize(1.05f * tv.getTextSize());
     tv.setText(name);
     return tv;
   }
 
   private TextView newProductHeader(String name) {
-    return newGroupHeader(name);
+    TextView tv = new TextView(this);
+    tv.setTextSize(1.1f * tv.getTextSize());
+    tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+    tv.setText(name);
+    return tv;
   }
   private View newBoolTyParam(String name, String label) {
     CheckBox cb = new CheckBox(this);
+    paramViews.put(name, new ParamView(label, cb));
     return cb;
   }
 
   private View newTextTyParam(String name, String label) {
     EditText et = new EditText(this);
+    paramViews.put(name, new ParamView(label, et));
     return et;
   }
 
   private View newIntTyParam(String name, String label) {
     EditText et = new EditText(this);
     et.setInputType(InputType.TYPE_CLASS_NUMBER);
+    et.setText("0");
+    paramViews.put(name, new ParamView(label, et));
     return et;
   }
 
@@ -306,20 +214,24 @@ public class MainActivity extends AppCompatActivity {
 
   private View newEnumParam(String name, String label, EnumType type) {
     Spinner spinner = new Spinner(this);
+    paramViews.put(name, new ParamView(label, spinner));
     EnumAdapter adapter =
-        new EnumAdapter(this, R.layout.support_simple_spinner_dropdown_item, type.values);
+            new EnumAdapter(this, R.layout.support_simple_spinner_dropdown_item, type.values);
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
-
     return spinner;
   }
 
   // runtime-system
   String __prim__value_ref(String valName) {
-    return "value";
+    return valName;
   }
 
-  class ParamRef<T> {
+  boolean __prim__equals(Object a, Object b) {
+    return a.equals(b);
+  }
+
+  static class ParamRef<T> {
     public final T value;
     public final String label;
     public ParamRef(T value, String label) {
@@ -330,43 +242,65 @@ public class MainActivity extends AppCompatActivity {
     String getLabel() { return label; }
   }
 
+  static class ParamView {
+    public final String label;
+    public final View view;
+    public ParamView(String label, View view) {
+      this.label = label;
+      this.view  = view;
+    }
+  }
+
   ParamRef<Integer> __prim__IntTy_param_ref(String name) {
-    throw new RuntimeException("not implemented");
+    ParamView pv = paramViews.get(name);
+    EditText et = (EditText)pv.view;
+    Integer value = Integer.parseInt(et.getText().toString());
+    return new ParamRef<Integer>(value, pv.label);
   }
 
   ParamRef<Double> __prim__DoubleTy_param_ref(String name) {
-    throw new RuntimeException("not implemented");
+    ParamView pv = paramViews.get(name);
+    EditText et = (EditText)pv.view;
+    Double value = Double.parseDouble(et.getText().toString());
+    return new ParamRef<Double>(value, pv.label);
   }
 
   ParamRef<Boolean> __prim__BoolTy_param_ref(String name) {
-    throw new RuntimeException("not implemented");
+    ParamView pv = paramViews.get(name);
+    CheckBox cb = (CheckBox)pv.view;
+    Boolean value = cb.isEnabled();
+    return new ParamRef<Boolean>(value, pv.label);
   }
 
   ParamRef<String> __prim__TextTy_param_ref(String name) {
-    throw new RuntimeException("not implemented");
+    ParamView pv = paramViews.get(name);
+    EditText et = (EditText)pv.view;
+    String value = et.getText().toString();
+    return new ParamRef<String>(value, pv.label);
   }
 
-
-
-  ParamRef __prim__enum_param_ref(String name) {
-      throw new RuntimeException("not implemented");
+  ParamRef<String> __prim__enum_param_ref(String name) {
+    ParamView pv = paramViews.get(name);
+    Spinner spinner = (Spinner)pv.view;
+    EnumVal value = (EnumVal)spinner.getSelectedItem();
+    return new ParamRef<String>(value.getName(), value.getLabel());
   }
 
   // standard library
   public <T> T __prim__value(ParamRef<T> pref) {
-    throw new RuntimeException("not implemented");
+    return pref.value;
   }
   boolean __prim__contains(String input, String query) {
-    return false;
+    return input.indexOf(query) > -1;
   }
   String __prim__label(ParamRef pref) {
-    return "";
+    return pref.label;
   }
 
 
 
   void checkConstraints() {
-    ${constraints}
+    ${constraintsJava}
   }
 }
 
@@ -447,132 +381,12 @@ class EnumAdapter extends ArrayAdapter<EnumVal> {
   }
 }
 """
-  }
-   def paramToJava[Param](param: Param, i: Int):(String,Int) = {
-
-     param match {
-
-       case E.PrimParam(name,label,t) => {//textViews
-         val (inputType, step) = primToAndroidType(t)
-
-         val str = s"""
-           values.add(${i}, new String[]{"${label}"});
-           objectTypes.add(${i},"TextView");
-           values.add(${i+1}, new String[]{""});
-           objectTypes.add(${i+1},"${inputType}");
-           parNameToIndex.put("${name}", ${i+1});
-         """
-         (str, i+2)
-       }
-       case E.EnumParam(name,label, E.EnumType(ename,elabel,values)) => {
-         val list = values.map(v => "\""+ v.getName+"\"" ).mkString(",")
-         val str = s"""
-           values.add(${i}, new String[]{"${label}"});
-           objectTypes.add(${i},"TextView");
-           values.add(${i+1}, new String[]{${list}});
-           objectTypes.add(${i+1},"Spinner");
-           parNameToIndex.put("${name}", ${i+1});
-         """
-         (str, i+2)
-       }
-     }
-   }
-
-   private def convertToValues(values: List[EnumVal]) : String = {
-     val list = values.mkString(",")
-     s""" "${list}" """
-   }
-
-   private def primToAndroidType(ty:PrimitiveType):(String, String) = ty match {
-      case PrimitiveType.INT_TY    => ("EditText", "")
-      case PrimitiveType.DOUBLE_TY => ("EditText", " step=\"0.01\"")
-      case PrimitiveType.BOOL_TY   => ("CheckBox", "")
-      case PrimitiveType.TEXT_TY   => ("EditText", "")
-      case _ => throw new NotImplementedError("unkown primitive type")
     }
-
-  // def paramToJava[Param](param:Param): String = param match{
-  //   case E.PrimParam(name,label,t) => //textViews
-  //     val inputType = primToType(t)
-
-  //     s"""TextView group1Text = new TextView(this);
-  //         group1Text.setText("${label}");
-
-
-  //               <EditText
-  //                   android:layout_width="match_parent"
-  //                   android:layout_height="wrap_content"
-  //                   android:inputType="$inputType"
-  //                   android:ems="10"
-  //                   android:id="@+id/editText$label"
-  //                   android:layout_marginTop="16dp" />
-  //      """
-  //   case E.EnumParam(name,label, E.EnumType(ename,elabel,values)) => //
-  //     val options = values.map(convertOption _).mkString("\n")
-
-  //     s"""TextView group1Text = new TextView(this);
-  //         group1Text.setText("${elabel}");
-
-
-  //        <Spinner
-  //             android:layout_width="match_parent"
-  //             android:layout_height="wrap_content"
-  //             android:id="@+id/spinner$elabel"
-  //             android:layout_marginTop="16dp"/>
-  //     """
-  // }
-
-
-  //TODO:
-  //generate TextView for labels -done
-  //generate Spinners  -done
-  //generate groups
-  //generate text field
- def pGroupToJava(c: ProductChild):String = {
-    val group = c.asInstanceOf[ParamGroup]
-    val children = eListToList(group.getChildren).map(childToJava _).mkString("\n")
-
-    s"""
-       //groups
-        FrameLayout groupFl  = new FrameLayout(this);
-
-        //linear layout
-        LinearLayout groupLl = new LinearLayout(this);
-        groupLl.setOrientation(LinearLayout.VERTICAL);
-       // llgroup.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,50));
-        TextView groupTitle  = new TextView(this);
-
-        //title of group
-        groupTitle.setText("Peripherals");
-        groupTitle.setFocusable(true);
-
-
-        groupTitle.setGravity(Gravity.CENTER_HORIZONTAL);
-        groupTitle.setPadding(15,0,0,15);
-        $children
-
-
-"""
   }
 
- private def childToJava(c: ProductChild): String =
-//   TODO: FIX PARAMTOXML HERE
-    if (c.isInstanceOf[Param]) "" else pGroupToJava(c.asInstanceOf[ParamGroup])
-
-
-
-  private def primToType(ty:PrimitiveType):String = ty match {
-      case PrimitiveType.INT_TY    => "number"
-      case PrimitiveType.DOUBLE_TY => "number"
-      case PrimitiveType.BOOL_TY   => "checkbox"
-      case PrimitiveType.TEXT_TY   => "text"
-      case _ => throw new NotImplementedError("unkown primitive type")
-    }
-
-  private def convertOption(v: EnumVal): String =
-    s"""          <option value="${v.getName}">${v.getLabel}</option>"""
-
-
-
+  def getConstraints(mc:ModelChild):List[Constraint] = mc match {
+    case E.ProductGroup(_, children) => children.map(getConstraints(_)).flatten
+    case E.Product(_,_,_,constraints) => constraints
+  }
 
 }

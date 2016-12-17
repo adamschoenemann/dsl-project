@@ -184,15 +184,15 @@ public class ConfigDSLParsingTest {
 		testPositiveInputOutput(model -> Chomsky.generateAndroidMainActivity(model), "android", "android");
 	}
 
-//	@Test
-//	public void testHtmlGen() {
-//		try {
-//			String input = readFile(new File("resources/input/positive/car.cnfgdsl"));
-//			Chomsky.testHtmlGen(parser.parse(input));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	@Test
+	public void testHtmlGen() {
+		try {
+			String input = readFile(new File("resources/input/positive/car.cnfgdsl"));
+			Chomsky.testHtmlGen(parser.parse(input));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private String readFile(File file) throws IOException {
 		Scanner scanner = null;

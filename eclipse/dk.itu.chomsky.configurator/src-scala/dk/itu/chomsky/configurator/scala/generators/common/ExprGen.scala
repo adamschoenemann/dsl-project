@@ -20,13 +20,12 @@ object ExprGen {
     case E.FunApp(name, args) => {
       val argslist = args.map(genExpr(_)).mkString(", ")
       s"""__prim__$name($argslist)"""
-      // s"""callFun("$name", $argslist)"""
     }
     case E.Plus(l,r)  => s"(${genExpr(l)} + ${genExpr(r)})"
     case E.Minus(l,r) => s"(${genExpr(l)} - ${genExpr(r)})"
     case E.Mult(l,r)  => s"(${genExpr(l)} * ${genExpr(r)})"
     case E.Div(l,r)   => s"(${genExpr(l)} / ${genExpr(r)})"
-    case E.Eq(l,r)    => s"(${genExpr(l)} == ${genExpr(r)})"
+    case E.Eq(l,r)    => s"__prim__equals(${genExpr(l)}, ${genExpr(r)})"
     case E.And(l,r)   => s"(${genExpr(l)} && ${genExpr(r)})"
     case E.Implic(l,r) => s"(!${genExpr(l)} || ${genExpr(r)})"
     case E.Or(l,r)    => s"(${genExpr(l)} || ${genExpr(r)})"

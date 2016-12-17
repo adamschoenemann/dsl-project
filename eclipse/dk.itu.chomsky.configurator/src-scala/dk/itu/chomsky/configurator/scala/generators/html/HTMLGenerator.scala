@@ -114,7 +114,7 @@ object HTMLGenerator {
     }
 
     function __prim__value_ref(name) {
-      return values[name].name;
+      return name;
     }
     function __prim__enum_param_ref(name) {
       var jq = $$("#" + name + " select");
@@ -125,20 +125,24 @@ object HTMLGenerator {
       };
     }
 
+    function __prim__equals(a, b) {
+      return a == b;
+    }
+
     function __prim__IntTy_param_ref(name) {
-      __prim__prim_param_ref(name, "IntTy");
+      return __prim__prim_param_ref(name, "IntTy");
     }
 
     function __prim__TextTy_param_ref(name) {
-      __prim__prim_param_ref(name, "TextTy");
+      return __prim__prim_param_ref(name, "TextTy");
     }
 
     function __prim__DoubleTy_param_ref(name) {
-      __prim__prim_param_ref(name, "DoubleTy");
+      return __prim__prim_param_ref(name, "DoubleTy");
     }
 
     function __prim__BoolTy_param_ref(name) {
-      __prim__prim_param_ref(name, "BoolTy");
+      return __prim__prim_param_ref(name, "BoolTy");
     }
 
     function __prim__prim_param_ref(name, primTy) {
