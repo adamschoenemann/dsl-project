@@ -131,22 +131,20 @@
     <input id="submit" type="submit" value="Submit"/>
   </form>
   <script>
-    var funs = {
-      "contains": function(input, query) {
-        return input.indexOf(query) > -1;
-      },
-      "label": function(param) {
-        return param.label;
-      },
-      "value": function(param) {
-        return param.val;
-      }
-    };
-
-    function getValue(name) {
-      return values[name].name;
+    function __prim__contains(input, query) {
+      return input.indexOf(query) > -1;
     }
-    function getEnumParam(name) {
+    function __prim__label(param) {
+      return param.label;
+    }
+    function __prim__value(param) {
+      return param.val;
+    }
+
+    function __prim__value_ref(name) {
+      return name;
+    }
+    function __prim__enum_param_ref(name) {
       var jq = $("#" + name + " select");
       var label = $("#" + name + " select option:selected").text();
       return {
@@ -154,7 +152,28 @@
         label: label
       };
     }
-    function getPrimParam(name, primTy) {
+
+    function __prim__equals(a, b) {
+      return a == b;
+    }
+
+    function __prim__IntTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "IntTy");
+    }
+
+    function __prim__TextTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "TextTy");
+    }
+
+    function __prim__DoubleTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "DoubleTy");
+    }
+
+    function __prim__BoolTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "BoolTy");
+    }
+
+    function __prim__prim_param_ref(name, primTy) {
       var jq = $("#" + name + " input");
       var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
@@ -163,11 +182,7 @@
       };
     }
 
-    function callFun() {
-      var fname = arguments[0];
-      var fargs  = Array.prototype.slice.call(arguments, 1);
-      return funs[fname].apply(funs, fargs);
-    }
+
     var values = {
 	"gtx980": {
 		"name": "gtx980",
@@ -241,12 +256,12 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if ((callFun("value", getPrimParam("ram", "IntTy")) > 0.0) == false) { setError("Ram must be positive", "ram") }
-      if (((callFun("value", getEnumParam("arch")) == getValue("x86")) ? ((callFun("value", getPrimParam("ram", "IntTy")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
-      if (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) ? ((callFun("value", getEnumParam("keyboard")) == getValue("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
-      if (((callFun("value", getEnumParam("cpu")) == getValue("i5")) ? (((callFun("value", getEnumParam("gpu")) == getValue("gtx970")) || (callFun("value", getEnumParam("gpu")) == getValue("gtx980")))) : (true)) == false) { setError("c2", null) }
-      if (callFun("contains", callFun("label", getEnumParam("cpu")), "Intel") == false) { setError("CPU must be intel", "cpu") }
-      if ((callFun("value", getPrimParam("lvl2p1", "BoolTy")) == true) == false) { setError("This must be true, thank you", "lvl2p1") }
+            if ((__prim__value(__prim__IntTy_param_ref("ram")) > 0.0) == false) { setError("Ram must be positive", "ram") }
+      if ((__prim__equals(__prim__value(__prim__enum_param_ref("arch")), __prim__value_ref("x86")) ? ((__prim__value(__prim__IntTy_param_ref("ram")) <= 4.0)) : (true)) == false) { setError("32-bits can at most have 4g ram", "ram") }
+      if ((__prim__equals(__prim__value(__prim__enum_param_ref("gpu")), __prim__value_ref("gtx970")) ? (__prim__equals(__prim__value(__prim__enum_param_ref("keyboard")), __prim__value_ref("ltkb"))) : (true)) == false) { setError("c1", "keyboard") }
+      if ((__prim__equals(__prim__value(__prim__enum_param_ref("cpu")), __prim__value_ref("i5")) ? ((__prim__equals(__prim__value(__prim__enum_param_ref("gpu")), __prim__value_ref("gtx970")) || __prim__equals(__prim__value(__prim__enum_param_ref("gpu")), __prim__value_ref("gtx980")))) : (true)) == false) { setError("c2", null) }
+      if (__prim__contains(__prim__label(__prim__enum_param_ref("cpu")), "Intel") == false) { setError("CPU must be intel", "cpu") }
+      if (__prim__equals(__prim__value(__prim__BoolTy_param_ref("lvl2p1")), true) == false) { setError("This must be true, thank you", "lvl2p1") }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);

@@ -168,17 +168,17 @@
 				{
 					"label": "Electric engines must use electric fuel",
 					"param": "fuel",
-					"expr": "(!(callFun(\"value\", getEnumParam(\"engine\")) == getValue(\"electrical\")) || (callFun(\"value\", getEnumParam(\"fuel\")) == getValue(\"electricity\")))"
+					"expr": "(!__prim__equals(__prim__value(__prim__enum_param_ref(\"engine\")), __prim__value_ref(\"electrical\")) || __prim__equals(__prim__value(__prim__enum_param_ref(\"fuel\")), __prim__value_ref(\"electricity\")))"
 				},
 				{
-					"label": "Ellert and Tesla only produces electric cars",
+					"label": "Ellert and Tesla only produce electric cars",
 					"param": "engine",
-					"expr": "(!((callFun(\"value\", getEnumParam(\"brand\")) == getValue(\"ellert\")) || (callFun(\"value\", getEnumParam(\"brand\")) == getValue(\"tesla\"))) || (callFun(\"value\", getEnumParam(\"engine\")) == getValue(\"electrical\")))"
+					"expr": "(!(__prim__equals(__prim__value(__prim__enum_param_ref(\"brand\")), __prim__value_ref(\"ellert\")) || __prim__equals(__prim__value(__prim__enum_param_ref(\"brand\")), __prim__value_ref(\"tesla\"))) || __prim__equals(__prim__value(__prim__enum_param_ref(\"engine\")), __prim__value_ref(\"electrical\")))"
 				},
 				{
 					"label": "Are you an alcoholic?",
 					"param": "alcohol",
-					"expr": "(callFun(\"value\", getPrimParam(\"alcohol\", \"DoubleTy\")) < 0.5)"
+					"expr": "(__prim__value(__prim__DoubleTy_param_ref(\"alcohol\")) < 0.5)"
 				}
 			]
 		},
@@ -204,7 +204,7 @@
 			"constraints": [{
 				"label": "You must be above 20",
 				"param": "age",
-				"expr": "(callFun(\"value\", getPrimParam(\"age\", \"IntTy\")) > 20.0)"
+				"expr": "(__prim__value(__prim__IntTy_param_ref(\"age\")) > 20.0)"
 			}]
 		}
 	]

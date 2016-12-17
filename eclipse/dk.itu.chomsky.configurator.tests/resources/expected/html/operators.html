@@ -30,22 +30,20 @@
     <input id="submit" type="submit" value="Submit"/>
   </form>
   <script>
-    var funs = {
-      "contains": function(input, query) {
-        return input.indexOf(query) > -1;
-      },
-      "label": function(param) {
-        return param.label;
-      },
-      "value": function(param) {
-        return param.val;
-      }
-    };
-
-    function getValue(name) {
-      return values[name].name;
+    function __prim__contains(input, query) {
+      return input.indexOf(query) > -1;
     }
-    function getEnumParam(name) {
+    function __prim__label(param) {
+      return param.label;
+    }
+    function __prim__value(param) {
+      return param.val;
+    }
+
+    function __prim__value_ref(name) {
+      return name;
+    }
+    function __prim__enum_param_ref(name) {
       var jq = $("#" + name + " select");
       var label = $("#" + name + " select option:selected").text();
       return {
@@ -53,7 +51,28 @@
         label: label
       };
     }
-    function getPrimParam(name, primTy) {
+
+    function __prim__equals(a, b) {
+      return a == b;
+    }
+
+    function __prim__IntTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "IntTy");
+    }
+
+    function __prim__TextTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "TextTy");
+    }
+
+    function __prim__DoubleTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "DoubleTy");
+    }
+
+    function __prim__BoolTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "BoolTy");
+    }
+
+    function __prim__prim_param_ref(name, primTy) {
       var jq = $("#" + name + " input");
       var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
@@ -62,11 +81,7 @@
       };
     }
 
-    function callFun() {
-      var fname = arguments[0];
-      var fargs  = Array.prototype.slice.call(arguments, 1);
-      return funs[fname].apply(funs, fargs);
-    }
+
     var values = {
 	"v1": {
 		"name": "v1",
@@ -98,10 +113,10 @@
       clearErrors();
             if (!((5.0 + -10.0) > 0.0) == false) { setError("fooconstraint", "baz") }
       if (((true && false) || (true && false)) == false) { setError("c3", null) }
-      if (!!((20.0 - -20.0) == 40.0) == false) { setError("c31", null) }
+      if (!!__prim__equals((20.0 - -20.0), 40.0) == false) { setError("c31", null) }
       if (!(50.0 <= 50.0) == false) { setError("c6", null) }
       if (((20.0 >= 30.0) && false) == false) { setError("c7", null) }
-      if ((!(callFun("value", getPrimParam("baz", "IntTy")) > 0.0) || (callFun("value", getEnumParam("p2")) == getValue("v2"))) == false) { setError("c8", null) }
+      if ((!(__prim__value(__prim__IntTy_param_ref("baz")) > 0.0) || __prim__equals(__prim__value(__prim__enum_param_ref("p2")), __prim__value_ref("v2"))) == false) { setError("c8", null) }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);

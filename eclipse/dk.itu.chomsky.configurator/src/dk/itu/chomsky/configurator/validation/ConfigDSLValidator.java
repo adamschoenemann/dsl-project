@@ -82,7 +82,7 @@ public class ConfigDSLValidator extends AbstractConfigDSLValidator {
 	}
 	
 	@Check
-	void checkUniqueEnums(Model model) {
+	void checkAllUniqueNames(Model model) {
 		EObject root = EcoreUtil2.getRootContainer(model);
 		checkUniqueNames(root, EnumVal.class);
 		checkUniqueNames(root, EnumType.class);

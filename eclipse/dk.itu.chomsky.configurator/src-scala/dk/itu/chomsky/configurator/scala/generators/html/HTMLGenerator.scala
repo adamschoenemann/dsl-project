@@ -193,7 +193,7 @@ ${childrenHtml}
 
   }
 
-  def paramToHtml[Param](param:Param):String = param match {
+  def paramToHtml(param:Param):String = param match {
     case E.PrimParam(name, label, t) => {
       val (inputType, step, defVal) = primToJSType(t)
       s"""

@@ -116,22 +116,20 @@
     <input id="submit" type="submit" value="Submit"/>
   </form>
   <script>
-    var funs = {
-      "contains": function(input, query) {
-        return input.indexOf(query) > -1;
-      },
-      "label": function(param) {
-        return param.label;
-      },
-      "value": function(param) {
-        return param.val;
-      }
-    };
-
-    function getValue(name) {
-      return values[name].name;
+    function __prim__contains(input, query) {
+      return input.indexOf(query) > -1;
     }
-    function getEnumParam(name) {
+    function __prim__label(param) {
+      return param.label;
+    }
+    function __prim__value(param) {
+      return param.val;
+    }
+
+    function __prim__value_ref(name) {
+      return name;
+    }
+    function __prim__enum_param_ref(name) {
       var jq = $("#" + name + " select");
       var label = $("#" + name + " select option:selected").text();
       return {
@@ -139,7 +137,28 @@
         label: label
       };
     }
-    function getPrimParam(name, primTy) {
+
+    function __prim__equals(a, b) {
+      return a == b;
+    }
+
+    function __prim__IntTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "IntTy");
+    }
+
+    function __prim__TextTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "TextTy");
+    }
+
+    function __prim__DoubleTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "DoubleTy");
+    }
+
+    function __prim__BoolTy_param_ref(name) {
+      return __prim__prim_param_ref(name, "BoolTy");
+    }
+
+    function __prim__prim_param_ref(name, primTy) {
       var jq = $("#" + name + " input");
       var val = primTy == "BoolTy" ? jq.is(":checked") : jq.val();
       return {
@@ -148,11 +167,7 @@
       };
     }
 
-    function callFun() {
-      var fname = arguments[0];
-      var fargs  = Array.prototype.slice.call(arguments, 1);
-      return funs[fname].apply(funs, fargs);
-    }
+
     var values = {
 	"winter": {
 		"name": "winter",
@@ -246,10 +261,10 @@
     
     function checkErrs(evt) {
       clearErrors();
-            if ((!(callFun("value", getEnumParam("engine")) == getValue("electrical")) || (callFun("value", getEnumParam("fuel")) == getValue("electricity"))) == false) { setError("Electric engines must use electric fuel", "fuel") }
-      if ((!((callFun("value", getEnumParam("brand")) == getValue("ellert")) || (callFun("value", getEnumParam("brand")) == getValue("tesla"))) || (callFun("value", getEnumParam("engine")) == getValue("electrical"))) == false) { setError("Ellert and Tesla only produces electric cars", "engine") }
-      if ((callFun("value", getPrimParam("alcohol", "DoubleTy")) < 0.5) == false) { setError("Are you an alcoholic?", "alcohol") }
-      if ((callFun("value", getPrimParam("age", "IntTy")) > 20.0) == false) { setError("You must be above 20", "age") }
+            if ((!__prim__equals(__prim__value(__prim__enum_param_ref("engine")), __prim__value_ref("electrical")) || __prim__equals(__prim__value(__prim__enum_param_ref("fuel")), __prim__value_ref("electricity"))) == false) { setError("Electric engines must use electric fuel", "fuel") }
+      if ((!(__prim__equals(__prim__value(__prim__enum_param_ref("brand")), __prim__value_ref("ellert")) || __prim__equals(__prim__value(__prim__enum_param_ref("brand")), __prim__value_ref("tesla"))) || __prim__equals(__prim__value(__prim__enum_param_ref("engine")), __prim__value_ref("electrical"))) == false) { setError("Ellert and Tesla only produce electric cars", "engine") }
+      if ((__prim__value(__prim__DoubleTy_param_ref("alcohol")) < 0.5) == false) { setError("Are you an alcoholic?", "alcohol") }
+      if ((__prim__value(__prim__IntTy_param_ref("age")) > 20.0) == false) { setError("You must be above 20", "age") }
     }
     $(document).ready(function() {
       $("input").on("input change", checkErrs);

@@ -41,7 +41,7 @@
 			{
 				"label": "c31",
 				"param": null,
-				"expr": "!!((20.0 - -20.0) == 40.0)"
+				"expr": "!!__prim__equals((20.0 - -20.0), 40.0)"
 			},
 			{
 				"label": "c6",
@@ -56,7 +56,7 @@
 			{
 				"label": "c8",
 				"param": null,
-				"expr": "(!(callFun(\"value\", getPrimParam(\"baz\", \"IntTy\")) > 0.0) || (callFun(\"value\", getEnumParam(\"p2\")) == getValue(\"v2\")))"
+				"expr": "(!(__prim__value(__prim__IntTy_param_ref(\"baz\")) > 0.0) || __prim__equals(__prim__value(__prim__enum_param_ref(\"p2\")), __prim__value_ref(\"v2\")))"
 			}
 		]
 	}]

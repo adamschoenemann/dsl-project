@@ -152,7 +152,7 @@ public class ConfigDSLParsingTest {
 				// have to read output file and not use output, since encoding and newline issues whatever
 				String expectedContents = readFile(expectedFile);
 				String outputContents = readFile(new File(outputPath));
-				//assertEquals(fname, expectedContents, outputContents);
+				assertEquals(fname, expectedContents, outputContents);
 			}
 		}
 	}

@@ -142,27 +142,27 @@
 				{
 					"label": "Ram must be positive",
 					"param": "ram",
-					"expr": "(callFun(\"value\", getPrimParam(\"ram\", \"IntTy\")) > 0.0)"
+					"expr": "(__prim__value(__prim__IntTy_param_ref(\"ram\")) > 0.0)"
 				},
 				{
 					"label": "32-bits can at most have 4g ram",
 					"param": "ram",
-					"expr": "((callFun(\"value\", getEnumParam(\"arch\")) == getValue(\"x86\")) ? ((callFun(\"value\", getPrimParam(\"ram\", \"IntTy\")) <= 4.0)) : (true))"
+					"expr": "(__prim__equals(__prim__value(__prim__enum_param_ref(\"arch\")), __prim__value_ref(\"x86\")) ? ((__prim__value(__prim__IntTy_param_ref(\"ram\")) <= 4.0)) : (true))"
 				},
 				{
 					"label": "c1",
 					"param": "keyboard",
-					"expr": "((callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx970\")) ? ((callFun(\"value\", getEnumParam(\"keyboard\")) == getValue(\"ltkb\"))) : (true))"
+					"expr": "(__prim__equals(__prim__value(__prim__enum_param_ref(\"gpu\")), __prim__value_ref(\"gtx970\")) ? (__prim__equals(__prim__value(__prim__enum_param_ref(\"keyboard\")), __prim__value_ref(\"ltkb\"))) : (true))"
 				},
 				{
 					"label": "c2",
 					"param": null,
-					"expr": "((callFun(\"value\", getEnumParam(\"cpu\")) == getValue(\"i5\")) ? (((callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx970\")) || (callFun(\"value\", getEnumParam(\"gpu\")) == getValue(\"gtx980\")))) : (true))"
+					"expr": "(__prim__equals(__prim__value(__prim__enum_param_ref(\"cpu\")), __prim__value_ref(\"i5\")) ? ((__prim__equals(__prim__value(__prim__enum_param_ref(\"gpu\")), __prim__value_ref(\"gtx970\")) || __prim__equals(__prim__value(__prim__enum_param_ref(\"gpu\")), __prim__value_ref(\"gtx980\")))) : (true))"
 				},
 				{
 					"label": "CPU must be intel",
 					"param": "cpu",
-					"expr": "callFun(\"contains\", callFun(\"label\", getEnumParam(\"cpu\")), \"Intel\")"
+					"expr": "__prim__contains(__prim__label(__prim__enum_param_ref(\"cpu\")), \"Intel\")"
 				}
 			]
 		},
@@ -181,7 +181,7 @@
 						"constraints": [{
 							"label": "This must be true, thank you",
 							"param": "lvl2p1",
-							"expr": "(callFun(\"value\", getPrimParam(\"lvl2p1\", \"BoolTy\")) == true)"
+							"expr": "__prim__equals(__prim__value(__prim__BoolTy_param_ref(\"lvl2p1\")), true)"
 						}]
 					}]
 				},

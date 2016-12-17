@@ -163,27 +163,27 @@
 				{
 					"label": "Ram must be positive",
 					"param": "ram",
-					"expr": "(callFun(\"value\", getPrimParam(\"ram\", \"IntTy\")) > 0.0)"
+					"expr": "(__prim__value(__prim__IntTy_param_ref(\"ram\")) > 0.0)"
 				},
 				{
 					"label": "32-bits can at most have 4g ram",
 					"param": "ram",
-					"expr": "((callFun(\"value\", getEnumParam(\"arch\")) == getValue(\"x86\")) ? ((callFun(\"value\", getPrimParam(\"ram\", \"IntTy\")) <= 4.0)) : (true))"
+					"expr": "(__prim__equals(__prim__value(__prim__enum_param_ref(\"arch\")), __prim__value_ref(\"x86\")) ? ((__prim__value(__prim__IntTy_param_ref(\"ram\")) <= 4.0)) : (true))"
 				},
 				{
 					"label": "You must select at least one GPU",
 					"param": null,
-					"expr": "!((callFun(\"value\", getEnumParam(\"gpu1\")) == getValue(\"nogpu\")) && (callFun(\"value\", getEnumParam(\"gpu2\")) == getValue(\"nogpu\")))"
+					"expr": "!(__prim__equals(__prim__value(__prim__enum_param_ref(\"gpu1\")), __prim__value_ref(\"nogpu\")) && __prim__equals(__prim__value(__prim__enum_param_ref(\"gpu2\")), __prim__value_ref(\"nogpu\")))"
 				},
 				{
 					"label": "Only Gigabyte motherboards support SLI",
 					"param": "gpu2",
-					"expr": "(!!(callFun(\"value\", getEnumParam(\"mb\")) == getValue(\"gigabytemb\")) || (callFun(\"value\", getEnumParam(\"gpu2\")) == getValue(\"nogpu\")))"
+					"expr": "(!!__prim__equals(__prim__value(__prim__enum_param_ref(\"mb\")), __prim__value_ref(\"gigabytemb\")) || __prim__equals(__prim__value(__prim__enum_param_ref(\"gpu2\")), __prim__value_ref(\"nogpu\")))"
 				},
 				{
 					"label": "At least 2Ghz",
 					"param": "ghz",
-					"expr": "(callFun(\"value\", getPrimParam(\"ghz\", \"DoubleTy\")) > 2.0)"
+					"expr": "(__prim__value(__prim__DoubleTy_param_ref(\"ghz\")) > 2.0)"
 				}
 			]
 		},

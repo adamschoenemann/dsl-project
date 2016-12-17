@@ -127,7 +127,6 @@ import configurator5.dk.itu.dsl.chomsky.configurator.configurator.R;
 
 public class MainActivity extends AppCompatActivity {
 
-  // this will be a map from paramName to index in the _objects array
   Map<String, EnumType> types = new HashMap<>();
   Map<String, ParamView> paramViews = new HashMap<>();
   TextView errorView = null;
