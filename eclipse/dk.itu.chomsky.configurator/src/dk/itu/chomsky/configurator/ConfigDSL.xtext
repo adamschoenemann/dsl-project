@@ -115,11 +115,12 @@ NUM returns ecore::EDouble:
 ;
 
 ITE:
-  "if" guard=Expr "then" trueBranch=Expr "else" falseBranch=Expr
+  "if" guard=Expr  "then" trueBranch=Expr "else" falseBranch=Expr
 ;
 
 Expr:
-	ImplOperand ({Implic.left=current} "=>" right=ImplOperand)*	
+	ITE |
+	ImplOperand ({Implic.left=current} "=>" right=Expr)?	
 ;
 
 ImplOperand returns Expr:
@@ -157,6 +158,6 @@ Prefixed returns Expr:
 ;
 
 Prim returns Expr:
-	"(" Expr ")" | ITE | ConstNum | ConstBool | ConstString | Var	
+	"(" Expr ")" | ConstNum | ConstBool | ConstString | Var	
 ;
 

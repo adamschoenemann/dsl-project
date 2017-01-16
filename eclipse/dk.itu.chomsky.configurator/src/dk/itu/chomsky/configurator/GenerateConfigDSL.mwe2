@@ -39,7 +39,7 @@ Workflow {
 			referencedResource = "platform:/resource/dk.itu.chomsky.configurator.model/configurator.genmodel"
 			parserGenerator = {
 				options = {
-					backtrack = true
+					backtrack = false
 				}
 				
 			}
